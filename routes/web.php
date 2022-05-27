@@ -36,10 +36,12 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::get('questions/grade/{grade_id}/exam/{id}', ['as'=>'admin.question.grade.exam', 'uses'=>'QuestionExamController@Index']);
         Route::get('/delete-all/questions-exam', 'QuestionExamController@DeleteAll');
         Route::post('/status/questions-exam', 'QuestionExamController@StatusQuestion');
-        // Route::get('/delete-question/{id}', 'QuestionExamController@DeleteQuestion');
         Route::post('/update-question', 'QuestionExamController@updateQuestion');
         Route::match(['get', 'post'], 'add-question/grade/{grade_id}/exam/{id}', ['as'=>'admin.add-question.grade.exam', 'uses'=>'QuestionExamController@addQuestion']);
         Route::match(['get', 'post'], 'edit-question/{question_id}/grade/{grade_id}/exam/{id}',['as'=>'admin.edit-question.grade.exam', 'uses'=>'QuestionExamController@editQuestion']);
+        //Random QuestionsAnswers
+        Route::post('/random-question', 'QuestionExamController@randomQuestion');
+
         //Answer Exam
         Route::get('question/{question_id}/exam/{exam_id}/answer', ['as'=>'admin.question.exam.answer', 'uses'=>'AnswerExamController@Index']);
         Route::match(['get', 'post'], 'add-answer/question/{question_id}/exam/{exam_id}', ['as'=>'admin.add-answer.question.exam', 'uses'=>'AnswerExamController@addAnswer']);
@@ -88,15 +90,28 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::get('/delete-grade/{id}', 'GradeController@DeleteGrade');
         Route::get('/delete-all/grades', 'GradeController@DeleteAll');
         Route::post('/status/grade', 'GradeController@StatusGrade');
+        //Units
+        Route::get('/units/subject/{subject_id}/grade/{grade_id}', 'UnitController@UnitSubjectGrade');
+        Route::post('/add-unit/subject/{subject_id}/grade/{grade_id}', 'UnitController@AddUnitSubjectGrade');
+        Route::post('/edit-unit/{unit_id}/subject/{subject_id}/grade/{grade_id}', 'UnitController@EditUnitSubjectGrade');
+        Route::get('/delete-unit/{unit_id}/subject/{subject_id}/grade/{grade_id}', 'UnitController@DeleteUnitSubjectGrade');
+        Route::get('/delete-all/units', 'UnitController@DeleteAll');
+        Route::post('/status/unit', 'UnitController@StatusUnit');
         //Questions
-        Route::get('/subjects/grade/{grade_id}', 'QuestionController@subjectGrade');
-        Route::get('/questions/subject/{subject_id}/grade/{grade_id}', ['as'=>'admin.questions.subject.grade','uses'=>'QuestionController@Index']);
-        Route::match(['get', 'post'], '/add-question/subject/{subject_id}/grade/{grade_id}', ['as'=>'admin.add-question.subject.grade', 'uses'=>'QuestionController@addQuestion']);
-        Route::match(['get', 'post'], '/edit-question/{question_id}/subject/{subject_id}/grade/{grade_id}',['as'=>'admin.edit-question.subject.grade', 'uses'=>'QuestionController@editQuestion']);
+        Route::get('/questions/subject/{subject_id}/grade/{grade_id}/unit/{unit_id}', ['as'=>'admin.questions.subject.grade.unit','uses'=>'QuestionController@Index']);
+        Route::match(['get', 'post'], '/add-question/subject/{subject_id}/grade/{grade_id}/unit/{unit_id}', ['as'=>'admin.add-question.subject.grade.unit', 'uses'=>'QuestionController@addQuestion']);
+        Route::match(['get', 'post'], '/edit-question/{question_id}/subject/{subject_id}/grade/{grade_id}/unit/{unit_id}',['as'=>'admin.edit-question.subject.grade.unit', 'uses'=>'QuestionController@editQuestion']);
+        Route::get('/delete-all/questions', 'QuestionController@DeleteAll');
+        Route::post('/status/question', 'QuestionController@StatusQuestion');
+        Route::match(['get', 'post'], '/import-file-question/subject/{subject_id}/grade/{grade_id}/unit/{unit_id}', 'QuestionController@ImportFileQuestion');
+        Route::get('/export-file-question/subject/{subject_id}/grade/{grade_id}/unit/{unit_id}', 'QuestionController@getQuestions');
+        Route::get('/export-file-question/subject/{subject_id}/grade/{grade_id}/unit/{unit_id}', 'QuestionController@ExportFileQuestion');
+        //Choose Question Exam
+        Route::get('/questions/subject/{subject_id}/grade/{grade_id}/unit/{unit_id}/exam/{exam_id}', 'ChooseQuestionExamController@Index');
+        Route::get('/units/subject/{subject_id}/grade/{grade_id}/exam/{exam_id}', 'ChooseQuestionExamController@UnitSubjectGradeExam');
+        Route::get('/edit-question/{question_id}/subject/{subject_id}/grade/{grade_id}/unit/{unit_id}/exam/{exam_id}', 'ChooseQuestionExamController@editQuestion');
         //Choose Question
-        Route::post('/choose-question','QuestionController@chooseQuestion');
-        //Random QuestionsAnswers
-        Route::post('/random-question', 'QuestionController@randomQuestion');
+        Route::post('/choose-question','ChooseQuestionExamController@chooseQuestion');
         //Answers
         Route::get('view-answer/question/{question_id}', 'AnswerController@viewAnswer');
         Route::post('add-answer/question/{question_id}', 'AnswerController@addAnswer');

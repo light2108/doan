@@ -60,7 +60,7 @@ class Admin extends Authenticatable
     }
     public static function teacher()
     {
-        $teachers = Admin::where('role', 0)->get()->toArray();
+        $teachers = Admin::where('role','!=', 1)->get()->toArray();
         return $teachers;
     }
     public static function getTeacher()

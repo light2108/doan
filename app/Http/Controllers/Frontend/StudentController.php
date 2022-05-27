@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Classes;
 use App\Models\Exam;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 class StudentController extends Controller
 {
     public function Index(Request $request){
+        Session::put('key', 'student');
         $subjects=Subject::with('teacher')->get()->toArray();
         if($request->has('search')){
             $exams=Exam::with('teacher')->with('subject')->where('name', 'like', '%'.$request->search.'%')->get()->toArray();

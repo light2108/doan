@@ -35,7 +35,8 @@
         @endif
 
         <!-- Main content -->
-        <form action="{{ route('admin.add-question.subject.grade', ['subject_id'=>$subject_id, 'grade_id'=>$grade_id]) }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form action="{{ url('/admin/add-question/subject/'.$subject_id.'/grade/'.$grade_id.'/unit/'.$unit_id) }}" method="POST"
+            enctype="multipart/form-data" novalidate>
             @csrf
             <section class="content">
                 <div class="container-fluid">
@@ -62,7 +63,6 @@
                                             <label for="exampleInputEmail1">Question</label>
                                             <textarea name="question" id="question" class="form-control"
                                                 required></textarea>
-
                                         </div>
                                     </div>
                                 </div>
@@ -86,6 +86,21 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="form-group">
+                                            <label>File listen</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" name="file_listen"
+                                                        id="exampleInputFile">
+                                                    <label class="custom-file-label" for="exampleInputFile"></label>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Upload</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-group">
                                             <label>Score</label>
                                             <input type="text" class="form-control" placeholder="Enter score" name="score">
                                         </div>
@@ -94,36 +109,61 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <img id="output" width="300" height="300">
+                                        <img id="output" width="250" height="250">
 
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="appendnewquestion">
+                            <div class="appendnewquestion">
                                 <div class="row">
                                     <div class="col-md-1">
-                                        <label for="exampleInputEmail1">Answer</label><br>
-                                        <input type="hidden" value="0" name="correct_answer[]">
-                                        <input type="checkbox" style="width:30px; height:30px;" name="correct_answer[]"
-                                            id="correct_answer" value="1">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Answer</label>
+                                                <select class="form-control" name="correct_answer[]">
+                                                    <option style="color:red" value="0" selected>False</option>
+                                                    <option style="color:green" value="1">True</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-10">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <textarea class="form-control answer" name="answer[]"
-                                                    style="height:50px" required></textarea>
+                                                <textarea class="form-control" name="answer[]" id="answer-1"
+                                                    required></textarea>
                                             </div>
                                         </div>
-
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Answer</label>
+                                                <select class="form-control" name="correct_answer[]">
+                                                    <option style="color:red" value="0" checked>False</option>
+                                                    <option style="color:green" value="1">True</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <textarea class="form-control" name="answer[]" id="answer-2"
+                                                    required></textarea>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-1">
-                                        <a href="javascript:void(0)" class="addnewquestion" ><i
-                                                class="fas fa-plus-circle fa-3x" style="margin-top:25px;"></i></a>
+                                        <a href="javascript:void(0)" class="addnewquestion"><i
+                                                class="fas fa-plus-circle fa-3x" style="margin-top:25px"></i></a>
                                     </div>
 
                                 </div>
-                            </div> --}}
+                            </div>
                             {{-- {{var_dump(Session::get('count'))}} --}}
 
                         </div>
@@ -141,18 +181,34 @@
 
 @endsection
 @push('script')
-    {{-- <script src="//cdn.ckeditor.com/4.17.2/standard/ckeditor.js"></script> --}}
-    {{-- <script src="//cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script> --}}
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+    {{-- <script src="//cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script> --}}
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script> --}}
     <script>
         // Replace the <textarea id="editor1"> with a CKEditor 4
         // instance, using default configuration.
-        // CKEDITOR.replace( 'question' );
         ClassicEditor
-        .create( document.querySelector( '#question' ) )
-        .catch( error => {
-            console.error( error );
-        } );
+            .create(document.querySelector('#question'))
+            .catch(error => {
+                console.error(error);
+            });
+        // $('.answer').each(function(e) {
+        //     CKEDITOR.replace(this.id);
+        // });
+        ClassicEditor
+            .create(document.querySelector('#answer-1'))
+            .catch(error => {
+                console.error(error);
+            });
+        ClassicEditor
+            .create(document.querySelector('#answer-2'))
+            .catch(error => {
+                console.error(error);
+            });
+        // ClassicEditor.create( document.querySelector( '#question' ) )
+        // .catch( error => {
+        //     console.error( error );
+        // } );
+
     </script>
 
 @endpush

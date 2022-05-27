@@ -55,7 +55,7 @@ Session::start();
                             @foreach ($questions_answers as $question_answer)
                                 @if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id'])
                                     <div class="info-widget">
-                                        Question {{ $i++ }} {!! $question_answer['question'] !!}
+                                        Question {{ $i++ }} <p>{!! $question_answer['question'] !!}</p>
                                         @if (!empty($question_answer['image']))
                                             <img src="{{ $question_answer['image'] }}" width="200px"
                                                 height="200px"><br><br>
@@ -63,16 +63,18 @@ Session::start();
                                         Select one:
                                         @foreach ($question_answer['answer'] as $answer)
                                             <h5><input type="radio" value="{{ $answer['id'] }}" class="sub_answer"
-                                                    name="{{ $question_answer['id'] }}"
+                                                    name="{{ $question_answer['id'] }}" id="answer-{{ $answer['id'] }}"
                                                     question-id="{{ $question_answer['id'] }}"
-                                                    answer-id="{{ $answer['id'] }}">&nbsp;&nbsp;{{ $answer['answer'] }}
+                                                    answer-id="{{ $answer['id'] }}">&nbsp;&nbsp;{!! $answer['answer'] !!}
                                             </h5>
                                         @endforeach
                                     </div>
                                 @endif
                             @endforeach
 
-
+                            {{-- <div>
+                                {{$questions_answers->links('pagination::simple-bootstrap-4')}}
+                            </div> --}}
 
                         </div>
 
@@ -86,15 +88,35 @@ Session::start();
 @endsection
 @push('scripts')
 
-
+    {{-- <script>
+        $('#question_answer').DataTable();
+    </script> --}}
     <script>
-            var question_id = $(this).attr('question-id');
-            localStorage.setItem('sub_answer', $('.sub_answer').prop('checked'));
+        $("input[type=\"radio\"]").click(function() {
+            //localStorage:
+            var alleds = [];
+            $('.sub_answer:checked').each(function() {
+                alleds.push($(this).attr('answer-id'));
+            });
 
+            localStorage.setItem("option", JSON.stringify(alleds));
+        });
+
+        //localStorage:
+        var itemValue = JSON.parse(localStorage.getItem("option"));
+        if (itemValue !== null) {
+            itemValue.forEach((element) => {
+                // console.log(element);
+                $('#answer-' + element).prop('checked', true);
+            })
+        }
+        
         if (localStorage.getItem("seconds")) {
             var seconds = localStorage.getItem("seconds");
         } else {
+
             var seconds = 60 * parseInt($('#countdown').attr('time'));
+            // localStorage.clear();
         }
         var exam_id = $('#countdown').attr('exam-id');
         // var seconds = initialTime;
@@ -116,6 +138,7 @@ Session::start();
                 remainingSeconds + "s";
             if (seconds == 0) {
                 // clearInterval(countdownTimer);
+                localStorage.clear();
                 var subject_id = $('.finish-exam').attr('subject-id');
                 allanswers = [];
                 $('.sub_answer:checked').each(function() {
@@ -139,15 +162,62 @@ Session::start();
                         alert('ERROR');
                     }
                 });
+                // localStorage.clear();
             } else {
+                // localStorage.removeItem('seconds');
 
                 seconds--;
                 localStorage.setItem("seconds", seconds);
+
                 setTimeout("timer()", 1000);
+                // clearInterval(seconds);
+
             }
         }
         setTimeout("timer()", 1000);
+        $('.finish-exam').click(function() {
+            var exam_id = $(this).attr('exam-id');
+            var subject_id = $(this).attr('subject-id');
+            allanswers = [];
+            $('.sub_answer:checked').each(function() {
+                allanswers.push($(this).attr('answer-id'));
+            });
+            Swal.fire({
+                title: "Are you sure submit exam?",
+                text: "You won't be able to return this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, submit exam!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.clear();
+                    localStorage.removeItem('seconds');
+                    var all = allanswers.join(",");
+                    $.ajax({
+                        url: '/check-result-answer',
+                        type: 'POST',
+                        data: {
+                            answer_ids: all,
+                            exam_id: exam_id,
+                            subject_id: subject_id
+                        },
+                        success: function(resp) {
+                            if (resp['status'] == true) {
+                                window.location.href = "/result/exam/" + exam_id;
+                                // localStorage.clear();
 
+                            }
+                        },
+                        error: function(err) {
+                            alert('ERROR');
+                        }
+                    })
+                }
+            });
+
+        });
     </script>
 
 @endpush

@@ -36,8 +36,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">Teachers</h3>
                                 <div style="float:right">
-                                    <a role="button" class="btn btn-success" href="{{url('/admin/export-file-teacher')}}">Export list teacher</a>
-                                    <a role="button" class="btn btn-success" href="{{url('/admin/import-file-teacher')}}">Import file teacher</a>
+                                    <a role="button" class="btn btn-success" href="{{url('/admin/import-file-teacher')}}">Import File Teacher</a>
+                                    <a role="button" class="btn btn-success" href="{{url('/admin/export-file-teacher')}}">Export File Teacher</a>
                                     <a role="button" class="btn btn-success delete-all"
                                         href="{{ url('admin/delete-all/teachers') }}" record="teachers">Delete All</a>
                                     <a role="button" href="{{ url('admin/add-teacher') }}" class="btn btn-success">Add

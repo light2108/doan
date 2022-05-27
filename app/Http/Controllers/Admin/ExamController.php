@@ -22,12 +22,13 @@ class ExamController extends Controller
         // $teacher=Admin::find(Auth::guard('admin')->user()->id)->with('subject');
         // dd($teacher);
         Session::put('page', 'exam');
-        $exams = Exam::where('teacher_id', Auth::guard('admin')->user()->id)->get()->toArray();
-        $subjects = Subject::get()->toArray();
-        $classes = Classes::get()->toArray();
-        $grades=Grade::get()->toArray();
+        $exams = Exam::where('teacher_id', Auth::guard('admin')->user()->id)->where('status', 1)->get()->toArray();
+        $subjects = Subject::where('status', 1)->get()->toArray();
+        $classes = Classes::where('status', 1)->get()->toArray();
+        $grades=Grade::where('status', 1)->get()->toArray();
         $teacher=Admin::find(Auth::guard('admin')->user()->id);
         $teacher_classes=explode(",", $teacher['class_id']);
+
         // Session::put('password', $data['password']);
         // dd($teacher_classes);
         // dd($subjects);
@@ -36,17 +37,18 @@ class ExamController extends Controller
     }
     public function addExam(Request $request)
     {
-        $grades=Grade::get()->toArray();
+        $grades=Grade::where('status', 1)->get()->toArray();
         $teacher=Admin::find(Auth::guard('admin')->user()->id);
         $teacher_classes=explode(",", $teacher['class_id']);
-        $classes = Classes::get()->toArray();
+        $classes = Classes::where('status', 1)->get()->toArray();
         if ($request->isMethod('post')) {
             $data = $request->all();
+            // dd($data);
             $data['teacher_id']=Auth::guard('admin')->user()->id;
             // $data['password']=Hash::make($data['password']);
             $data['subject_id']=Auth::guard('admin')->user()->subject_id;
             $data['class_id']=implode(",",$data['class_id']);
-            $data['multiple']=(isset($data['multiple'])?1:0);
+            // $data['multiple']=(isset($data['multiple'])?1:0);
             if ($request->hasFile('video')) {
                 $image = $request->file('video');
                 $reimage = 'video/'.time() . '.' . $image->getClientOriginalExtension();
@@ -64,19 +66,20 @@ class ExamController extends Controller
     public function editExam(Request $request, $id)
     {
         $exam = Exam::find($id);
-        $grades=Grade::get()->toArray();
+        $grades=Grade::where('status', 1)->get()->toArray();
         $teacher=Admin::find(Auth::guard('admin')->user()->id);
-        $classes = Classes::get()->toArray();
+        $classes = Classes::where('status', 1)->get()->toArray();
         $teacher_classes=explode(",", $teacher['class_id']);
         if ($request->isMethod('post')) {
             $data = $request->all();
+            // dd($data);
             // Session::put('password', $data['password']);
             // password_
             // $data['password']=Hash::make($data['password']);
             $data['subject_id']=Auth::guard('admin')->user()->subject_id;
             $data['class_id']=implode(",",$data['class_id']);
 
-            $data['multiple']=(isset($data['multiple'])?1:0);
+            // $data['multiple']=(isset($data['multiple'])?1:0);
             if ($request->hasFile('video')) {
                 $image = $request->file('video');
                 $reimage = 'video/'.time() . '.' . $image->getClientOriginalExtension();
