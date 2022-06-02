@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Exam;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 class Result extends Model
 {
     use HasFactory;
@@ -16,7 +17,8 @@ class Result extends Model
         'student_id',
         'class_id',
         'subject_id',
-        'score'
+        'score',
+        'time'
     ];
     public static function checkdate(){
         $exams=Exam::where('teacher_id', Auth::guard('admin')->user()->id)->get()->toArray();
@@ -26,4 +28,19 @@ class Result extends Model
         }
         return $count;
     }
+    public static function getResult($exam_id, $class_id){
+        /*'Student Code',
+            'Student Name',
+            'Class',
+            'Exam Name',
+            'Score'
+         */
+        $records=DB::table('results')->join('students', 'results.student_id', '=', 'students.id')->join('exams', 'exams.id', '=','results.exam_id')->join('classes', 'classes.id', '=', 'results.class_id')->select(
+            'students.student_code as StudentCode', 'students.name as StudentName', 'classes.name as ClassName', 'exams.name as ExamName', 'results.score as Score'
+          )->where('results.exam_id', $exam_id)->where('results.class_id', $class_id)->get()->toArray();
+        return $records;
+    }
 }
+/*
+
+*/

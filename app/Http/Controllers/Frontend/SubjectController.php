@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class SubjectController extends Controller
 {
     public function Index(Request $request, $subject_id, $grade_id){
-        $subject_exams=Exam::where('subject_id', $subject_id)->where('grade_id', $grade_id)->with('teacher')->get()->toArray();
+        $subject_exams=Exam::where('subject_id', $subject_id)->where('grade_id', $grade_id)->with('teacher')->where('status',1)->get()->toArray();
         // dd($subject_exams);
         Session::put('key', 'subject');
         if($request->isMethod('POST')){

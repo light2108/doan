@@ -121,6 +121,7 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::get('/result/exam/class', 'ResultController@Index');
         Route::get('/result/student/exam/{exam_id}/class/{class_id}', 'ResultController@ResultStudentExam');
         Route::get('/result/exam/class/{class_id}', 'ResultController@ResultExamClass');
+        Route::get('/export-file-result', 'ResultController@ExportFileResult');
     });
 });
 Route::namespace('Frontend')->group(function(){
@@ -134,11 +135,12 @@ Route::namespace('Frontend')->group(function(){
         Route::match(['get', 'post'], 'exam/subject/{subject_id}/grade/{grade_id}',['as'=>'exam.subject.grade', 'uses'=>'SubjectController@Index']);
         Route::post('/check-password-exam', 'SubjectController@checkPasswordExam');
         //Question
-        Route::get('exam/{exam_id}/subject/{subject_id}/grade/{grade_id}', 'QuestionController@Index');
+        Route::match(['get', 'post'],'exam/{exam_id}/subject/{subject_id}/grade/{grade_id}', ['as'=>'pratice-exam.subject.grade', 'uses'=>'QuestionController@Index']);
         // Route::post('/check/exam/{exam_id}', 'QuestionController@CheckExam');
         Route::post('/check-result-answer', 'QuestionController@CheckResultAnswer');
-        Route::match(['get', 'post'], '/result/exam/{exam_id}', 'QuestionController@ResultExam');
+        Route::match(['get', 'post'], '/result/exam/{exam_id}/subject/{subject_id}', 'QuestionController@ResultExam');
         Route::post('/visit-to-question', 'QuestionController@VisitToQuestion');
+        // Route::get('/exam-list-question/{exam_id}/subject/{subject_id}/grade/{grade_id}', 'QuestionController@ExamListQuestion');
         // Route::get('/result/exam/{exam_id}', 'ResultController@Index');
     });
 });

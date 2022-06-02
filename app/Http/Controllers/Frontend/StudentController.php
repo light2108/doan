@@ -58,6 +58,15 @@ class StudentController extends Controller
         $classes=Classes::get()->toArray();
         if($request->isMethod('POST')){
             $data=$request->all();
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $reimage = 'imgstudent/' . time() . '.' . $image->getClientOriginalExtension();
+                $dest = public_path('/imgstudent');
+                $image->move($dest, $reimage);
+                $data['image'] = $reimage;
+                $student->update($data);
+                return redirect()->back()->with('success_message', 'Updated Profile Successfully');
+            }
             if(Hash::check($data['old_password'], $student['password'])){
                 $data['password']=Hash::make($data['new_password']);
                 $student->update($data);
