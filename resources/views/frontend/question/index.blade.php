@@ -11,7 +11,7 @@ Session::start();
 
                     <div class="card booking-card">
                         <div class="card-header">
-                            <h4 class="card-title">All Questions</h4>
+                            <h4 class="card-title">Câu hỏi</h4>
                         </div>
                         <div class="card-body">
                             <div class="row pagination">
@@ -110,7 +110,7 @@ Session::start();
                 $('#answer-' + element).prop('checked', true);
             })
         }
-        
+
         if (localStorage.getItem("seconds")) {
             var seconds = localStorage.getItem("seconds");
         } else {
