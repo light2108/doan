@@ -55,9 +55,17 @@ class ExamController extends Controller
                 $dest = public_path('/video');
                 $image->move($dest, $reimage);
                 $data['video']=$reimage;
-                Exam::create($data);
+                if(date('Y-m-d', strtotime($data['start_time']))<=date('Y-m-d', strtotime($data['end_time']))){
+                    Exam::create($data);
+                }else{
+                    return redirect()->back()->with('error_message', 'Set time exam not true');
+                }
             }else{
-                Exam::create($data);
+                if(date('Y-m-d', strtotime($data['start_time']))<=date('Y-m-d', strtotime($data['end_time']))){
+                    Exam::create($data);
+                }else{
+                    return redirect()->back()->with('error_message', 'Set time exam not true');
+                }
             }
             return redirect('/admin/exams')->with('success_message', 'Created exam successfully');
         }
@@ -86,9 +94,17 @@ class ExamController extends Controller
                 $dest = public_path('/video');
                 $image->move($dest, $reimage);
                 $data['video']=$reimage;
-                $exam->update($data);
+                if(date('Y-m-d', strtotime($data['start_time']))<=date('Y-m-d', strtotime($data['end_time']))){
+                    $exam->update($data);
+                }else{
+                    return redirect()->back()->with('error_message', 'Set time exam not true');
+                }
             }else{
-                $exam->update($data);
+                if(date('Y-m-d', strtotime($data['start_time']))<=date('Y-m-d', strtotime($data['end_time']))){
+                    $exam->update($data);
+                }else{
+                    return redirect()->back()->with('error_message', 'Set time exam not true');
+                }
             }
 
             return redirect('/admin/exams')->with('success_message', 'Updated exam successfully');

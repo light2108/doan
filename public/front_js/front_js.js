@@ -4,7 +4,8 @@ $(document).ready(function(){
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
-    $('.visit-exam').click(function(){
+    $('.visit-exam-password').click(function(){
+        localStorage.clear();
         var exam_id=$(this).attr('data-exam');
         var subject_id=$(this).attr('data-subject');
         var grade_id=$(this).attr('data-grade');
@@ -42,6 +43,9 @@ $(document).ready(function(){
             }
         });
     });
+    $('.visit-exam').click(function(){
+        localStorage.clear();
+    })
     $("#current_password").keyup(function () {
         var current_password = $(this).val();
         // alert(current_password);
@@ -85,15 +89,9 @@ $(document).ready(function(){
             }
         })
     });
-    $('.sub_answer').click(function(){
-        var question_id=$(this).attr('question-id');
-        // alert(question_id);
-        var key=$('#check-selected-question-'+question_id).attr('key-id');
-        // alert(key)
-        $('#check-selected-question-'+question_id).html(
-            '<a role="button" class="btn btn-primary visit-to-question" style="width:50px" question-id="'+question_id+'" href="javascript:void(0)">'+key+'</a>'
-        );
-    })
+
+
+
 });
 var loadfile = function (event) {
     var output = document.getElementById("output");

@@ -65,7 +65,7 @@ class Admin extends Authenticatable
     }
     public static function getTeacher()
     {
-
+        if(Auth::guard('admin')->user()->role==-1){
         $records = DB::table('admins')->join('subjects', 'subjects.id', '=', 'admins.subject_id')->join('classes', function ($query) {
             $query->whereRaw(DB::raw("find_in_set(classes.id, admins.class_id)", DB::raw(''), DB::raw('')));
         })->select(
@@ -78,7 +78,22 @@ class Admin extends Authenticatable
             'birth_day',
             'address',
             DB::raw("(CASE WHEN sex=1 THEN 'M' ELSE 'F' END) as sex")
-        )->get()->toArray();
+        )->where('subjects.id', Auth::guard('admin')->user()->subject_id)->get()->toArray();
+        }else{
+            $records = DB::table('admins')->join('subjects', 'subjects.id', '=', 'admins.subject_id')->join('classes', function ($query) {
+                $query->whereRaw(DB::raw("find_in_set(classes.id, admins.class_id)", DB::raw(''), DB::raw('')));
+            })->select(
+                'admins.id',
+                'admins.name as teachername',
+                'email',
+                'mobile',
+                'subjects.name as subjectname',
+                'classes.name as classname',
+                'birth_day',
+                'address',
+                DB::raw("(CASE WHEN sex=1 THEN 'M' ELSE 'F' END) as sex")
+            )->get()->toArray();
+        }
         // dd($records);
         return $records;
     }

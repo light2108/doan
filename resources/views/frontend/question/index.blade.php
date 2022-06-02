@@ -1,9 +1,8 @@
-<?php
-use Illuminate\Support\Facades\Session;
-Session::start();
-?>
 @extends('layouts.frontend.dashboard')
 @section('content')
+<?php
+
+?>
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -15,7 +14,9 @@ Session::start();
                         </div>
                         <div class="card-body">
                             <div class="row pagination">
-                                <input type="hidden" value="{{ $i = 1 }}">
+                                <input type="hidden" value="{{ $i = 1}}" id="data"
+                                     grade_id="{{ $grade_id }}" exam_id="{{ $exam_id }}"
+                                    subject_id="{{ $subject_id }}" questions_answers="{{$questions_answers}}">
                                 @foreach ($questions_answers as $question_answer)
                                     @if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id'])
                                         <div class="col-3">
@@ -38,8 +39,8 @@ Session::start();
                                         time="{{ $exam['time'] }}"></p>
                                 </div>
                                 <div class="col-4">
-                                    <button type="submit" class="btn btn-primary finish-exam" subject-id={{ $subject_id }}
-                                        exam-id={{ $exam_id }}>Submit</button>
+                                    <button type="submit" class="btn btn-primary finish-exam"
+                                        subject-id={{ $subject_id }} exam-id={{ $exam_id }}>Submit</button>
                                 </div>
                             </div>
 
@@ -49,34 +50,64 @@ Session::start();
                 </div>
                 <div class="col-md-7 col-lg-9">
 
-                    <div class="card">
-                        <div class="card-body append_answer_question">
-                            <input type="hidden" value="{{ $i = 1 }}">
-                            @foreach ($questions_answers as $question_answer)
-                                @if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id'])
-                                    <div class="info-widget">
-                                        Question {{ $i++ }} <p>{!! $question_answer['question'] !!}</p>
-                                        @if (!empty($question_answer['image']))
-                                            <img src="{{ $question_answer['image'] }}" width="200px"
-                                                height="200px"><br><br>
-                                        @endif
-                                        Select one:
-                                        @foreach ($question_answer['answer'] as $answer)
-                                            <h5><input type="radio" value="{{ $answer['id'] }}" class="sub_answer"
-                                                    name="{{ $question_answer['id'] }}" id="answer-{{ $answer['id'] }}"
-                                                    question-id="{{ $question_answer['id'] }}"
-                                                    answer-id="{{ $answer['id'] }}">&nbsp;&nbsp;{!! $answer['answer'] !!}
-                                            </h5>
-                                        @endforeach
-                                    </div>
-                                @endif
+                    <div class="card" id="table_data">
+                        {{-- <div class="card-body">
+                            <input type="hidden" value="{{ $i = ($data->currentpage() - 1) * $data->perpage() + 1 }}" id="data">
+                            @foreach ($data as $key => $question_answer)
+                                <div class="info-widget">
+                                    Question {{ $i++ }} <p>{{ $question_answer['question'] }}</p>
+                                    @if (!empty($question_answer['image']))
+                                        <img src="{{ $question_answer['image'] }}" width="200px" height="200px"><br><br>
+                                    @endif
+                                    @if (!empty($question_answer['file_listen']))
+                                        <audio controls>
+                                            <source src="{{ $question_answer['file_listen'] }}" type="audio/mpeg">
+                                        </audio><br><br>
+                                    @endif
+                                    Select one:
+                                    @foreach ($question_answer['answer'] as $answer)
+                                        <h5><input type="radio" value="{{ $answer['id'] }}" class="sub_answer"
+                                                name="{{ $question_answer['id'] }}" id="answer-{{ $answer['id'] }}"
+                                                question-id="{{ $question_answer['id'] }}"
+                                                answer-id="{{ $answer['id'] }}">&nbsp;&nbsp;{{ $answer['answer'] }}
+                                        </h5>
+                                    @endforeach
+                                </div>
                             @endforeach
-
-                            {{-- <div>
-                                {{$questions_answers->links('pagination::simple-bootstrap-4')}}
-                            </div> --}}
-
+                            <div class="pagination justify-content-center">
+                                {{ $data->links('pagination::bootstrap-4') }}
+                            </div>
+                        </div> --}}
+                        <div class="card-body">
+                            <input type="hidden" value="{{ $i = ($data->currentpage() - 1) * $data->perpage() + 1 }}" id="example" current-page="{{$data->currentpage()}}" last-page="{{$data->lastpage()}}">
+                            @foreach ($data as $key => $question_answer)
+                                {{-- @if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id']) --}}
+                                <div class="info-widget">
+                                    Question {{ $i++ }} <p>{{ $question_answer['question'] }}</p>
+                                    @if (!empty($question_answer['image']))
+                                        <img src="{{ $question_answer['image'] }}" width="200px" height="200px"><br><br>
+                                    @endif
+                                    @if (!empty($question_answer['file_listen']))
+                                        <audio controls>
+                                            <source src="{{ $question_answer['file_listen'] }}" type="audio/mpeg">
+                                        </audio><br><br>
+                                    @endif
+                                    Select one:
+                                    @foreach ($question_answer['answer']->shuffle() as $answer)
+                                        <h5><input type="radio" value="{{ $answer['id'] }}" class="sub_answer"
+                                                name="{{ $question_answer['id'] }}" id="answer-{{ $answer['id'] }}"
+                                                question-id="{{ $question_answer['id'] }}"
+                                                answer-id="{{ $answer['id'] }}">&nbsp;&nbsp;{{ $answer['answer'] }}
+                                        </h5>
+                                    @endforeach
+                                </div>
+                                {{-- @endif --}}
+                            @endforeach
+                            <div class="pagination justify-content-center">
+                                {{ $data->links('pagination::bootstrap-4') }}
+                            </div>
                         </div>
+
 
                     </div>
 
@@ -92,25 +123,43 @@ Session::start();
         $('#question_answer').DataTable();
     </script> --}}
     <script>
+        var exam_id=$('#data').attr('exam_id');
+        var subject_id=$('#data').attr('subject_id');
+        var grade_id=$('#data').attr('grade_id');
+        if(sessionStorage.getItem('questions_answers')){
+            var questions_answers=$('#data').attr('questions_answers');
+        }else{
+            sessionStorage.setItem('questions_answers', (questions_answers));
+            // setCookie('questions_answers', localStorage.getItem('questions_answers'));
+        }
+        // setcookie('questions_answers', $questions_answers, time()+60*60*24*365, '/exam/'+exam_id+'/subject/'+subject_id+'/grade/'+grade_id);
+        var current_page=$('#example').attr('current-page');
+        // var number_questions=$('#example').attr('number-questions');
+        var last_page=$('#example').attr('last-page');
+        // alert(last_page);
+
+
+        // alert(data);
+        // alert(stt_page);
         $("input[type=\"radio\"]").click(function() {
             //localStorage:
             var alleds = [];
             $('.sub_answer:checked').each(function() {
-                alleds.push($(this).attr('answer-id'));
+                    alleds.push($(this).attr('answer-id'));
+                //
             });
+            // alert(alleds);
+            localStorage.setItem("option-"+current_page,JSON.stringify(alleds));
 
-            localStorage.setItem("option", JSON.stringify(alleds));
         });
-
-        //localStorage:
-        var itemValue = JSON.parse(localStorage.getItem("option"));
+        var itemValue = JSON.parse(localStorage.getItem("option-"+current_page));
+        // alert(itemValue);
         if (itemValue !== null) {
             itemValue.forEach((element) => {
                 // console.log(element);
                 $('#answer-' + element).prop('checked', true);
             })
         }
-
         if (localStorage.getItem("seconds")) {
             var seconds = localStorage.getItem("seconds");
         } else {
@@ -129,22 +178,24 @@ Session::start();
             var minutes = Math.floor(minutesLeft / 60);
             var remainingSeconds = seconds % 60;
             if (remainingSeconds < 10) {
-                $('.checktime').html(
-                    '<p id="countdown" class="timer btn btn-error"></p>'
-                );
+
                 remainingSeconds = "0" + remainingSeconds;
             }
-            document.getElementById('countdown').innerHTML = days + "d " + hours + "h " + minutes + "m " +
+
+            document.getElementById('countdown').innerHTML = hours + "h " + minutes + "m " +
                 remainingSeconds + "s";
+
             if (seconds == 0) {
                 // clearInterval(countdownTimer);
-                localStorage.clear();
+                // localStorage.clear();
+                var exam_id = $(this).attr('exam-id');
                 var subject_id = $('.finish-exam').attr('subject-id');
-                allanswers = [];
+                // allanswers = [];
                 $('.sub_answer:checked').each(function() {
-                    allanswers.push($(this).attr('answer-id'));
+                    xxx.push($(this).attr('answer-id'));
                 });
-                var all = allanswers.join(",");
+
+                var all = xxx.join(",");
                 $.ajax({
                     url: '/check-result-answer',
                     type: 'POST',
@@ -155,32 +206,54 @@ Session::start();
                     },
                     success: function(resp) {
                         if (resp['status'] == true) {
-                            window.location.href = "/result/exam/" + exam_id;
+                            window.location.href = "/result/exam/" + exam_id+'/subject/'+subject_id;
                         }
                     },
                     error: function(err) {
                         alert('ERROR');
                     }
                 });
+                localStorage.clear();
+                localStorage.setItem('check', 1);
                 // localStorage.clear();
-            } else {
-                // localStorage.removeItem('seconds');
-
+            }  else {
+                if (seconds <= 10) {
+                $('.checktime').html(
+                    '<p id="countdown" class="timer btn btn-danger"></p>'
+                );
                 seconds--;
-                localStorage.setItem("seconds", seconds);
-
+                // if (!localStorage.getItem("new_seconds")) {
+                localStorage.setItem("seconds", (seconds));
+                // }else{
+                //     localStorage.setItem("new_seconds", (seconds));
+                // }
                 setTimeout("timer()", 1000);
+            }else{
+                // localStorage.removeItem('seconds');
+                // localStorage.removeItem('seconds');
+                seconds--;
+                // if (!localStorage.getItem("new_seconds")) {
+                localStorage.setItem("seconds", (seconds));
+                // }else{
+                //     localStorage.setItem("new_seconds", (seconds));
+                // }
+                setTimeout("timer()", 1000);
+            }
                 // clearInterval(seconds);
 
             }
         }
         setTimeout("timer()", 1000);
-        $('.finish-exam').click(function() {
+        // localStorage.clear();
+
+
+        $('.finish-exam').click(function(event) {
+            // window.location.reload();
             var exam_id = $(this).attr('exam-id');
             var subject_id = $(this).attr('subject-id');
-            allanswers = [];
+            // allanswers = [];
             $('.sub_answer:checked').each(function() {
-                allanswers.push($(this).attr('answer-id'));
+                xxx.push($(this).attr('answer-id'));
             });
             Swal.fire({
                 title: "Are you sure submit exam?",
@@ -192,9 +265,12 @@ Session::start();
                 confirmButtonText: "Yes, submit exam!",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    localStorage.clear();
-                    localStorage.removeItem('seconds');
-                    var all = allanswers.join(",");
+
+                    // delete localStorage.seconds;
+                    // window.localStorage.removeItem('seconds');
+                    // localStorage.removeItem('seconds');
+                    sessionStorage.removeItem('questions_answers');
+                    var all = xxx.join(",");
                     $.ajax({
                         url: '/check-result-answer',
                         type: 'POST',
@@ -205,7 +281,7 @@ Session::start();
                         },
                         success: function(resp) {
                             if (resp['status'] == true) {
-                                window.location.href = "/result/exam/" + exam_id;
+                                window.location.href = "/result/exam/" + exam_id+'/subject/'+subject_id;
                                 // localStorage.clear();
 
                             }
@@ -214,10 +290,17 @@ Session::start();
                             alert('ERROR');
                         }
                     })
+                    localStorage.clear();
+                    localStorage.setItem('check', 1);
                 }
             });
 
         });
+        // window.onbeforeunload = function() {
+        //     localStorage.clear();
+        //     return '';
+        // };
+
     </script>
 
 @endpush

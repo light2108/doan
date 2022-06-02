@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Models\Unit;
 use Illuminate\Support\Facades\DB;
-function removeptag($string){
-    $string=str_replace("<p>","",$string);
-    $string=str_replace("</p>","",$string);
+
+function removeptag($string)
+{
+    $string = str_replace("<p>", "", $string);
+    $string = str_replace("</p>", "", $string);
     // $string=preg_replace("<>","",$string);
     // $string=preg_replace("</>","",$string);
     return $string;
@@ -27,7 +29,7 @@ class QuestionExamController extends Controller
         // dd(removeptag('<p>long</p>'));
         $questions = Question::where('status', 1)->get()->toArray();
         // dd($questions);
-        $units=Unit::where('grade_id', $grade_id)->where('subject_id', Auth::guard('admin')->user()->subject_id)->where('status', 1)->get()->toArray();
+        $units = Unit::where('grade_id', $grade_id)->where('subject_id', Auth::guard('admin')->user()->subject_id)->where('status', 1)->get()->toArray();
         // dd($questions);
         return View('admin.questionexam.index_question', compact('questions', 'units', 'grade_id', 'id'));
     }
@@ -63,7 +65,7 @@ class QuestionExamController extends Controller
         if ($request->isMethod('POST')) {
             $data = $request->all();
             // dd($data);
-            $data['question']=removeptag($data['question']);
+            $data['question'] = removeptag($data['question']);
             $data['grade_id'] = $grade_id;
             $data['exam_id'] = $id;
             $data['teacher_id'] = Auth::guard('admin')->user()->id;
@@ -98,12 +100,12 @@ class QuestionExamController extends Controller
     public function editQuestion(Request $request, $question_id, $grade_id, $id)
     {
         $question = Question::with('answer')->where('id', $question_id)->first()->toArray();
-        $old_question=Question::find($question_id);
+        $old_question = Question::find($question_id);
 
         if ($request->isMethod('POST')) {
             $data = $request->all();
             // dd($data);
-            $data['question']=removeptag($data['question']);
+            $data['question'] = removeptag($data['question']);
             if ($request->hasFile('image') || $request->hasFile('file_listen')) {
                 if ($request->hasFile('image')) {
                     $image = $request->file('image');
@@ -124,8 +126,8 @@ class QuestionExamController extends Controller
                 $old_question->update($data);
             }
             Answer::where('question_id', $question_id)->delete();
-            foreach($data['answer'] as $key=>$answer){
-                Answer::create(['question_id' =>$question['id'], 'answer' => removeptag($data['answer'][$key]), 'correct_answer' => $data['correct_answer'][$key]]);
+            foreach ($data['answer'] as $key => $answer) {
+                Answer::create(['question_id' => $question['id'], 'answer' => removeptag($data['answer'][$key]), 'correct_answer' => $data['correct_answer'][$key]]);
             }
             return redirect('/admin/questions/grade/' . $grade_id . '/exam/' . $id)->with('success_message', 'Updated question successfully');
         }
@@ -150,17 +152,19 @@ class QuestionExamController extends Controller
     {
         if ($request->isMethod('post')) {
             $data = $request->all();
-            foreach($data['unit_id'] as $key=>$unit_id){
-                if(!empty($data['number'][$key])){
-                    $questions=Question::where('unit_id', $data['unit_id'][$key])->inRandomOrder()->limit($data['number'][$key])->get();
-                    foreach($questions as $question){
-                        $question->update(['select_id' => ($question['select_id'] . ',' . $data['exam_id'])]);
+            foreach ($data['unit_id'] as $key => $unit_id) {
+                if (!empty($data['number'][$key])) {
+                    if ($data['number'][$key] > count(Question::where('unit_id', $unit_id)->get())) {
+                        return redirect()->back()->with('error_message', 'Number questions in stock not enough');
+                    } else {
+                        $questions = Question::where('unit_id', $data['unit_id'][$key])->inRandomOrder()->limit($data['number'][$key])->get();
+                        foreach ($questions as $question) {
+                            $question->update(['select_id' => ($question['select_id'] . ',' . $data['exam_id'])]);
+                        }
                     }
                 }
             }
             return redirect()->back()->with('success_message', 'Added Questions Successfully');
-
         }
     }
-
 }
