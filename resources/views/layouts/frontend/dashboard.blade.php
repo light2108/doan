@@ -24,9 +24,8 @@
     <link rel="stylesheet" href="frontend/assets/css/owl.theme.default.min.css">
 
     <link rel="stylesheet" href="frontend/assets/css/style.css">
-    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js">
-    </script> --}}
+
+
 </head>
 {{-- @if(Session::get('key')=='subject'||Session::get('key')=='student') --}}
 @include('layouts.frontend.header')
@@ -41,7 +40,7 @@
 
 <script data-cfasync="false" src="frontend/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="frontend/assets/js/jquery-3.6.0.min.js"></script>
-
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="frontend/assets/js/popper.min.js"></script>
 <script src="frontend/assets/js/bootstrap.bundle.min.js"></script>
 
