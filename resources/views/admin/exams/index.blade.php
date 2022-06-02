@@ -38,105 +38,11 @@
                                 <div style="float:right">
                                     <a role="button" class="btn btn-success delete-all"
                                         href="{{ url('admin/delete-all/exams') }}" record="exams">Delete All</a>
-                                    <a role="button" href="{{ url('admin/add-exam') }}" data-toggle="modal"
-                                        data-target="#exampleModal" class="btn btn-success">Add
+                                    <a role="button" href="{{ url('admin/add-exam') }}" class="btn btn-success">Add
                                         Exam</a>
                                 </div>
                             </div>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">New Exam</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form method="post" action="{{ url('/admin/add-exam') }}">
-                                                @csrf
-                                                <input type="hidden" class="form-control"
-                                                    value="{{ Auth::guard('admin')->user()->id }}" name="teacher_id">
-                                                <div class="form-group">
-                                                    <label for="message-text" class="col-form-label">Name:</label>
-                                                    <input class="form-control" type="text" name='name' required>
-                                                </div>
-                                                {{-- <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Subject Name:</label>
-                                                    @foreach ($subjects as $subject)
-                                                        @if ($subject['id'] == $teacher['subject_id'])
-                                                            <input type="text" name="subject_id" class="form-control"
-                                                                required readonly="" value="{{ $subject['name'] }}">
-                                                        @endif
-                                                    @endforeach
-
-                                                </div> --}}
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Password:</label>
-                                                    <input type="text" class="form-control" name="password">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Grade:</label>
-                                                    <select class="form-control" name="grade_id" id="append_grade_exam"
-                                                        required>
-                                                        <option>Select</option>
-                                                        @foreach ($grades as $grade)
-                                                            {{-- @if (in_array($class['id'], $teacher_classes)) --}}
-                                                            <option value="{{ $grade['id'] }}">
-                                                                {{ $grade['grade'] }}
-                                                            </option>
-                                                            {{-- @endif --}}
-                                                        @endforeach
-
-                                                    </select>
-
-                                                </div>
-                                                <div id="appendclassesexam">
-                                                    <div class="form-group">
-
-                                                        <label for="recipient-name" class="col-form-label">Class:</label>
-                                                        <select class="form-control select2" name="class_id[]" multiple
-                                                            required>
-
-                                                            @foreach ($classes as $class)
-                                                                @if (in_array($class['id'], $teacher_classes))
-                                                                    <option value="{{ $class['id'] }}">
-                                                                        {{ $class['name'] }}
-                                                                    </option>
-                                                                @endif
-                                                            @endforeach
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="message-text" class="col-form-label">Start time:</label>
-                                                    <input class="form-control" type="datetime-local" name='start_time'
-                                                        required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="message-text" class="col-form-label">End time:</label>
-                                                    <input class="form-control" type="datetime-local" name='end_time'
-                                                        required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="message-text" class="col-form-label">Status:</label>
-                                                    <input type="radio" name="status" value="1" checked>Active
-                                                    <input type="radio" name="status" value="0">Inactive
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                            {{--  --}}
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="exams" class="table table-bordered table-striped">
@@ -195,154 +101,16 @@
                                                 </td>
                                                 <td>
 
-                                                    <div class="modal fade" id="exampleModal{{ $exam['id'] }}"
-                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Edit
-                                                                        Exam
-                                                                    </h5>
-                                                                    <button type="button" class="close" data-dismiss="modal"
-                                                                        aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form method="post"
-                                                                        action="{{ url('/admin/edit-exam', $exam['id']) }}">
-                                                                        @csrf
-                                                                        <input type="hidden" class="form-control"
-                                                                            value="{{ Auth::guard('admin')->user()->id }}"
-                                                                            name="teacher_id">
-                                                                        <div class="form-group">
-                                                                            <label for="message-text"
-                                                                                class="col-form-label">Name:</label>
-                                                                            <input class="form-control" type="text"
-                                                                                name='name' value="{{ $exam['name'] }}"
-                                                                                required>
-                                                                        </div>
-                                                                        {{-- <div class="form-group">
-                                                                            <label for="recipient-name"
-                                                                                class="col-form-label">Subject
-                                                                                Name:</label>
-                                                                            @foreach ($subjects as $subject)
-                                                                                @if ($subject['id'] == $exam['subject_id'])
-                                                                                    <input type="text" name="subject_id"
-                                                                                        class="form-control" required
-                                                                                        readonly=""
-                                                                                        value="{{ $subject['name'] }}">
-                                                                                @endif
-                                                                            @endforeach
-                                                                        </div> --}}
-                                                                        <div class="form-group">
-                                                                            <label for="recipient-name" class="col-form-label">Password:</label>
-                                                                            <input type="text" class="form-control" name="password" @if(password_verify(Session::get('password'), $exam['password'])) value="{{Session::get('password')}}" @endif>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="recipient-name"
-                                                                                class="col-form-label">Grade:</label>
-                                                                            <select class="form-control" name="grade_id"
-                                                                                required>
-                                                                                @foreach ($grades as $grade)
-                                                                                    @if ($grade['id'] == $exam['grade_id'])
-                                                                                        <option
-                                                                                            value="{{ $grade['id'] }}"
-                                                                                            selected>
-                                                                                            {{ $grade['grade'] }}
-                                                                                        </option>
-                                                                                    @else
-                                                                                        <option
-                                                                                            value="{{ $grade['id'] }}">
-                                                                                            {{ $grade['grade'] }}
-                                                                                        </option>
-                                                                                    @endif
-                                                                                @endforeach
 
-                                                                            </select>
-
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="recipient-name"
-                                                                                class="col-form-label">Class:</label>
-                                                                            <select class="form-control select2"
-                                                                                name="class_id[]" multiple required>
-                                                                                @foreach ($classes as $class)
-
-                                                                                    @if (in_array($class['id'], explode(',', $exam['class_id'])))
-                                                                                        <option
-                                                                                            value="{{ $class['id'] }}"
-                                                                                            selected>
-                                                                                            {{ $class['name'] }}
-                                                                                        </option>
-                                                                                    @endif
-                                                                                @endforeach
-                                                                                @foreach ($classes as $class)
-                                                                                    @if (in_array($class['id'], $teacher_classes)&&!in_array($class['id'], explode(',', $exam['class_id'])))
-                                                                                        <option
-                                                                                            value="{{ $class['id'] }}">
-                                                                                            {{ $class['name'] }}
-                                                                                        </option>
-                                                                                    @endif
-                                                                                @endforeach
-
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="message-text"
-                                                                                class="col-form-label">Start
-                                                                                time:</label>
-                                                                            <input class="form-control"
-                                                                                type="datetime-local" name='start_time'
-                                                                                value="{{ strftime('%Y-%m-%dT%H:%M:%S', strtotime($exam['start_time'])) }}"
-                                                                                required>
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <label for="message-text"
-                                                                                class="col-form-label">End time:</label>
-                                                                            <input class="form-control"
-                                                                                type="datetime-local" name='end_time'
-                                                                                value="{{ strftime('%Y-%m-%dT%H:%M:%S', strtotime($exam['end_time'])) }}"
-                                                                                required>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="message-text"
-                                                                                class="col-form-label">Status:</label>
-                                                                            @if ($exam['status'] == 1)
-                                                                                <input type="radio" name="status" value="1"
-                                                                                    checked>Active
-                                                                                <input type="radio" name="status"
-                                                                                    value="0">Inactive
-                                                                            @else
-                                                                                <input type="radio" name="status"
-                                                                                    value="1">Active
-                                                                                <input type="radio" name="status" checked
-                                                                                    value="0">Inactive
-                                                                            @endif
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary"
-                                                                                data-dismiss="modal">Close</button>
-                                                                            <button type="submit"
-                                                                                class="btn btn-primary">Edit</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
                                                     <a title="Index Question Exam" style="font-size: 20px"
                                                         href="{{ route('admin.question.grade.exam', ['grade_id' => $exam['grade_id'], 'id' => $exam['id']]) }}"><i
                                                             class="fas fa-eye"></i></a>
                                                     &nbsp;
                                                     &nbsp;
-                                                    <a title="Edit Exam" role="button" type="submit" data-toggle="modal"
-                                                        style="font-size: 20px"
-                                                        data-target="#exampleModal{{ $exam['id'] }}"><i
+                                                    <a title="Edit Exam" role="button" type="submit"
+                                                        style="font-size: 20px" href="{{url('/admin/edit-exam', $exam['id'])}}"
+                                                        ><i
                                                             class="fas fa-edit" style="color: green"></i></a>
                                                     &nbsp;
                                                     &nbsp;

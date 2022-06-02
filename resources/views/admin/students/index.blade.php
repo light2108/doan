@@ -35,11 +35,16 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Students</h3>
+
                                 <div style="float:right">
+                                    <a role="button" class="btn btn-success" href="{{url('/admin/import-file-student')}}">Import File Student</a>
+                                    <a role="button" class="btn btn-success" href="{{url('/admin/export-file-student')}}">Export File Student</a>
+
                                     <a role="button" class="btn btn-success delete-all"
                                         href="{{ url('admin/delete-all/students') }}" record="students">Delete All</a>
                                     <a role="button" href="{{ url('admin/add-student') }}" class="btn btn-success">Add
                                         Student</a>
+
                                 </div>
                             </div>
 
@@ -49,10 +54,9 @@
                                     <thead>
                                         <tr>
                                             <th style="width:20px"><input type="checkbox" class="select-all"></th>
-                                            <th>ID</th>
+                                            <th>Student Code</th>
                                             <th>Image</th>
                                             <th>Name</th>
-                                            <th>Email</th>
                                             <th>Mobile</th>
                                             <th>Class</th>
                                             <th>Grade</th>
@@ -67,13 +71,12 @@
 
                                             <tr>
                                                 <th><input type="checkbox" class="sub_ck" data-id={{ $student['id'] }}></th>
-                                                <td>{{ $student['id'] }}</td>
+                                                <td>{{ $student['student_code'] }}</td>
 
                                                 <td><img src="{{ $student['image'] }}" width="100px" height="100px"></td>
                                                 <td>
                                                     {{ $student['name'] }}
                                                 </td>
-                                                <td>{{ $student['email'] }}</td>
                                                 <td>{{ $student['mobile'] }}</td>
                                                 <td>
                                                     @foreach ($classes as $class)

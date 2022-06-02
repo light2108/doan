@@ -23,4 +23,7 @@ class Subject extends Model
         $subjects=Subject::get()->toArray();
         return $subjects;
     }
+    public function teacher(){
+        return $this->hasMany('App\Models\Admin', 'subject_id', 'id');
+    }
 }

@@ -1,14 +1,14 @@
 <?php
 use App\Models\Grade;
 use App\Models\Subject;
-
+use App\Models\Classes;
+use App\Models\Result;
 $grades=Grade::grade();
-
 $subjects=Subject::subject();
 ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{{url('/admin/dashboard')}}" class="brand-link">
         <img src="backend/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
         <span class="brand-text font-weight-light">ONLINE EXAM</span>
@@ -23,12 +23,13 @@ $subjects=Subject::subject();
             </div>
             <div class="info">
                 <a class="d-block">{{ Session::get('name') }}
-                @if(Auth::guard('admin')->user()->role==0)-
+                @if(Auth::guard('admin')->user()->role==0||Auth::guard('admin')->user()->role == -1)-
                     @foreach ($subjects as $subject)
                         @if (Session::get('subject')==$subject['id'])
                             {{$subject['name']}}
                         @endif
                     @endforeach
+
                 @endif
                 {{-- {{var_dump(Auth::guard('admin')->user()->subject_id)}} --}}
             </a>
@@ -71,13 +72,32 @@ $subjects=Subject::subject();
                 </li>
 
                 <li class="nav-header">BASIC</li>
-                @if (Auth::guard('admin')->user()->role == 0)
+                @if (Auth::guard('admin')->user()->role == -1||Auth::guard('admin')->user()->role == 1)
                     <li class="nav-item">
-                        <a href="pages/calendar.html" class="nav-link ">
+                        <a href="{{ url('admin/teachers') }}" class="nav-link {{ Session::get('page') == 'teacher' ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                            <p>
+                                Teachers
+                            </p>
+                        </a>
+                    </li>
+                @endif
+                <li class="nav-item">
+                    <a href="{{ url('/admin/students') }}" class="nav-link {{ Session::get('page') == 'student' ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-user-graduate"></i>
+                        <p>
+                            Students
+                        </p>
+                    </a>
+
+                </li>
+                @if (Auth::guard('admin')->user()->role == 0||Auth::guard('admin')->user()->role == -1)
+                    <li class="nav-item">
+                        <a href="{{url('/admin/result/exam/class')}}" class="nav-link {{ Session::get('page') == 'result' ? 'active' : '' }}">
                             <i class="nav-icon fa fa-clipboard-check"></i>
                             <p>
                                 Results
-                                <span class="badge badge-info right">2</span>
+                                <span class="badge badge-info right">{{Result::checkdate()}}</span>
                             </p>
                         </a>
                     </li>
@@ -92,27 +112,7 @@ $subjects=Subject::subject();
 
                     </li>
                 @endif
-                @if (Auth::guard('admin')->user()->role == 1)
-                    <li class="nav-item">
-                        <a href="{{ url('admin/teachers') }}" class="nav-link {{ Session::get('page') == 'teacher' ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                            <p>
-                                Teachers
-                            </p>
-                        </a>
-                    </li>
-                @endif
                 @if(Auth::guard('admin')->user()->role==1)
-                <li class="nav-item">
-                    <a href="{{ url('/admin/students') }}" class="nav-link {{ Session::get('page') == 'student' ? 'active' : '' }}">
-                        <i class="nav-icon fa fa-user-graduate"></i>
-                        <p>
-                            Students
-                        </p>
-                    </a>
-
-                </li>
-
                 <li class="nav-item">
                     <a href="{{ url('admin/grades') }}" class="nav-link {{ Session::get('page') == 'grade' ? 'active' : '' }}">
                         <i class="nav-icon fa fa-graduation-cap"></i>
@@ -140,7 +140,7 @@ $subjects=Subject::subject();
                     </a>
                 </li>
                 @endif
-                @if (Auth::guard('admin')->user()->role == 0)
+                @if (Auth::guard('admin')->user()->role == 0||Auth::guard('admin')->user()->role == -1)
                     <li class="nav-item">
                         <a class="nav-link
                         @foreach ($grades as $grade)
@@ -155,7 +155,7 @@ $subjects=Subject::subject();
                         <ul class="nav nav-treeview">
                             @foreach ($grades as $grade)
                                 <li class="nav-item">
-                                    <a href="{{ url('/admin/subjects/grade', $grade['id']) }}" class="nav-link {{ Session::get('page') == $grade['id'] ? 'active' : '' }}">
+                                    <a href="{{ url('/admin/units/subject/'.Auth::guard('admin')->user()->subject_id.'/grade', $grade['id']) }}" class="nav-link {{ Session::get('page') == $grade['id'] ? 'active' : '' }}">
                                         &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
                                         <p>Grade {{$grade['grade']}}</p>
                                     </a>

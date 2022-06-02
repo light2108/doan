@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Name</label>
+                                            <label for="exampleInputEmail1">Name<span style="color:red">*</span></label>
                                             <input type="text" placeholder="Enter Name" name="name" class="form-control"
                                                 required value="{{$student['name']}}">
 
@@ -61,10 +61,29 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="form-group">
+                                            <label for="exampleInputEmail1">Address<span style="color:red">*</span></label>
+                                            <input type="text" placeholder="Enter Address" name="address"
+                                                class="form-control" value="{{$student['address']}}" required>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="form-group">
                                             <label for="exampleInputEmail1">Mobile</label>
                                             <input type="number" placeholder="Enter Mobile" name="mobile"
-                                                class="form-control" required value="{{$student['mobile']}}">
+                                                class="form-control" value="{{$student['mobile']}}">
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Birth day</label>
+                                            <input type="date" placeholder="" name="birth_day" class="form-control"
+                                                required value="{{date('Y-m-d', strtotime($student['birth_day']))}}">
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +101,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Password</label>
                                             <input type="text" placeholder="Enter Password" name="password"
-                                                class="form-control" value="1" required>
+                                                class="form-control" value="1" readonly="" required>
                                         </div>
                                     </div>
                                 </div>
@@ -133,27 +152,44 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Status</label>
-                                            @if($student['status'] ==1)
-                                                <input type="radio" name="status" checked value="1">Active
-                                                <input type="radio" name="status" value="0">Inactive
-                                            @else
-                                                <input type="radio" name="status" value="1">Active
-                                                <input type="radio" name="status" value="0" checked>Inactive
-                                            @endif
-                                        </div>
-                                    </div>
+
+
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <img id="output" width="300" height="300" src={{$student['image']}}>
+                                        <img id="output" width="250" height="250" src={{$student['image']}}>
 
                                     </div>
                                 </div>
-
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Status</label>
+                                            @if($student['status']==1)
+                                            <input type="radio" name="status" checked value="1">Active
+                                            <input type="radio" name="status" value="0">Inactive
+                                            @else
+                                            <input type="radio" name="status" value="1">Active
+                                            <input type="radio" name="status" checked value="0">Inactive
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Sex</label>
+                                            @if($student['sex']==1)
+                                            <input type="radio" name="sex" checked value="1">Male
+                                            <input type="radio" name="sex" value="0">Female
+                                            @else
+                                            <input type="radio" name="sex" value="1">Male
+                                            <input type="radio" name="sex" checked value="0">Female
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

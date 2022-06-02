@@ -18,10 +18,18 @@ class Exam extends Model
         'start_time',
         'end_time',
         'status',
-        'password'
+        'password',
+        'video',
+        'time',
+        'multiple'
     ];
     public function question(){
         return $this->hasMany('App\Models\Question', 'exam_id', 'id');
     }
-
+    public function teacher(){
+        return $this->belongsTo('App\Models\Admin', 'teacher_id', 'id');
+    }
+    public function subject(){
+        return $this->belongsTo('App\Models\Subject', 'subject_id', 'id');
+    }
 }

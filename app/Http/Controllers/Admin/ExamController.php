@@ -22,12 +22,14 @@ class ExamController extends Controller
         // $teacher=Admin::find(Auth::guard('admin')->user()->id)->with('subject');
         // dd($teacher);
         Session::put('page', 'exam');
-        $exams = Exam::where('teacher_id', Auth::guard('admin')->user()->id)->get()->toArray();
-        $subjects = Subject::get()->toArray();
-        $classes = Classes::get()->toArray();
-        $grades=Grade::get()->toArray();
+        $exams = Exam::where('teacher_id', Auth::guard('admin')->user()->id)->where('status', 1)->get()->toArray();
+        $subjects = Subject::where('status', 1)->get()->toArray();
+        $classes = Classes::where('status', 1)->get()->toArray();
+        $grades=Grade::where('status', 1)->get()->toArray();
         $teacher=Admin::find(Auth::guard('admin')->user()->id);
         $teacher_classes=explode(",", $teacher['class_id']);
+
+        // Session::put('password', $data['password']);
         // dd($teacher_classes);
         // dd($subjects);
         // $exam_classes=explode(",", $['class_id']);
@@ -35,32 +37,64 @@ class ExamController extends Controller
     }
     public function addExam(Request $request)
     {
+        $grades=Grade::where('status', 1)->get()->toArray();
+        $teacher=Admin::find(Auth::guard('admin')->user()->id);
+        $teacher_classes=explode(",", $teacher['class_id']);
+        $classes = Classes::where('status', 1)->get()->toArray();
         if ($request->isMethod('post')) {
             $data = $request->all();
-            // Session::put('password', $data['password']);
-            $data['password']=Hash::make($data['password']);
+            // dd($data);
+            $data['teacher_id']=Auth::guard('admin')->user()->id;
+            // $data['password']=Hash::make($data['password']);
             $data['subject_id']=Auth::guard('admin')->user()->subject_id;
             $data['class_id']=implode(",",$data['class_id']);
-            Exam::create($data);
-            return redirect()->back()->with('success_message', 'Created exam successfully');
+            // $data['multiple']=(isset($data['multiple'])?1:0);
+            if ($request->hasFile('video')) {
+                $image = $request->file('video');
+                $reimage = 'video/'.time() . '.' . $image->getClientOriginalExtension();
+                $dest = public_path('/video');
+                $image->move($dest, $reimage);
+                $data['video']=$reimage;
+                Exam::create($data);
+            }else{
+                Exam::create($data);
+            }
+            return redirect('/admin/exams')->with('success_message', 'Created exam successfully');
         }
+        return View('admin.exams.add', compact('grades', 'teacher_classes', 'classes'));
     }
     public function editExam(Request $request, $id)
     {
         $exam = Exam::find($id);
+        $grades=Grade::where('status', 1)->get()->toArray();
+        $teacher=Admin::find(Auth::guard('admin')->user()->id);
+        $classes = Classes::where('status', 1)->get()->toArray();
+        $teacher_classes=explode(",", $teacher['class_id']);
         if ($request->isMethod('post')) {
             $data = $request->all();
-            Session::put('password', $data['password']);
+            // dd($data);
+            // Session::put('password', $data['password']);
             // password_
-            $data['password']=Hash::make($data['password']);
+            // $data['password']=Hash::make($data['password']);
             $data['subject_id']=Auth::guard('admin')->user()->subject_id;
             $data['class_id']=implode(",",$data['class_id']);
 
-            $exam->update($data);
+            // $data['multiple']=(isset($data['multiple'])?1:0);
+            if ($request->hasFile('video')) {
+                $image = $request->file('video');
+                $reimage = 'video/'.time() . '.' . $image->getClientOriginalExtension();
+                $dest = public_path('/video');
+                $image->move($dest, $reimage);
+                $data['video']=$reimage;
+                $exam->update($data);
+            }else{
+                $exam->update($data);
+            }
 
+            return redirect('/admin/exams')->with('success_message', 'Updated exam successfully');
         }
-        return redirect()->back()->with('success_message', 'Updated exam successfully');
-        // return View('admin.exams.index', compact('examedit'));
+
+        return View('admin.exams.edit', compact('exam', 'grades', 'teacher_classes', 'classes'));
     }
     public function deleteExam($id) {
         Exam::find($id)->delete();
@@ -90,5 +124,16 @@ class ExamController extends Controller
         }
         return redirect()->back()->with('success_message', 'Deleted Exams Successfully');
     }
-
+    // public function appendClassExam(Request $request){
+    //     if($request->ajax()){
+    //         $data = $request->all();
+    //         $teacher=Admin::find(Auth::guard('admin')->user()->id);
+    //         // print_r(explode(",",$teacher['class_id']));
+    //         $getclasses=Classes::where('grade_id', $data['grade_id'])->whereIn('id', explode(",",$teacher['class_id']))->get();
+    //         // dd($getclasses);
+    //         // $view=View('admin.exams.append_classes_exam', ['getclasses'=>$getclasses])->render();
+    //         // return response()->json(['view'=>$view]);
+    //     }
+    //     return View('admin.exams.append_classes_exam', compact('getclasses'));
+    // }
 }

@@ -1,848 +1,132 @@
 @extends('layouts.frontend.dashboard')
 @section('content')
-<section class="banner-section">
-    <div class="container">
-        <div class="banner-content text-center">
-            <div class="banner-heading">
-                <h2>ONLINE COURSES TO LEARN</h2>
-                <p>Own your future learning new skills online</p>
-            </div>
-            <div class="banner-forms">
-                <form class="banner-form" action="search">
-                    <div class="input-group-form form-style form-br col-md-3 col-12"> <i
-                            class="fas fa-map-marker-alt text-warning"></i>
-                        <input class="input-style-form" type="text" placeholder="Search Location" name="going">
-                    </div>
-                    <div class="input-group-form form-style col-md-6 col-12">
-                        <input class="input-style-form" type="text"
-                            placeholder="Search School, Online eductional centers, etc" name="going">
-                    </div>
-                    <button class="btn button-form col-md-3 col-12" type="submit">Search Now</button>
-                </form>
-            </div>
-        </div>
-        <div class="banner-footer">
-            <div class="banner-details">
-                <div>
-                    <div class="banner-card d-flex align-items-center">
-                        <div class="banner-count">
-                            <h2>10</h2>
-                        </div>
-                        <div class="banner-contents">
-                            <h2>Global Locations</h2>
-                            <a href="#">See all Locations <i class="fas fa-caret-right right-nav-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="banner-card d-flex align-items-center">
-                        <div class="banner-count">
-                            <h2>54</h2>
-                        </div>
-                        <div class="banner-contents">
-                            <h2>Programs Courses</h2>
-                            <a href="#">See all Courses <i class="fas fa-caret-right right-nav-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="banner-card d-flex align-items-center">
-                        <div class="banner-count">
-                            <h2>7M</h2>
-                        </div>
-                        <div class="banner-contents">
-                            <h2>Students Globally</h2>
-                            <a href="#">Contact us <i class="fas fa-caret-right right-nav-white"></i></a>
-                        </div>
-                    </div>
+    <div class="breadcrumb-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12">
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        </ol>
+                    </nav>
+                    <h2 class="breadcrumb-title">Dashboard</h2>
                 </div>
             </div>
         </div>
     </div>
-</section>
 
 
-<section class="allcourse-section bg-grey">
-    <div class="container">
-        <div class="row">
-            @foreach($subjects as $subject)
-                @if(in_array(Auth::guard('student')->user()->grade_id, explode(',', $subject['grade_id'])))
-                    <div class="col-md-4 col-lg-4 d-flex flex-wrap">
-                        <div class="allcourse-card">
-                            <div class="allcourse-img">
-                                <img src="frontend/assets/img/course/c3.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="allcourse-content">
-                                <h4 class="mb-3">{{$subject['name']}}</h4>
-                                <p>Over <span class="text-warning">2,500</span> Courses</p>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            @endforeach
-            <div class="section-btn m-auto text-center">
-                <button class="btn btn-course">View all Courses <i
-                        class="fas fa-caret-right right-nav-white"></i></button>
-            </div>
-        </div>
-    </div>
-</section>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="row blog-grid-row">
+                        @foreach ($exams as $exam)
+                            @if (in_array(Auth::guard('student')->user()->class_id, explode(',', $exam['class_id'])))
+                                <div class="col-md-6 col-sm-12">
 
-
-{{-- <section class="popular-course-section">
-    <div class="container">
-        <div class="section-heading d-flex align-items-center">
-            <div class="heading-content">
-                <h2><span class="text-weight">Popular</span> Courses <span class="header-right"></span></h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-wrap">
-                <div class="popular-course">
-                    <div class="courses-head">
-                        <div class="courses-img-main">
-                            <img src="frontend/assets/img/course/c8.jpg" alt="" class="img-fluid w-100">
-                        </div>
-                        <div class="courses-aut-img">
-                            <img src="frontend/assets/img/user/user.png" alt="">
-                        </div>
-                    </div>
-                    <div class="courses-body">
-                        <div class="courses-ratings">
-                            <ul class="mb-1">
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star not-checked"></i>
-                                </li>
-                            </ul>
-                            <p class="mb-1">Hinata Hyuga</p>
-                            <h4 class="mb-0">Introduction Learn – LMS plugin</h4>
-                        </div>
-                    </div>
-                    <div class="courses-border"></div>
-                    <div class="courses-footer d-flex align-items-center">
-                        <div class="courses-count">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 85</li>
-                                <li><i class="far fa-file-alt me-1"></i>5</li>
-                            </ul>
-                        </div>
-                        <div class="courses-amt ml-auto">
-                            <h3 class="mb-0">$200</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-wrap">
-                <div class="popular-course">
-                    <div class="courses-head">
-                        <div class="courses-img-main">
-                            <img src="frontend/assets/img/course/c9.jpg" alt="" class="img-fluid w-100">
-                        </div>
-                        <div class="courses-aut-img">
-                            <img src="frontend/assets/img/user/user8.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="courses-body">
-                        <div class="courses-ratings">
-                            <ul class="mb-1">
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star not-checked"></i>
-                                </li>
-                            </ul>
-                            <p class="mb-1">Keny White</p>
-                            <h4 class="mb-0">From Zero to Hero with Nodejs</h4>
-                        </div>
-                    </div>
-                    <div class="courses-border"></div>
-                    <div class="courses-footer d-flex align-items-center">
-                        <div class="courses-count">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 125</li>
-                                <li><i class="far fa-file-alt me-1"></i>3</li>
-                            </ul>
-                        </div>
-                        <div class="courses-amt ml-auto">
-                            <h3 class="mb-0">$380</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-wrap">
-                <div class="popular-course">
-                    <div class="courses-head">
-                        <div class="courses-img-main">
-                            <img src="frontend/assets/img/course/c10.jpg" alt="" class="img-fluid w-100">
-                        </div>
-                        <div class="courses-aut-img">
-                            <img src="frontend/assets/img/user/user2.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="courses-body">
-                        <div class="courses-ratings">
-                            <ul class="mb-1">
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star not-checked"></i>
-                                </li>
-                            </ul>
-                            <p class="mb-1">John Paul</p>
-                            <h4 class="mb-0">Learn Python – Interactive Tutorial</h4>
-                        </div>
-                    </div>
-                    <div class="courses-border"></div>
-                    <div class="courses-footer d-flex align-items-center">
-                        <div class="courses-count">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 122</li>
-                                <li><i class="far fa-file-alt me-1"></i>2</li>
-                            </ul>
-                        </div>
-                        <div class="courses-amt ml-auto">
-                            <h3 class="mb-0">$100</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-wrap">
-                <div class="popular-course">
-                    <div class="courses-head">
-                        <div class="courses-img-main">
-                            <img src="frontend/assets/img/course/c11.jpg" alt="" class="img-fluid w-100">
-                        </div>
-                        <div class="courses-aut-img">
-                            <img src="frontend/assets/img/user/user3.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="courses-body">
-                        <div class="courses-ratings">
-                            <ul class="mb-1">
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star not-checked"></i>
-                                </li>
-                            </ul>
-                            <p class="mb-1">Antony Noel</p>
-                            <h4 class="mb-0">Your Guide to Photography</h4>
-                        </div>
-                    </div>
-                    <div class="courses-border"></div>
-                    <div class="courses-footer d-flex align-items-center">
-                        <div class="courses-count">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 320</li>
-                                <li><i class="far fa-file-alt me-1"></i>8</li>
-                            </ul>
-                        </div>
-                        <div class="courses-amt ml-auto">
-                            <h3 class="mb-0">$600</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-wrap">
-                <div class="popular-course">
-                    <div class="courses-head">
-                        <div class="courses-img-main">
-                            <img src="frontend/assets/img/course/c12.jpg" alt="" class="img-fluid w-100">
-                        </div>
-                        <div class="courses-aut-img">
-                            <img src="frontend/assets/img/user/user.png" alt="">
-                        </div>
-                    </div>
-                    <div class="courses-body">
-                        <div class="courses-ratings">
-                            <ul class="mb-1">
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star not-checked"></i>
-                                </li>
-                            </ul>
-                            <p class="mb-1">Hinata Hyuga</p>
-                            <h4 class="mb-0">Become a PHP Master and Expertise</h4>
-                        </div>
-                    </div>
-                    <div class="courses-border"></div>
-                    <div class="courses-footer d-flex align-items-center">
-                        <div class="courses-count">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 215</li>
-                                <li><i class="far fa-file-alt me-1"></i>3</li>
-                            </ul>
-                        </div>
-                        <div class="courses-amt ml-auto">
-                            <h3 class="mb-0">$350</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-wrap">
-                <div class="popular-course">
-                    <div class="courses-head">
-                        <div class="courses-img-main">
-                            <img src="frontend/assets/img/course/c13.jpg" alt="" class="img-fluid w-100">
-                        </div>
-                        <div class="courses-aut-img">
-                            <img src="frontend/assets/img/user/user8.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="courses-body">
-                        <div class="courses-ratings">
-                            <ul class="mb-1">
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star not-checked"></i>
-                                </li>
-                            </ul>
-                            <p class="mb-1">Keny White</p>
-                            <h4 class="mb-0">Learning jQuery Mobile for Beginners</h4>
-                        </div>
-                    </div>
-                    <div class="courses-border"></div>
-                    <div class="courses-footer d-flex align-items-center">
-                        <div class="courses-count">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 128</li>
-                                <li><i class="far fa-file-alt me-1"></i>2</li>
-                            </ul>
-                        </div>
-                        <div class="courses-amt ml-auto">
-                            <h3 class="mb-0">$125</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-wrap">
-                <div class="popular-course">
-                    <div class="courses-head">
-                        <div class="courses-img-main">
-                            <img src="frontend/assets/img/course/c14.jpg" alt="" class="img-fluid w-100">
-                        </div>
-                        <div class="courses-aut-img">
-                            <img src="frontend/assets/img/user/user2.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="courses-body">
-                        <div class="courses-ratings">
-                            <ul class="mb-1">
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star not-checked"></i>
-                                </li>
-                            </ul>
-                            <p class="mb-1">John Paul</p>
-                            <h4 class="mb-0">The Art of Black and White Photography</h4>
-                        </div>
-                    </div>
-                    <div class="courses-border"></div>
-                    <div class="courses-footer d-flex align-items-center">
-                        <div class="courses-count">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 354</li>
-                                <li><i class="far fa-file-alt me-1"></i>8</li>
-                            </ul>
-                        </div>
-                        <div class="courses-amt ml-auto">
-                            <h3 class="mb-0">$620</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-wrap">
-                <div class="popular-course">
-                    <div class="courses-head">
-                        <div class="courses-img-main">
-                            <img src="frontend/assets/img/course/c15.jpg" alt="" class="img-fluid w-100">
-                        </div>
-                        <div class="courses-aut-img">
-                            <img src="frontend/assets/img/user/user3.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="courses-body">
-                        <div class="courses-ratings">
-                            <ul class="mb-1">
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star checked"></i>
-                                </li>
-                                <li> <i class="fas fa-star not-checked"></i>
-                                </li>
-                            </ul>
-                            <p class="mb-1">Antony Noel</p>
-                            <h4 class="mb-0">HTML5/CSS3 Essentials in 4-Hours</h4>
-                        </div>
-                    </div>
-                    <div class="courses-border"></div>
-                    <div class="courses-footer d-flex align-items-center">
-                        <div class="courses-count">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 200</li>
-                                <li><i class="far fa-file-alt me-1"></i>2</li>
-                            </ul>
-                        </div>
-                        <div class="courses-amt ml-auto">
-                            <h3 class="mb-0">$400</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section-btn m-auto text-center">
-                <button class="btn btn-course">View all <i class="fas fa-caret-right right-nav-white"></i></button>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="instructor-section bg-grey">
-    <div class="container">
-        <div class="section-heading d-flex align-items-center">
-            <div class="heading-content">
-                <h2><span class="text-weight">Featured </span> Instructor <span class="header-right"></span></h2>
-                <p>They are highly qualified and trained in their areas</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="instructor-card">
-                    <div class="instructor-profile align-items-center">
-                        <div class="instructor-img">
-                            <img src="frontend/assets/img/user/user8.jpg" alt="">
-                        </div>
-                        <div class="instructor-desc">
-                            <h3 class="mb-0 text-warning">David Lee</h3>
-                            <span class="text-primary">Web Developer</span>
-                            <p>I've been involved in teaching and education for more than ten years. Always eager to
-                                learn, I invested a lot of my time in learning…</p>
-                        </div>
-                    </div>
-                    <div class="instructor-content d-flex">
-                        <div class="ic-left">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 200</li>
-                                <li><i class="far fa-file-alt me-1"></i>2</li>
-                            </ul>
-                        </div>
-                        <div class="ic-right ml-auto">
-                            <a href="#">View Profile <i class="fas fa-caret-right right-nav"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="instructor-card">
-                    <div class="instructor-profile align-items-center">
-                        <div class="instructor-img">
-                            <img src="frontend/assets/img/user/user7.jpg" alt="">
-                        </div>
-                        <div class="instructor-desc">
-                            <h3 class="mb-0 text-warning">Daziy Millar</h3>
-                            <span class="text-primary">PHP Expert</span>
-                            <p>I've spend the past three years as a lead instructor at many types of coding schools.
-                                As a self taught developer, I've experienced the...</p>
-                        </div>
-                    </div>
-                    <div class="instructor-content d-flex">
-                        <div class="ic-left">
-                            <ul class="mb-0">
-                                <li><i class="fas fa-user-graduate me-1"></i> 200</li>
-                                <li><i class="far fa-file-alt me-1"></i>2</li>
-                            </ul>
-                        </div>
-                        <div class="ic-right ml-auto">
-                            <a href="#">View Profile <i class="fas fa-caret-right right-nav"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section-btn m-auto text-center">
-                <button class="btn btn-course">Become an Instructor <i
-                        class="fas fa-caret-right right-nav-white"></i></button>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="training-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="training-desc">
-                    <h2>French for Beginners to Advanced Training</h2>
-                    <p class="text-white mb-4">Get course that you need to improve your skills. Our experts are
-                        ready to help. Change your life through learing. Over 40,000 courses.</p>
-                    <button class="btn btn-main">Find More <i
-                            class="fas fa-caret-right right-nav-secondary"></i></button>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="training-count text-center">
-                    <p class="text-white">Time is running out</p>
-                    <div class="training-counter">
-                        <div class="counters text-center">
-                            <div>
-                                <p>300</p>
-                            </div>
-                            <p>Days</p>
-                        </div>
-                        <div class="counters text-center">
-                            <div>
-                                <p>30</p>
-                            </div>
-                            <p>Hours</p>
-                        </div>
-                        <div class="counters text-center">
-                            <div>
-                                <p>03</p>
-                            </div>
-                            <p>Minutes</p>
-                        </div>
-                        <div class="counters text-center">
-                            <div>
-                                <p>33</p>
-                            </div>
-                            <p>Seconds</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="tab-section">
-    <div class="container">
-        <div class="section-heading d-flex align-items-center text-background">
-            <div class="heading-content">
-                <h2><span class="text-weight">Popular </span> Courses <span class="header-right"></span></h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-        </div>
-        <div class="courses-tabs w-100 flex-wrap">
-            <div class="course-left tab-content">
-                <div class="tab-pane active" id="c1">
-                    <div class="p-0 d-flex flex-wrap">
-                        <div class="bg-card">
-                            <div class="course-bg">
-                                <img src="frontend/assets/img/course-bg.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="course-overlay">
-                                <div class="course-text">
-                                    <div class="courses-content">
-                                        <span>145 NEW</span>
-                                        <h4>DESIGN COURSE BEGINNER</h4>
-                                        <h5 class="course-amount mb-0"><sup>$</sup>119<sup>/mo</sup></h5>
-                                        <p>The ultimate drawing course will show you how to create adavnced art that
-                                        </p>
+                                    <div class="blog grid-blog">
+                                        <div class="blog-image">
+                                            <iframe width="400px" src="{{ $exam['video'] }}">
+                                            </iframe>
+                                        </div>
+                                        <div class="blog-content">
+                                            <ul class="entry-meta meta-item">
+                                                <li>
+                                                    <div class="post-author">
+                                                        <a href="profile"><img src="{{ $exam['teacher']['image'] }}"
+                                                                style="width:50px;height:50px" alt="Post Author">
+                                                            <span>{{ $exam['teacher']['name'] }}</span></a>
+                                                    </div>
+                                                </li>
+                                                <li><i
+                                                        class="far fa-clock"></i>{{ date('Y-m-d', strtotime($exam['created_at'])) }}
+                                                </li>
+                                            </ul>
+                                            <h3 class="blog-title"><a href="blog-details">{{ $exam['name'] }} mon
+                                                    {{ $exam['subject']['name'] }}</a></h3>
+                                            <p class="mb-0">Video supported for exam {{ $exam['name'] }}.</p>
+                                        </div>
                                     </div>
+
                                 </div>
+                            @endif
+                        @endforeach
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="blog-pagination">
+                                <nav>
+                                    <ul class="pagination justify-content-center">
+
+
+                                        {{ $exams->links('pagination::simple-tailwind') }}
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <div class="tab-pane" id="c2">
-                    <div class="p-0 d-flex flex-wrap">
-                        <div class="bg-card">
-                            <div class="course-bg">
-                                <img src="frontend/assets/img/course-bg4.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="course-overlay">
-                                <div class="course-text">
-                                    <div class="courses-content">
-                                        <span>325 NEW</span>
-                                        <h4>BUSINESS COURSE BEGINNER</h4>
-                                        <h5 class="course-amount mb-0"><sup>$</sup>109<sup>/mo</sup></h5>
-                                        <p>The ultimate drawing course will show you how to create adavnced art that
-                                        </p>
-                                    </div>
+
+                <div class="col-lg-4 col-md-12 sidebar-right theiaStickySidebar">
+
+                    <div class="card search-widget">
+                        <div class="card-body">
+                            <form action="{{url('/dashboard')}}" method="GET" class="search-form">
+                                @csrf
+                                <div class="input-group">
+
+                                    <input type="text" name="search" placeholder="Search..." class="form-control">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane" id="c3">
-                    <div class="p-0 d-flex flex-wrap">
-                        <div class="bg-card">
-                            <div class="course-bg">
-                                <img src="frontend/assets/img/course-bg1.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="course-overlay">
-                                <div class="course-text">
-                                    <div class="courses-content">
-                                        <span>315 NEW</span>
-                                        <h4>LIFESTYLE COURSE BEGINNER</h4>
-                                        <h5 class="course-amount mb-0"><sup>$</sup>209<sup>/mo</sup></h5>
-                                        <p>The ultimate drawing course will show you how to create adavnced art that
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+
+
+                    <div class="card post-widget">
+                        <div class="card-header">
+                            <h4 class="card-title">My Subjects</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="latest-posts">
+                                @foreach ($subjects as $subject)
+                                    @if (in_array(Auth::guard('student')->user()->grade_id, explode(',', $subject['grade_id'])))
+                                        @foreach ($subject['teacher'] as $teacher)
+                                            @if (in_array(Auth::guard('student')->user()->class_id, explode(',', $teacher['class_id'])))
+                                                <li>
+                                                    <div class="post-thumb">
+                                                        <a>
+                                                            <img class="img-fluid" src="{{ $teacher['image'] }}"
+                                                                style="height:80px; width:80px" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="post-info">
+                                                        <h4>
+                                                            <a
+                                                                href="{{ route('exam.subject.grade', ['subject_id' => $teacher['subject_id'], 'grade_id' => Auth::guard('student')->user()->grade_id]) }}">{{ $subject['name'] }}</a>
+                                                        </h4>
+                                                        <p>{{ $teacher['name'] }}</p>
+                                                    </div>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+
+                            </ul>
                         </div>
                     </div>
+
+
+
+
                 </div>
-                <div class="tab-pane" id="c4">
-                    <div class="p-0 d-flex flex-wrap">
-                        <div class="bg-card">
-                            <div class="course-bg">
-                                <img src="frontend/assets/img/course-bg3.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="course-overlay">
-                                <div class="course-text">
-                                    <div class="courses-content">
-                                        <span>312 NEW</span>
-                                        <h4>SOFTWARE COURSE BEGINNER</h4>
-                                        <h5 class="course-amount mb-0"><sup>$</sup>195<sup>/mo</sup></h5>
-                                        <p>The ultimate drawing course will show you how to create adavnced art that
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane" id="c5">
-                    <div class="p-0 d-flex flex-wrap">
-                        <div class="bg-card">
-                            <div class="course-bg">
-                                <img src="frontend/assets/img/course-bg2.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="course-overlay">
-                                <div class="course-text">
-                                    <div class="courses-content">
-                                        <span>115 NEW</span>
-                                        <h4>PHOTO COURSE BEGINNER</h4>
-                                        <h5 class="course-amount mb-0"><sup>$</sup>251<sup>/mo</sup></h5>
-                                        <p>The ultimate drawing course will show you how to create adavnced art that
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="course-right p-0 flex-wrap">
-                <div class="tabs-menus">
-                    <div class="course-list nav nav-tabs">
-                        <a href="#c1" data-bs-toggle="tab" class="active">
-                            <div class="d-block text-center course-tabs">
-                                <i class="far fa-eye"></i>
-                                <p>Design</p>
-                            </div>
-                        </a>
-                        <a href="#c2" data-bs-toggle="tab">
-                            <div class="d-block text-center course-tabs">
-                                <i class="fas fa-business-time"></i>
-                                <p>Business</p>
-                            </div>
-                        </a>
-                        <a href="#c3" data-bs-toggle="tab">
-                            <div class="d-block text-center course-tabs">
-                                <i class="fab fa-rocketchat"></i>
-                                <p>Lifestyle</p>
-                            </div>
-                        </a>
-                        <a href="#c4" data-bs-toggle="tab">
-                            <div class="d-block text-center course-tabs">
-                                <i class="fas fa-laptop-code"></i>
-                                <p>Software</p>
-                            </div>
-                        </a>
-                        <a href="#c5" data-bs-toggle="tab">
-                            <div class="d-block text-center course-tabs mb-0">
-                                <i class="fas fa-camera-retro"></i>
-                                <p>Photo</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
-</section>
-
-
-<section class="featured-section bg-grey">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="featured-card bg-dark-grey">
-                    <h2 class="text-white">Best Courses</h2>
-                    <p class="text-white">Courses for all levels cover technical skills, creative techniques,
-                        business strategies, and more. We have collected all of the necessary effective study.</p>
-                    <a href="#" class="text-white">View More <i class="fas fa-caret-right right-nav-grey"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="featured-card bg-primary">
-                    <h2 class="text-white">Top rated Instructors</h2>
-                    <p class="text-white">Courses for all levels cover technical skills, creative techniques,
-                        business strategies, and more. We have collected all of the necessary effective study.</p>
-                    <a href="#" class="text-white">View More <i class="fas fa-caret-right right-nav-white"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="testimonial-section bg-grey">
-    <div class="container">
-        <div class="section-header text-center">
-            <h3>What People Says</h3>
-            <p class="sub-title">Are you looking to join online institutions? Now it's very simple, Sign up with
-                mentoring</p>
-        </div>
-        <div class="row">
-            <div class="col-md-8 m-auto">
-                <div class="testimonial-slider">
-                    <div id="customers-testimonials" class="owl-carousel text-center">
-                        <div class="item">
-                            <img src="frontend/assets/img/user/user1.jpg" class="clients m-auto" alt="">
-                            <i class="fas fa-quote-left quote my-4"></i>
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut nulla et erat
-                                venenatis cursus. Nulla facilisi. Vestibulum in arcu eu nulla venenatis auctor.
-                                Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                            <h6 class="name mt-4">Rashed kabir</h6>
-                            <span>Designer</span>
-                        </div>
-                        <div class="item">
-                            <img src="frontend/assets/img/user/user2.jpg" class="clients m-auto" alt="">
-                            <i class="fas fa-quote-left quote my-4"></i>
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut nulla et erat
-                                venenatis cursus. Nulla facilisi. Vestibulum in arcu eu nulla venenatis auctor.
-                                Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                            <h6 class="name mt-4">Rashed kabir</h6>
-                            <span>Designer</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-controls">
-                    <div class="owl-nav">
-                        <div class="owl-prev"></div>
-                        <div class="owl-next"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="blog-sections">
-    <div class="container">
-        <div class="section-heading d-flex align-items-center">
-            <div class="heading-content">
-                <h2><span class="text-weight">From the </span> Blog <span class="header-right"></span></h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-sm-6">
-                <div class="blog-box blog-grid-box">
-                    <div class="blog-grid-box-img">
-                        <a href="blog-details">
-                            <img src="frontend/assets/img/blog/blog-01.jpg" class="img-fluid" alt="">
-                        </a>
-                    </div>
-                    <div class="blog-grid-box-content">
-                        <div class="blog-avatar text-center">
-                            <p>Posted on 24-01-2021</p>
-                        </div>
-                        <h4><a href="blog-details">Contrary to popular belief, Lorem Ipsum is</a></h4>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                            voluptatum</p>
-                        <a href="#" class="text-primary">View More <i class="fas fa-caret-right right-nav"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="blog-box blog-grid-box">
-                    <div class="blog-grid-box-img">
-                        <a href="blog-details">
-                            <img src="frontend/assets/img/blog/blog-02.jpg" class="img-fluid" alt="">
-                        </a>
-                    </div>
-                    <div class="blog-grid-box-content">
-                        <div class="blog-avatar text-center">
-                            <p>Posted on 24-01-2021</p>
-                        </div>
-                        <h4><a href="blog-details">The standard chunk of Lorem Ipsum used</a></h4>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                            voluptatum</p>
-                        <a href="#" class="text-primary">View More <i class="fas fa-caret-right right-nav"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="blog-box blog-grid-box">
-                    <div class="blog-grid-box-img">
-                        <a href="blog-details">
-                            <img src="frontend/assets/img/blog/blog-03.jpg" class="img-fluid" alt="">
-                        </a>
-                    </div>
-                    <div class="blog-grid-box-content">
-                        <div class="blog-avatar text-center">
-                            <p>Posted on 24-01-2021</p>
-                        </div>
-                        <h4><a href="blog-details">The standard Lorem Ipsum passage, used</a></h4>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                            voluptatum</p>
-                        <a href="#" class="text-primary">View More <i class="fas fa-caret-right right-nav"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> --}}
 @endsection

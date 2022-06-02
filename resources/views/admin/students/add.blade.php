@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Name</label>
+                                            <label for="exampleInputEmail1">Name<span style="color:red">*</span></label>
                                             <input type="text" placeholder="Enter Name" name="name" class="form-control"
                                                 required>
 
@@ -61,10 +61,29 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Mobile</label>
-                                            <input type="number" placeholder="Enter Mobile" name="mobile"
+                                            <label for="exampleInputEmail1">Address<span style="color:red">*</span></label>
+                                            <input type="text" placeholder="Enter Address" name="address"
                                                 class="form-control" required>
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Mobile</label>
+                                            <input type="number" placeholder="Enter Mobile" name="mobile"
+                                                class="form-control">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Birth day<span style="color:red">*</span></label>
+                                            <input type="date" placeholder="" name="birth_day" class="form-control"
+                                                required>
                                         </div>
                                     </div>
                                 </div>
@@ -102,7 +121,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Grade</label>
+                                            <label for="exampleInputEmail1">Grade<span style="color:red">*</span></label>
                                             <select name="grade_id" class="form-control" id="appendgradeid" required>
                                                 <option>Select</option>
                                                 @foreach ($grades as $grade)
@@ -115,13 +134,23 @@
                                     <div id="appendclasseslevel">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Classes</label>
+                                                <label for="exampleInputEmail1">Classes<span style="color:red">*</span></label>
                                                 <select name="class_id" class="form-control select2" required>
 
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <img id="output" width="250" height="250">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Status</label>
@@ -131,14 +160,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
-
-                                        <img id="output" width="300" height="300">
-
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Sex<span style="color:red">*</span></label>
+                                            <input type="radio" name="status" checked value="1">Male
+                                            <input type="radio" name="status" value="0">Female
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 

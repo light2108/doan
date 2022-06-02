@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -17,7 +19,7 @@ class Admin extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $guard='admin';
+    protected $guard = 'admin';
     protected $fillable = [
         'name',
         'email',
@@ -28,7 +30,9 @@ class Admin extends Authenticatable
         'status',
         'subject_id',
         'class_id',
-        // 'grade_id',
+        'birth_day',
+        'address',
+        'sex'
     ];
 
     /**
@@ -46,14 +50,36 @@ class Admin extends Authenticatable
      *
      * @var array<string, string>
      */
-    public function subject(){
+    public function subject()
+    {
         return $this->belongsTo('App\Models\Subject', 'subject_id', 'id');
     }
-    public function exam(){
+    public function exam()
+    {
         return $this->hasMany('App\Models\Exam', 'teacher_id', 'id');
     }
-    public function teacher(){
-        $teachers=Admin::where('role', 0)->get()->toArray();
+    public static function teacher()
+    {
+        $teachers = Admin::where('role','!=', 1)->get()->toArray();
         return $teachers;
+    }
+    public static function getTeacher()
+    {
+
+        $records = DB::table('admins')->join('subjects', 'subjects.id', '=', 'admins.subject_id')->join('classes', function ($query) {
+            $query->whereRaw(DB::raw("find_in_set(classes.id, admins.class_id)", DB::raw(''), DB::raw('')));
+        })->select(
+            'admins.id',
+            'admins.name as teachername',
+            'email',
+            'mobile',
+            'subjects.name as subjectname',
+            'classes.name as classname',
+            'birth_day',
+            'address',
+            DB::raw("(CASE WHEN sex=1 THEN 'M' ELSE 'F' END) as sex")
+        )->get()->toArray();
+        // dd($records);
+        return $records;
     }
 }

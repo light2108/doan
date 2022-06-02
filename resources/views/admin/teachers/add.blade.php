@@ -76,6 +76,30 @@
 
                                     <div class="form-group">
                                         <div class="form-group">
+                                            <label for="exampleInputEmail1">Birth day</label>
+                                            <input type="date" placeholder="" name="birth_day" class="form-control"
+                                                required>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Address</label>
+                                            <input type="text" placeholder="Enter Address" name="address" class="form-control"
+                                                required>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <div class="form-group">
                                             <label for="exampleInputEmail1">Mobile</label>
                                             <input type="number" placeholder="Enter Mobile" name="mobile"
                                                 class="form-control" required>
@@ -121,12 +145,19 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Subject Name</label>
-                                            <select class="form-control" id="exampleInputEmail1" name="subject_id" required>
+                                            @if(Auth::guard('admin')->user()->role!=1)
                                                 @foreach ($subjects as $subject)
-                                                    <option value="{{$subject['id']}}">{{$subject['name']}}</option>
+                                                    @if($subject['id']==Auth::guard('admin')->user()->subject_id)
+                                                        <input type="text" class="form-control" name="subject_id" value="{{$subject['name']}}" readonly="">
+                                                    @endif
                                                 @endforeach
-                                            </select>
-
+                                            @else
+                                                <select class="form-control" name="subject_id" required>
+                                                    @foreach($subjects as $subject)
+                                                        <option value="{{ $subject['id'] }}">{{ $subject['name']}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
                                         </div>
                                     </div>
                                     {{-- <div class="form-group">
@@ -151,6 +182,26 @@
 
                                         </div>
                                     </div>
+
+                                    @if(Auth::guard('admin')->user()->role==1)
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Leader Subject</label>
+                                            <input type="checkbox" name="role" value="-1">
+
+                                        </div>
+                                    </div>
+                                    @endif
+                                    <!-- /.col -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <img id="output" width="300" height="300">
+
+                                    </div>
+                                </div>
+                                <div class="col-3">
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Status</label>
@@ -159,14 +210,15 @@
 
                                         </div>
                                     </div>
-
-                                    <!-- /.col -->
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-3">
                                     <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Sex</label>
+                                            <input type="radio" name="sex" checked value="1">Male
+                                            <input type="radio" name="sex" value="0">Female
 
-                                        <img id="output" width="300" height="300">
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>

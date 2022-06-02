@@ -5,10 +5,16 @@ use App\Models\Admin;
 use App\Models\Student;
 use App\Models\Classes;
 use App\Models\Subject;
+use App\Models\Exam;
+use App\Models\Question;
+use App\Models\Result;
 $students=Student::student();
 $teachers=Admin::teacher();
 $classes=Classes::classes();
 $subjects=Subject::subject();
+$exams=Exam::where('teacher_id', Auth::guard('admin')->user()->id)->get()->toArray();
+$questions=Question::get()->toArray();
+$results=Result::get()->toArray();
 ?>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -94,6 +100,69 @@ $subjects=Subject::subject();
                             <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
+                    <!-- ./col -->
+                </div>
+                @else
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>{{count($exams)}}</h3>
+
+                                <p>Exams</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-clipboard-list"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>{{count($questions)}}</h3>
+
+                                <p>Questions</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-question"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3>{{(Result::checkdate())}}</h3>
+
+                                <p>Results</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-clipboard-check"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    {{-- <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>{{count($subjects)}}</h3>
+
+                                <p>Subjects</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-book-reader"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div> --}}
                     <!-- ./col -->
                 </div>
                 @endif

@@ -1,6 +1,10 @@
 <?php
 use App\Models\Classes;
-$classes=Classes::classes();
+use App\Models\Subject;
+$subjects = Subject::with('teacher')
+->get()
+->toArray();
+$classes = Classes::classes();
 ?>
 <header class="header">
     <nav class="navbar navbar-expand-lg header-nav">
@@ -28,19 +32,25 @@ $classes=Classes::classes();
                 </div>
                 <ul class="main-nav">
                     <li class="active">
-                        <a href="{{url('/dashboard')}}">Home</a>
+                        <a href="{{ url('/dashboard') }}">Home</a>
                     </li>
                     <li class="has-submenu  ">
-                        <a href="{{url('/dashboard')}}">Subject <i class="fas fa-chevron-down"></i></a>
+                        <a>Subject <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
-                            @foreach($subjects as $subject)
-                                @if(in_array(Auth::guard('student')->user()->grade_id, explode(',', $subject['grade_id'])))
-                                    <li class=""><a href="{{url('exam/subject', $subject['id'])}}">{{$subject['name']}}</a></li>
+                            @foreach ($subjects as $subject)
+                                @if (in_array(Auth::guard('student')->user()->grade_id, explode(',', $subject['grade_id'])))
+                                    @foreach ($subject['teacher'] as $teacher)
+                                        @if (in_array(Auth::guard('student')->user()->class_id, explode(',', $teacher['class_id'])))
+                                            <li class=""><a
+                                                    href="{{ route('exam.subject.grade', ['subject_id' => $subject['id'], 'grade_id' => Auth::guard('student')->user()->grade_id]) }}">{{ $subject['name'] }}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
                                 @endif
                             @endforeach
                         </ul>
                     </li>
-                    <li class="has-submenu ">
+                    {{-- <li class="has-submenu ">
                         <a href="">Mentee <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
                             <li class="has-submenu ">
@@ -96,7 +106,7 @@ $classes=Classes::classes();
                     </li>
                     <li class="login-link">
                         <a href="login">Login / Signup</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <ul class="nav header-navbar-rht">
@@ -104,29 +114,31 @@ $classes=Classes::classes();
                 <li class="nav-item dropdown has-arrow logged-item">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <span class="user-img">
-                            <img class="rounded-circle me-2" src="{{Auth::guard('student')->user()->image}}" width="31"
-                                alt="Darren Elder">{{Auth::guard('student')->user()->name}}
+                            <img class="rounded-circle me-2" src="{{ Auth::guard('student')->user()->image }}"
+                                width="31"
+                                alt="{{ Auth::guard('student')->user()->name }}">{{ Auth::guard('student')->user()->name }}
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="user-header">
                             <div class="avatar avatar-sm">
-                                <img src="{{Auth::guard('student')->user()->image}}" alt="User Image" class="avatar-img rounded-circle">
+                                <img src="{{ Auth::guard('student')->user()->image }}" alt="User Image"
+                                    class="avatar-img rounded-circle">
                             </div>
                             <div class="user-text">
-                                <h6>{{Auth::guard('student')->user()->name}}</h6>
+                                <h6>{{ Auth::guard('student')->user()->name }}</h6>
                                 <p class="text-muted mb-0">
-                                    @foreach($classes as $class)
-                                        @if(Auth::guard('student')->user()->class_id==$class['id'])
-                                            {{$class['name'] }}
+                                    @foreach ($classes as $class)
+                                        @if (Auth::guard('student')->user()->class_id == $class['id'])
+                                            {{ $class['name'] }}
                                         @endif
                                     @endforeach
                                 </p>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="{{url('/dashboard')}}">Dashboard</a>
-                        <a class="dropdown-item" href="{{url('/change-detail')}}">Profile Settings</a>
-                        <a class="dropdown-item" href="{{url('/logout')}}">Logout</a>
+                        <a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a>
+                        <a class="dropdown-item" href="{{ url('/change-detail') }}">Profile Settings</a>
+                        <a class="dropdown-item" href="{{ url('/logout') }}">Logout</a>
                     </div>
                 </li>
 

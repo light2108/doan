@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Mentoring</title>
     <base href="{{ asset('') }}" />
     <link type="image/x-icon" href="frontend/assets/img/favicon.png" rel="icon">
@@ -23,22 +24,19 @@
     <link rel="stylesheet" href="frontend/assets/css/owl.theme.default.min.css">
 
     <link rel="stylesheet" href="frontend/assets/css/style.css">
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js">
+    </script> --}}
 </head>
-
-
-
-
-
-
+{{-- @if(Session::get('key')=='subject'||Session::get('key')=='student') --}}
 @include('layouts.frontend.header')
-
+{{-- @endif --}}
 <div class="main-wrapper">
 
     @yield('content')
-
-
+    {{-- @if(Session::get('key')=='subject'||Session::get('key')=='student') --}}
     @include('layouts.frontend.footer')
-
+    {{-- @endif --}}
 </div>
 
 <script data-cfasync="false" src="frontend/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
@@ -59,8 +57,10 @@
 <script src="frontend/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
 
 
-
+<script src="front_js/front_js.js"></script>
 <script src="frontend/assets/js/script.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@stack('scripts')
 </body>
 
 </html>

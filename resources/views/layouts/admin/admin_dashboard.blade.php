@@ -9,6 +9,7 @@
 
     <base href="{{ asset('') }}" />
 
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -55,13 +56,11 @@
     <link rel="stylesheet" href="backend/plugins/dropzone/min/dropzone.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="backend/dist/css/adminlte.min.css">
-
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/jquery.dataTables.min.css"> --}}
     {{-- <link rel="stylesheet" href="imgckeditor/ckeditor.css"> --}}
     <!-- Theme style -->
     {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
     <!-- Theme style -->
-
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -80,6 +79,7 @@
         <!-- Main Sidebar Container -->
 
 
+
         <!-- Content Wrapper. Contains page content -->
         @yield('content')
         <!-- /.content-wrapper -->
@@ -94,9 +94,10 @@
     <!-- ./wrapper -->
 
     <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
     {{-- <script src="backend/plugins/jquery/jquery.min.js"></script> --}}
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
     {{-- <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script> --}}
     <script src="backend/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -162,6 +163,7 @@
 
     <!-- Select2 -->
     <script src="backend/plugins/select2/js/select2.full.min.js"></script>
+
     <!-- Bootstrap4 Duallistbox -->
     <script src="backend/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
     <!-- InputMask -->
@@ -181,7 +183,7 @@
     <script src="backend/plugins/dropzone/min/dropzone.min.js"></script>
     <!-- AdminLTE App -->
     <script src="backend/dist/js/adminlte.min.js"></script>
-
+    <script src="backend/ckeditor5-build-classic/ckeditor.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script>
         $(function() {
@@ -189,13 +191,15 @@
             $('.select2').select2()
             $('.teacher').select2()
             // $('.gradess').select2()
-            $('.classes').select2()
+            $('.classes').select2({
+                multiple:true
+            })
 
             //Initialize Select2 Elements
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
             })
-
+            // $('#class_id').select2()
             //Datemask dd/mm/yyyy
             $('#datemask').inputmask('dd/mm/yyyy', {
                 'placeholder': 'dd/mm/yyyy'
@@ -280,6 +284,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @stack('script')
+
 
 
 </body>

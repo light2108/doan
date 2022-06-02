@@ -1,3 +1,4 @@
+@if(Session::get('page')!='question')
 <footer class="footer">
 
     <div class="footer-top">
@@ -111,3 +112,4 @@
     </div>
 
 </footer>
+@endif

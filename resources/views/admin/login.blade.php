@@ -39,6 +39,7 @@
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" name='password' class="form-control" placeholder="Password">
+                        {{-- <span class="fas fa-eye toggle-password"></span> --}}
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -48,7 +49,7 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <a href="forgot-password.html">I forgot my password</a>
+                                <a href="{{url('/admin/forgot-password')}}">I forgot my password</a>
                             </div>
                         </div>
                         <!-- /.col -->

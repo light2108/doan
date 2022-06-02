@@ -10,35 +10,71 @@ use App\Models\Student;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Grade;
 use Illuminate\Support\Facades\Session;
-
+use App\Imports\StudentImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Input;
+use App\Exports\StudentExport;
+use Illuminate\Support\Facades\DB;
+function normalize($string){
+    $string=preg_replace('!\s+!', ' ', $string);;
+    $string=mb_convert_case($string, MB_CASE_TITLE, "UTF-8");
+    // $string=preg_replace('/[^A-Za-z0-9\-]/', ' ', $string);
+    return $string;
+}
 class StudentController extends Controller
 {
     public function Index()
     {
         Session::put('page', 'student');
-        $students = Student::get()->toArray();
+
+        if(Auth::guard('admin')->user()->role==1){
+            $students = Student::where('status', 1)->get()->toArray();
+        }else{
+            $students=Student::whereIn('class_id', explode(",",Auth::guard('admin')->user()->class_id))->where('status', 1)->get()->toArray();
+        }
         $classes = Classes::get()->toArray();
         $grades = Grade::get()->toArray();
         return View('admin.students.index', compact('students', 'classes', 'grades'));
     }
+    public function deleteStudent($id){
+        Student::find($id)->delete();
+        return redirect()->back()->with('success_message', 'Deleted Student Successfully');
+    }
     public function addStudent(Request $request)
     {
-        $grades = Grade::get()->toArray();
+        $grades = Grade::where('status', 1)->get()->toArray();
         // dd($grades[0]['classes']);
-        $classes = Classes::get()->toArray();
+        if(Auth::guard('admin')->user()->role==1){
+            $classes=Classes::where('status', 1)->get()->toArray();
+        }else{
+            $classes = Classes::whereIn('id', explode(",", Auth::guard('admin')->user()->class_id))->where('status', 1)->get()->toArray();
+        }
+        // dd(Student::orderBy('id', 'desc')->first());
         if ($request->isMethod('post')) {
             $data = $request->all();
             // $data['role'] = 0;
+            $data['name']=normalize($data['name']);
             $data['password'] = Hash::make($data['password']);
+            $data['year']=date('Y', strtotime($data['year_admission']));
+
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
+                // dd($image);
                 $reimage = 'imgstudent/' . time() . '.' . $image->getClientOriginalExtension();
                 $dest = public_path('/imgstudent');
                 $image->move($dest, $reimage);
                 $data['image'] = $reimage;
                 Student::create($data);
-                $pre = Student::orderBy('id', 'desc')->limit(1)->first();
-                Student::find($pre->id)->update(['email' => $data['name'] . $pre->id . '@st.vimaru.edu.vn']);
+                $student=Student::orderBy('id', 'desc')->first();
+                $student->update(['student_code'=>($student['year'].str_pad(Student::where('year', $student['year'])->count(),3,'0',STR_PAD_LEFT))]);
+                return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
+            }else{
+
+                Student::create($data);
+                $student=Student::orderBy('id', 'desc')->first();
+                $student->update(['student_code'=>($student['year'].str_pad(Student::where('year', $student['year'])->count(),3,'0',STR_PAD_LEFT))]);
+                // Student::find()
                 return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
             }
         }
@@ -48,8 +84,12 @@ class StudentController extends Controller
     {
         $student = Student::find($id);
         // dd($teacher);
-        $classes = Classes::get()->toArray();
-        $grades = Grade::get()->toArray();
+        if(Auth::guard('admin')->user()->role==1){
+            $classes=Classes::where('status', 1)->get()->toArray();
+        }else{
+            $classes = Classes::whereIn('id', explode(",", Auth::guard('admin')->user()->class_id))->where('status', 1)->get()->toArray();
+        }
+        $grades = Grade::where('status', 1)->get()->toArray();
         // foreach($grades as $grade){
         //     $gradeids[]=$grade['id'];
         // }
@@ -60,8 +100,14 @@ class StudentController extends Controller
         if ($request->isMethod('POST')) {
             $data = $request->all();
             // $data['role']=0;
-            $data['email'] = $data['name'] . $id . '@st.vimaru.edu.vn';
-            $data['password'] = $student['password'];
+            $data['name']=normalize($data['name']);
+            $data['password'] = Hash::make($data['password']);
+            $data['year']=date('Y', strtotime($data['year_admission']));
+            if($student['year']!=$data['year']){
+                $data['student_code']=$student['year'].str_pad(Student::where('year', $student['year'])->count(),3,'0',STR_PAD_LEFT);
+            }
+            // $data['email'] = date('Y', strtotime($data['year_admission'])) . $id . '@com';
+            // $data['password'] = $student['password'];
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $reimage = 'imgstudent/' . time() . '.' . $image->getClientOriginalExtension();
@@ -109,11 +155,32 @@ class StudentController extends Controller
                 $data=$request->all();
                 // dd($data);
                 // print_r($data);
-                $getgrades=Grade::with('class')->where('id', $data['grade_id'])->first()->toArray();
+                if(Auth::guard('admin')->user()->role==1){
+                    $getgrades=Classes::where('grade_id', $data['grade_id'])->get()->toArray();
+                }else{
+                    $getgrades=Classes::where('grade_id', $data['grade_id'])->whereIn('id', explode(",", Auth::guard('admin')->user()->class_id))->get()->toArray();
+                }
+                // dd($getgrades);
                 return response()->json(['getgrades'=>$getgrades]);
             }
         }
         // dd($getgrades);
         // return View('admin.students.append_classes', compact('getgrades'));
+    }
+    public function ImportFileStudent(Request $request){
+        if($request->isMethod('post')){
+            // $request->validate(
+            //     [
+            //         'file'=>'required|mimes:xls, xlsx',
+            //     ]
+            // );
+
+            Excel::import(new StudentImport,request()->file('file'));
+            return redirect('/admin/students')->with('success_message', 'Created Students Successfully');
+        }
+        return View('admin.students.add_file_student');
+    }
+    public function ExportFileStudent(Request $request){
+        return Excel::download(new StudentExport, 'students.xlsx');
     }
 }

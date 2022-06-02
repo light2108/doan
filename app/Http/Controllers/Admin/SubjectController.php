@@ -12,8 +12,8 @@ class SubjectController extends Controller
 {
     public function Index(){
         Session::put('page', 'subject');
-        $subjects=Subject::get()->toArray();
-        $grades = Grade::get()->toArray();
+        $subjects=Subject::where('status', 1)->get()->toArray();
+        $grades = Grade::where('status', 1)->get()->toArray();
         return View('admin.subjects.index', compact('subjects', 'grades'));
     }
     public function Add(Request $request){

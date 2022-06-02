@@ -26,17 +26,13 @@
                     <div class="profile-sidebar">
                         <div class="user-widget">
                             {{-- <div class="pro-avatar"> --}}
-                            <img src="{{ $student['image'] }}" class="pro-avatar">
+                            <img src="{{ $student['image'] }}" id="output" class="pro-avatar">
                             {{-- </div> --}}
 
                             <div class="user-info-cont">
                                 <h4 class="usr-name">{{ $student['name'] }}</h4>
                                 <p class="mentor-type">
-                                    @foreach ($classes as $class)
-                                        @if ($class['id'] == $student['class_id'])
-                                            {{ $class['name'] }}
-                                        @endif
-                                    @endforeach
+                                    Student Code:{{ $student['student_code'] }}
                                 </p>
                             </div>
                         </div>
@@ -80,26 +76,40 @@
                                         <div class="form-group">
                                             <label>Name</label>
                                             <input type="text" class="form-control" name="name"
-                                                value="{{ $student['name'] }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="email" class="form-control" name='email'
-                                                value="{{ $student['email'] }}" readonly="">
+                                                value="{{ $student['name'] }}" readonly="">
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-6">
                                         <div class="form-group">
                                             <label>Mobile</label>
-                                            <input type="number" value="{{$student['mobile']}}" class="form-control" name="mobile">
+                                            <input type="number" value="{{ $student['mobile'] }}" class="form-control"
+                                                name="mobile">
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Change password</label>
-                                            <input type="password" class="form-control" name="password">
+                                            <label>Image</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" name="image"
+                                                        id="exampleInputFile" onchange="loadfile(event)">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Old password</label>
+                                            <input type="password" class="form-control" id="current_password" name="old_password">
+                                            <span id="chkpwd"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>New password</label>
+                                            <input type="password" class="form-control" name="new_password">
                                         </div>
                                     </div>
                                 </div>

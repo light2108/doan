@@ -14,9 +14,9 @@ class ClassController extends Controller
     public function Index()
     {
         Session::put('page', 'class');
-        $grades = Grade::get()->toArray();
-        $teachers = Admin::where('role', 0)->get()->toArray();
-        $classes = Classes::get()->toArray();
+        $grades = Grade::where('status', 1)->get()->toArray();
+        $teachers = Admin::where('role', 0)->orWhere('role', -1)->where('status', 1)->get()->toArray();
+        $classes = Classes::where('status', 1)->get()->toArray();
         // dd($classes);
         // dd($teachers);
 

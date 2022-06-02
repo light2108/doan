@@ -1,6 +1,6 @@
 @extends('layouts.admin.admin_dashboard')
 @section('content')
-
+    <?php use App\Models\Question; ?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -36,16 +36,63 @@
                             <div class="card-header">
                                 <h3 class="card-title">Questions</h3>
                                 <div style="float:right">
+                                    <a role="button" href="javascript:void(0)" data-toggle="modal"
+                                        data-target="#exampleModalrandom" class="btn btn-success random-question">Add
+                                        Random
+                                        Questions</a>
+                                    <a role="button"
+                                        href="{{ url('/admin/units/subject/' . Auth::guard('admin')->user()->subject_id . '/grade/' . $grade_id.'/exam/'.$id) }}"
+                                        class="btn btn-success">Choose
+                                        Questions</a>
                                     <a role="button" class="btn btn-success delete-all"
                                         href="{{ url('admin/delete-all/questions-exam') }}" record="questions-exam">Delete
                                         All</a>
-                                    <a role="button" href="{{ route('admin.add-question.grade.exam', ['grade_id'=>$grade_id, 'id'=>$id]) }}"
+                                    <a role="button"
+                                        href="{{ route('admin.add-question.grade.exam', ['grade_id' => $grade_id, 'id' => $id]) }}"
                                         class="btn btn-success">Add
                                         Question</a>
 
                                 </div>
                             </div>
+                            <div class="modal fade" id="exampleModalrandom" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Add Random Question
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
 
+                                        <div class="modal-body">
+                                            <form method="post" action="{{ url('/admin/random-question') }}">
+                                                @csrf
+                                                <input type="hidden" name="exam_id" value="{{ $id }}">
+                                                @foreach ($units as $unit)
+                                                    <div class="form-group">
+                                                        <label for="message-text"
+                                                            class="col-form-label">{{ $unit['name'] }}</label>
+                                                        <input type="hidden" name="unit_id[]" value="{{ $unit['id'] }}">
+                                                        <input class="form-control"
+                                                            placeholder="Total of question {{ count(Question::where('unit_id', $unit['id'])->get()) }}"
+                                                            type="number" name="number[]">
+                                                    </div>
+                                                @endforeach
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="questions-exam" class="table table-bordered table-striped">
@@ -64,7 +111,7 @@
                                         <input type="hidden" value="{{ $k = 1 }}">
 
                                         @foreach ($questions as $i => $question)
-                                            @if (in_array($id, explode(",",$question['select_id']))||$id==$question['exam_id'])
+                                            @if (in_array($id, explode(',', $question['select_id'])) || $id == $question['exam_id'])
                                                 <tr>
                                                     <th><input type="checkbox" class="sub_ck"
                                                             data-id={{ $question['id'] }}></th>
@@ -87,19 +134,16 @@
                                                         @endif
                                                     </td>
                                                     <td style="font-size: 20px">
-                                                        <a title="View Answer of Question Exam" style="font-size: 20px"
-                                                            href="{{route('admin.question.exam.answer', ['question_id'=>$question['id'], 'exam_id'=>$id])}}"><i
-                                                                class="fas fa-eye"></i></a>
-                                                        &nbsp;
-                                                        &nbsp;
+
                                                         <a title="Edit Question" role="button"
-                                                            href="{{ route('admin.edit-question.grade.exam', ['question_id' => $question['id'],'grade_id'=>$question['grade_id'], 'id' => $id]) }}"><i
+                                                            href="{{ route('admin.edit-question.grade.exam', ['question_id' => $question['id'], 'grade_id' => $question['grade_id'], 'id' => $id]) }}"><i
                                                                 class="fas fa-edit" style="color: green"></i></a>
                                                         &nbsp;
                                                         &nbsp;
                                                         <a title="Delete Question" href="javascript:void(0)"
                                                             record='question' recordid={{ $question['id'] }}
-                                                            class="updatequestion" gradeid={{$question['grade_id']}} examid={{$id}} ><i class="fa fa-trash-alt"
+                                                            class="updatequestion" gradeid={{ $question['grade_id'] }}
+                                                            examid={{ $id }}><i class="fa fa-trash-alt"
                                                                 style="color: red"></i></a>
                                                     </td>
                                                 </tr>

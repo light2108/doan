@@ -40,8 +40,8 @@
                         <form action="{{url('/')}}" method="post">
                             @csrf
                             <div class="form-group">
-                                <label class="form-control-label">Email Address</label>
-                                <input type="email" name="email" class="form-control">
+                                <label class="form-control-label">Code Student</label>
+                                <input type="text" name="student_code" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">Password</label>
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="text-end">
-                                <a class="forgot-link" href="forgot-password">Forgot Password ?</a>
+                                <a class="forgot-link" href="{{url('/admin/forgot-password')}}">Forgot Password ?</a>
                             </div>
                             <button class="btn btn-primary login-btn" type="submit">Login</button>
 
