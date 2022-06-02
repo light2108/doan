@@ -9,6 +9,7 @@
 
     <base href="{{ asset('') }}" />
 
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -76,6 +77,7 @@
         <!-- /.navbar -->
         @include('layouts.admin.admin_sidebar')
         <!-- Main Sidebar Container -->
+
 
 
         <!-- Content Wrapper. Contains page content -->
@@ -181,7 +183,7 @@
     <script src="backend/plugins/dropzone/min/dropzone.min.js"></script>
     <!-- AdminLTE App -->
     <script src="backend/dist/js/adminlte.min.js"></script>
-
+    <script src="backend/ckeditor5-build-classic/ckeditor.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script>
         $(function() {

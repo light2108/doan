@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class AnswerExamController extends Controller
 {
     public function Index(Request $request, $question_id, $exam_id){
-        $answers=Answer::where('question_id', $question_id)->get()->toArray();
+        $answers=Answer::where('question_id', $question_id)->where('status', 1)->get()->toArray();
         return View('admin.questionexam.index_answer', compact('question_id', 'exam_id', 'answers'));
     }
     public function addAnswer(Request $request, $question_id, $exam_id){

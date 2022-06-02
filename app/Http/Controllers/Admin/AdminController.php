@@ -27,7 +27,7 @@ class AdminController extends Controller
         return View('admin.login');
     }
     public function Index(){
-        $admin=Admin::where('id', Auth::guard('admin')->user()->id)->first()->toArray();
+        $admin=Admin::where('id', Auth::guard('admin')->user()->id)->where('status', 1)->first()->toArray();
         // dd($admin['name']);
         Session::put('page', 'admin_setting');
         Session::put('name', $admin['name']);
@@ -42,7 +42,7 @@ class AdminController extends Controller
     }
     public function changeDetail(Request $request){
         Session::put('page', 'admin_detail');
-        $admindetails=Admin::where('id', Auth::guard('admin')->user()->id)->first();
+        $admindetails=Admin::where('id', Auth::guard('admin')->user()->id)->where('status', 1)->first();
         if($request->isMethod('post')){
             $data=$request->all();
             if ($request->hasFile('image')) {
@@ -62,7 +62,7 @@ class AdminController extends Controller
     }
     public function changePassword(Request $request){
         Session::put('page', 'admin_password');
-        $admindetails=Admin::where('id', Auth::guard('admin')->user()->id)->first();
+        $admindetails=Admin::where('id', Auth::guard('admin')->user()->id)->where('status', 1)->first();
         if($request->isMethod('post')){
             $data=$request->all();
             if(Hash::check($data['current_password'], Auth::guard('admin')->user()->password)){
@@ -97,7 +97,7 @@ class AdminController extends Controller
     public function forgotPassword(Request $request){
         if($request->isMethod('post')){
             $data=$request->all();
-            $user=Admin::where('role', 0)->orWhere('role', -1)->where('email', $data['email'])->first();
+            $user=Admin::where('role', 0)->orWhere('role', -1)->where('email', $data['email'])->where('status', 1)->first();
             if(empty($user)){
                 return redirect()->back()->with('error_message', 'Email not exists');
             }else{

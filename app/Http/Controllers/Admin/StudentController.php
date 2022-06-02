@@ -29,9 +29,9 @@ class StudentController extends Controller
         Session::put('page', 'student');
 
         if(Auth::guard('admin')->user()->role==1){
-            $students = Student::get()->toArray();
+            $students = Student::where('status', 1)->get()->toArray();
         }else{
-            $students=Student::whereIn('class_id', explode(",",Auth::guard('admin')->user()->class_id))->get()->toArray();
+            $students=Student::whereIn('class_id', explode(",",Auth::guard('admin')->user()->class_id))->where('status', 1)->get()->toArray();
         }
         $classes = Classes::get()->toArray();
         $grades = Grade::get()->toArray();
@@ -43,12 +43,12 @@ class StudentController extends Controller
     }
     public function addStudent(Request $request)
     {
-        $grades = Grade::get()->toArray();
+        $grades = Grade::where('status', 1)->get()->toArray();
         // dd($grades[0]['classes']);
         if(Auth::guard('admin')->user()->role==1){
-            $classes=Classes::get()->toArray();
+            $classes=Classes::where('status', 1)->get()->toArray();
         }else{
-            $classes = Classes::whereIn('id', explode(",", Auth::guard('admin')->user()->class_id))->get()->toArray();
+            $classes = Classes::whereIn('id', explode(",", Auth::guard('admin')->user()->class_id))->where('status', 1)->get()->toArray();
         }
         // dd(Student::orderBy('id', 'desc')->first());
         if ($request->isMethod('post')) {
@@ -85,11 +85,11 @@ class StudentController extends Controller
         $student = Student::find($id);
         // dd($teacher);
         if(Auth::guard('admin')->user()->role==1){
-            $classes=Classes::get()->toArray();
+            $classes=Classes::where('status', 1)->get()->toArray();
         }else{
-            $classes = Classes::whereIn('id', explode(",", Auth::guard('admin')->user()->class_id))->get()->toArray();
+            $classes = Classes::whereIn('id', explode(",", Auth::guard('admin')->user()->class_id))->where('status', 1)->get()->toArray();
         }
-        $grades = Grade::get()->toArray();
+        $grades = Grade::where('status', 1)->get()->toArray();
         // foreach($grades as $grade){
         //     $gradeids[]=$grade['id'];
         // }

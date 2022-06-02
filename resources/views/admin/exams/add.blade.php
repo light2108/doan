@@ -133,14 +133,19 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Multiple</label>
-                                            <input type="checkbox" name="multiple" value="1">
+                                            <select class="form-control" name="multiple" required>
+                                                @for($i=1; $i<=10; ++$i)
+                                                    <option value="{{$i}}">{{$i}}</option>
+                                                @endfor
+                                                <option value="0">Unlimited</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Status</label>
+                                            <label for="exampleInputEmail1">Status</label><br>
                                             <input type="radio" name="status" value="1" checked>Active
                                             <input type="radio" name="status" value="0">Inactive
                                         </div>

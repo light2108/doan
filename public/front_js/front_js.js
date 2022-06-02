@@ -68,42 +68,7 @@ $(document).ready(function(){
             },
         });
     });
-    $('.finish-exam').click(function(){
-        var exam_id=$(this).attr('exam-id');
-        var subject_id=$(this).attr('subject-id');
-        allanswers=[];
-        $('.sub_answer:checked').each(function(){
-            allanswers.push($(this).attr('answer-id'));
-        });
-        Swal.fire({
-            title: "Are you sure submit exam?",
-            text: "You won't be able to return this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, submit exam!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var all=allanswers.join(",");
-                $.ajax({
-                    url:'/check-result-answer',
-                    type:'POST',
-                    data:{
-                        answer_ids:all,
-                        exam_id:exam_id,
-                        subject_id:subject_id
-                    },success:function(resp){
-                        if(resp['status']==true){
-                            window.location.href="/result/exam/"+exam_id;
-                        }
-                    },error:function(err){
-                        alert('ERROR');
-                    }
-                })
-            }
-        });
-    });
+
     $('.visit-to-question').click(function(){
         var question_id=$(this).attr('question-id');
         // alert(question_id);

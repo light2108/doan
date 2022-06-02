@@ -138,7 +138,7 @@ $results=Result::get()->toArray();
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>{{count($results)}}</h3>
+                                <h3>{{(Result::checkdate())}}</h3>
 
                                 <p>Results</p>
                             </div>

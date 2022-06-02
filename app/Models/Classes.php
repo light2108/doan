@@ -21,7 +21,7 @@ class Classes extends Model
     public function exam(){
         return $this->hasMany('App\Models\Exam', 'class_id', 'id');
     }
-    public function classes(){
+    public static function classes(){
         $classes=Classes::get()->toArray();
         return $classes;
     }

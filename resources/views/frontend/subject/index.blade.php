@@ -3,6 +3,7 @@
 @section('content')
 <?php
 use Carbon\Carbon;
+use App\Models\Result;
 ?>
     <div class="breadcrumb-bar">
         <div class="container-fluid">
@@ -34,6 +35,7 @@ use Carbon\Carbon;
                                             <tr>
                                                 <th>TEACHER</th>
                                                 <th>NAME</th>
+                                                <th>TIME</th>
                                                 <th>START DATE</th>
                                                 <th>END DATE</th>
                                                 <th>ACTION</th>
@@ -54,6 +56,7 @@ use Carbon\Carbon;
                                                             </h2>
                                                         </td>
                                                         <td>{{ $subject_exam['name'] }}</td>
+                                                        <td>{{$subject_exam['time']}}</td>
                                                         <td><span class="pending">{{ $subject_exam['start_time'] }}</span>
                                                         </td>
                                                         <td><span class="pending">{{ $subject_exam['end_time'] }}</span>
@@ -69,7 +72,7 @@ use Carbon\Carbon;
                                                                     Enter Exam</a>
                                                         </td>
                                                     @else
-                                                        <a @if(date('Y-m-d H:i:s', strtotime($subject_exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now()))||$subject_exam['multiple']==0&&Result::where('exam_id', $subject_exam['id'])->count()>0) href="{{url('/result/exam/'.$subject_exam['id'])}}" @else href="{{ url('/exam/' . $subject_exam['id'] . '/subject/' . $subject_exam['subject_id'] . '/grade/' . $subject_exam['grade_id']) }}"
+                                                        <a @if(date('Y-m-d H:i:s', strtotime($subject_exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now()))||$subject_exam['multiple']!=0&&Result::where('exam_id', $subject_exam['id'])->count()>0) href="{{url('/result/exam/'.$subject_exam['id'])}}" @else href="{{ url('/exam/' . $subject_exam['id'] . '/subject/' . $subject_exam['subject_id'] . '/grade/' . $subject_exam['grade_id']) }}"
                                                            @endif data-exam={{ $subject_exam['id'] }}
                                                             data-subject={{ $subject_exam['subject_id'] }}
                                                             data-grade={{ $subject_exam['grade_id'] }}

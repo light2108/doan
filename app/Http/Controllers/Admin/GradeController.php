@@ -12,7 +12,7 @@ class GradeController extends Controller
     public function Index()
     {
         Session::put('page', 'grade');
-        $grades = Grade::get()->toArray();
+        $grades = Grade::where('status', 1)->get()->toArray();
         return View('admin.grades.index', compact('grades'));
     }
     public function AddGrade(Request $request)
@@ -33,7 +33,7 @@ class GradeController extends Controller
     }
     public function DeleteAll(Request $request)
     {
-        
+
         // dd($data);
         if ($request->ajax()) {
             $data = $request->all();
@@ -41,7 +41,7 @@ class GradeController extends Controller
             // print_r($data);
             Grade::whereIn('id', explode(",", $data['ids']))->delete();
             return response()->json(['status' => true]);
-            
+
         }
         return redirect()->back()->with('success_message', 'Deleted Grades Successfully');
     }

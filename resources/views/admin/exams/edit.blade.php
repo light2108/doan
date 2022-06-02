@@ -142,14 +142,30 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Multiple</label>
-                                            <input type="checkbox" name="multiple" @if($exam['multiple']==1) value="1" checked @else value="0" @endif>
+                                            <select class="form-control" name="multiple" required>
+                                                @if($exam['multiple']==0)
+                                                    <option value="0" selected>Unlimited</option>
+                                                    @for($i=1; $i<=10; ++$i)
+                                                        <option value="{{$i}}">{{$i}}</option>
+                                                    @endfor
+                                                @else
+                                                    @for($i=1; $i<=10; ++$i)
+                                                        @if($exam['multiple']==$i)
+                                                            <option value="{{$i}}" selected>{{$i}}</option>
+                                                        @else
+                                                            <option value="{{$i}}">{{$i}}</option>
+                                                        @endif
+                                                    @endfor
+                                                    <option value="0">Unlimited</option>
+                                                @endif
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Status</label>
+                                            <label for="exampleInputEmail1">Status</label><br>
                                             @if($exam['status'] == 1)
                                             <input type="radio" name="status" value="1" checked>Active
                                             <input type="radio" name="status" value="0">Inactive
