@@ -11,7 +11,7 @@ Session::start();
 
                     <div class="card booking-card">
                         <div class="card-header">
-                            <h4 class="card-title">Câu hỏi</h4>
+                            <h4 class="card-title">Câu hỏi </h4>
                         </div>
                         <div class="card-body">
                             <div class="row pagination">
