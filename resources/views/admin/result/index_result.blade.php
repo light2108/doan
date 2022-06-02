@@ -35,6 +35,10 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Result Exam</h3>
+                                <div style="float:right">
+                                    <a role="button" class="btn btn-success" href="{{url('/admin/export-file-result')}}">Export File Result</a>
+
+                                </div>
                             </div>
 
                             <!-- /.card-header -->
@@ -54,6 +58,7 @@
                                     <tbody>
                                         <input type="hidden" value="{{ $k = 1 }}">
                                         @foreach ($results as $i => $result)
+
                                             <tr>
                                                 <th><input type="checkbox" class="sub_ck" data-id={{ $result['id'] }}>
                                                 </th>
@@ -74,14 +79,10 @@
                                                 </td>
 
                                                 <td>
-                                                    @foreach ($classes as $class)
-                                                        @if($result['class_id']==$class['id'])
-                                                            {{$class['name'] }}
-                                                        @endif
-                                                    @endforeach
+                                                    {{$classes['name']}}
                                                 </td>
                                                 <td>
-                                                    {{$result['score']}}
+                                                    {{max(explode(",",$result['score']))}}
                                                 </td>
                                             </tr>
                                         @endforeach

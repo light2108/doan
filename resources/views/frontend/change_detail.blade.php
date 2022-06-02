@@ -11,6 +11,14 @@
                         </ol>
                     </nav>
                     <h2 class="breadcrumb-title">Profile Settings</h2>
+                    @if (Session::has('success_message'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ Session::get('success_message') }}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                 </div>
             </div>
         </div>
@@ -69,7 +77,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <form action={{ url('/change-detail') }} method="post">
+                            <form action={{ url('/change-detail') }} method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-6 col-md-6">
