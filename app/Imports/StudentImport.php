@@ -35,12 +35,20 @@ class StudentImport implements ToModel, WithHeadingRow
         $image='imgstudent/' . time() . '.' . $info['basename'];
         $grade_id = Classes::where('name', '=', $row['class'])->first()->grade_id;
         $class_id = Classes::where('name', '=', $row['class'])->first()->id;
+        // $student=Student::orderBy('id', 'desc')->first();
+        // dd($student_last);
+        if(empty(Student::where('year', date('Y', strtotime(Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['year_admission'])))))->orderBy('id', 'desc')->first()->student_code)){
+            $student_code=date('Y', strtotime(Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['year_admission'])))).'001';
+        }
+        else{
+            $student_code=Student::where('year', date('Y', strtotime(Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['year_admission'])))))->orderBy('id', 'desc')->first()->student_code+1;
+        }
         return new Student([
             'name' => normalize($row['name']),
             'password' => Hash::make(1),
             'mobile' => $row['mobile'],
             'grade_id' => $grade_id,
-            'student_code' => (date('Y', strtotime(Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['year_admission'])))) . str_pad(Student::where('year', date('Y', strtotime(Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['year_admission'])))))->count() + 1, 3, '0', STR_PAD_LEFT)),
+            'student_code' =>$student_code,
             'image' => $image,
             'class_id' => $class_id,
             'year_admission' => date('Y-m-d', strtotime(Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['year_admission'])))),

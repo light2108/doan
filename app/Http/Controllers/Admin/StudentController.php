@@ -67,15 +67,32 @@ class StudentController extends Controller
                 $data['image'] = $reimage;
                 Student::create($data);
                 $student=Student::orderBy('id', 'desc')->first();
-                $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->first()->student_code;
-                $student->update(['student_code'=>($student['year'].str_pad($student_last+1,3,'0',STR_PAD_LEFT))]);
+                // dd($student['year']);
+
+                // dd($student_last);
+                if(empty(Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code)){
+                    $student->update(['student_code'=>$student['year'].'001']);
+                }
+                else{
+                    $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code;
+                    $student->update(['student_code'=>($student_last+1)]);
+                }
+
                 return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
             }else{
 
                 Student::create($data);
                 $student=Student::orderBy('id', 'desc')->first();
-                $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->first()->student_code;
-                $student->update(['student_code'=>($student['year'].str_pad($student_last+1,3,'0',STR_PAD_LEFT))]);
+                // dd($student['year']);
+
+                // dd($student_last);
+                if(empty(Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code)){
+                    $student->update(['student_code'=>$student['year'].'001']);
+                }
+                else{
+                    $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code;
+                    $student->update(['student_code'=>($student_last+1)]);
+                }
                 // Student::find()
                 return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
             }
@@ -106,7 +123,14 @@ class StudentController extends Controller
             $data['password'] = Hash::make($data['password']);
             $data['year']=date('Y', strtotime($data['year_admission']));
             if($student['year']!=$data['year']){
-                $data['student_code']=$student['year'].str_pad(Student::where('year', $student['year'])->count(),3,'0',STR_PAD_LEFT);
+
+                if(empty(Student::where('year', $data['year'])->orderBy('id', 'desc')->first()->student_code)){
+                    $student['student_code']=$data['year'].'001';
+                }
+                else{
+                    $student_last=Student::where('year', $data['year'])->orderBy('id', 'desc')->first()->student_code;
+                    $student['student_code']=$student_last+1;
+                }
             }
             // $data['email'] = date('Y', strtotime($data['year_admission'])) . $id . '@com';
             // $data['password'] = $student['password'];
