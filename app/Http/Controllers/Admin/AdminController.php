@@ -42,6 +42,7 @@ class AdminController extends Controller
     }
     public function changeDetail(Request $request){
         Session::put('page', 'admin_detail');
+
         $admindetails=Admin::where('id', Auth::guard('admin')->user()->id)->where('status', 1)->first();
         if($request->isMethod('post')){
             $data=$request->all();
@@ -62,6 +63,7 @@ class AdminController extends Controller
     }
     public function changePassword(Request $request){
         Session::put('page', 'admin_password');
+        // dd(Hash::make(1));
         $admindetails=Admin::where('id', Auth::guard('admin')->user()->id)->where('status', 1)->first();
         // dd($admindetails[0]);
         if($request->isMethod('post')){

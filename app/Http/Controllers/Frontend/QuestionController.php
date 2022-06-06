@@ -62,12 +62,11 @@ class QuestionController extends Controller
 
         if ($request->ajax()) {
             $data = $request->all();
-            // dd($data['answer_ids']);
             $count_questions = 0;
             // $count_questions=Question::where('exam_id', $data['exam_id'])->with('answer')->count();
             foreach (Session::get('questions_answers') as $question) {
                 if ($question['exam_id'] == $data['exam_id'] || in_array($data['exam_id'], explode(",", $question['select_id']))) {
-                    $count_questions += 1;
+                    $count_questions += 1;//14
                 }
             }
 
@@ -97,9 +96,11 @@ class QuestionController extends Controller
                 Result::create(['exam_id' => $data['exam_id'], 'student_id' => Auth::guard('student')->user()->id, 'class_id' => Auth::guard('student')->user()->class_id, 'subject_id' => $data['subject_id'], 'score' => $score, 'time'=>Carbon::now()->toDateTimeString()]);
             }
             $result_id=Result::where('exam_id', $data['exam_id'])->where('student_id', Auth::guard('student')->user()->id)->orderBy('id', 'desc')->first()->id;
-            for($i=1; $i<=$count_questions; $i++) {
-                $t=$i;
-                --$t;
+            $t=0;
+            for($i=1; $i<=count(explode(",", $data['key'])); $i++) {
+
+
+                // dd($t);
                 $answer=Answer::find(explode(",", $data['answer_ids'])[$t]);
                 if(in_array($i, explode(",", $data['key']))){
                     if($answer['correct_answer']==1){
@@ -114,6 +115,7 @@ class QuestionController extends Controller
                 }else{
                     Result_Answer_Exam::create(['result_id'=>$result_id, 'score_answer'=>0]);
                 }
+                $t++;
             }
             // foreach(Result::where('exam_id', $data['exam_id'])->where('student_id', Auth::guard('admin')))
             return response()->json(['status' => true]);
