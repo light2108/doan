@@ -36,8 +36,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">Result Exam</h3>
                                 <div style="float:right">
-                                    <a role="button" class="btn btn-success" href="{{url('/admin/export-file-result')}}">Export File Result</a>
-
+                                    <a role="button" class="btn btn-success" href="{{url('/admin/export-file-result-briefly')}}">Export File Result Briefly</a>
+                                    <a role="button" class="btn btn-success" href="{{url('/admin/export-file-result-full')}}">Export File Result Full</a>
                                 </div>
                             </div>
 

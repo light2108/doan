@@ -67,13 +67,15 @@ class StudentController extends Controller
                 $data['image'] = $reimage;
                 Student::create($data);
                 $student=Student::orderBy('id', 'desc')->first();
-                $student->update(['student_code'=>($student['year'].str_pad(Student::where('year', $student['year'])->count(),3,'0',STR_PAD_LEFT))]);
+                $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->first()->student_code;
+                $student->update(['student_code'=>($student['year'].str_pad($student_last+1,3,'0',STR_PAD_LEFT))]);
                 return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
             }else{
 
                 Student::create($data);
                 $student=Student::orderBy('id', 'desc')->first();
-                $student->update(['student_code'=>($student['year'].str_pad(Student::where('year', $student['year'])->count(),3,'0',STR_PAD_LEFT))]);
+                $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->first()->student_code;
+                $student->update(['student_code'=>($student['year'].str_pad($student_last+1,3,'0',STR_PAD_LEFT))]);
                 // Student::find()
                 return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
             }

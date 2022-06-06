@@ -193,6 +193,7 @@ $(document).ready(function () {
                     $("#chkpwd").html(
                         "<font color=red>Current Password is incorrect</font>"
                     );
+                    //html, append, preappend, text
                 } else {
                     $("#chkpwd").html(
                         "<font color=green>Current Password is correct</font>"

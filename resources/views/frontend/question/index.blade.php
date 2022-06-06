@@ -34,13 +34,14 @@
                         </div>
                         <div class="card-footer">
                             <div class="pagination row">
-                                <div class="col-8 checktime">
+                                <div class="col-6 checktime">
                                     <p id="countdown" class="timer" exam-id="{{ $exam_id }}"
                                         time="{{ $exam['time'] }}"></p>
                                 </div>
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-primary finish-exam"
-                                        subject-id={{ $subject_id }} exam-id={{ $exam_id }}>Submit</button>
+                                <div class="col-6">
+                                    {{-- <button type="submit" class="btn btn-primary finish-exam"
+                                        subject-id={{ $subject_id }} exam-id={{ $exam_id }}>Submit</button> --}}
+                                    <a href="{{url('/exam-list-question/'.$exam_id.'/subject/'.$subject_id.'/grade/'.$grade_id)}}" style="color:orange">Finish Exam...</a>
                                 </div>
                             </div>
 
@@ -93,7 +94,7 @@
                                         </audio><br><br>
                                     @endif
                                     Select one:
-                                    @foreach ($question_answer['answer']->shuffle() as $answer)
+                                    @foreach ($question_answer['answer'] as $answer)
                                         <h5><input type="radio" value="{{ $answer['id'] }}" class="sub_answer"
                                                 name="{{ $question_answer['id'] }}" id="answer-{{ $answer['id'] }}"
                                                 question-id="{{ $question_answer['id'] }}"
@@ -123,21 +124,14 @@
         $('#question_answer').DataTable();
     </script> --}}
     <script>
-        var exam_id=$('#data').attr('exam_id');
-        var subject_id=$('#data').attr('subject_id');
-        var grade_id=$('#data').attr('grade_id');
-        if(sessionStorage.getItem('questions_answers')){
-            var questions_answers=$('#data').attr('questions_answers');
-        }else{
-            sessionStorage.setItem('questions_answers', (questions_answers));
-            // setCookie('questions_answers', localStorage.getItem('questions_answers'));
-        }
+
+
         // setcookie('questions_answers', $questions_answers, time()+60*60*24*365, '/exam/'+exam_id+'/subject/'+subject_id+'/grade/'+grade_id);
         var current_page=$('#example').attr('current-page');
         // var number_questions=$('#example').attr('number-questions');
         var last_page=$('#example').attr('last-page');
         // alert(last_page);
-
+        localStorage.setItem('last_page', last_page);
 
         // alert(data);
         // alert(stt_page);
@@ -149,10 +143,10 @@
                 //
             });
             // alert(alleds);
-            localStorage.setItem("option-"+current_page,JSON.stringify(alleds));
+            localStorage.setItem("answer_id-"+current_page,JSON.stringify(alleds));
 
         });
-        var itemValue = JSON.parse(localStorage.getItem("option-"+current_page));
+        var itemValue = JSON.parse(localStorage.getItem("answer_id-"+current_page));
         // alert(itemValue);
         if (itemValue !== null) {
             itemValue.forEach((element) => {
@@ -160,6 +154,91 @@
                 $('#answer-' + element).prop('checked', true);
             })
         }
+<<<<<<< HEAD
+        var all_answers=[];
+        var all_questions=[];
+        var all_keys=[];
+        for (var i = 1; i <=last_page; i++) {
+            all_answers.push(localStorage.getItem('answer_id-'+i));
+            all_questions.push(localStorage.getItem('question_id-'+i));
+            all_keys.push(localStorage.getItem('key-'+i));
+        }
+
+    // alert(JSON.parse(all_answers[0]));
+        var xxx=[];
+        var yyy=[];
+        var zzz=[];
+        for(var i=0; i<all_answers.length; i++) {
+            var t=JSON.parse(all_answers[i]);
+            var k=JSON.parse(all_questions[i]);
+            var j=JSON.parse(all_keys[i]);
+            if (t !== null) {
+            t.forEach((element)=>{
+                xxx.push(element);
+            });
+        }
+            if (k !== null) {
+            k.forEach((element)=>{
+                yyy.push(element);
+            });
+        }
+            if (j !== null) {
+            j.forEach((element)=>{
+                zzz.push(element);
+            });
+        }
+        }
+        // alert(xxx);
+        //localStorage:
+        $('.sub_answer').click(function() {
+            var alleds = [];
+            var keys = [];
+            $('.sub_answer:checked').each(function() {
+                alleds.push($(this).attr('question-id'));
+                keys.push($('#check-selected-question-' + $(this).attr('question-id')).attr('key-id'));
+            });
+            var question_id = $(this).attr('question-id');
+            // alert(question_id);
+            var key = $('#check-selected-question-' + question_id).attr('key-id');
+            // alert(key)
+            localStorage.setItem('question_id-'+current_page, JSON.stringify(alleds));
+            localStorage.setItem('key-'+current_page, JSON.stringify(keys));
+            $('#check-selected-question-' + question_id).html(
+                '<a role="button" class="btn btn-primary visit-to-question" style="width:50px" question-id="' +
+                question_id + '" href="javascript:void(0)">' + key + '</a>'
+            );
+
+        });
+        var itemQuestion = JSON.parse(localStorage.getItem("question_id-"+current_page));
+
+        var itemKey = JSON.parse(localStorage.getItem("key-"+current_page));
+        if (itemQuestion !== null) {
+            itemQuestion.forEach((element, index) => {
+                // console.log(element);
+                $('#check-selected-question-' + element).html(
+                    '<a role="button" class="btn btn-primary visit-to-question" style="width:50px" question-id="' +
+                    element + '" href="javascript:void(0)">' + itemKey[index] + '</a>'
+                );
+            })
+        }
+        if (yyy !== null) {
+            yyy.forEach((element, index) => {
+                // console.log(element);
+                $('#check-selected-question-' + element).html(
+                    '<a role="button" class="btn btn-primary visit-to-question" style="width:50px" question-id="' +
+                    element + '" href="javascript:void(0)">' + zzz[index] + '</a>'
+                );
+            })
+        }
+        // alert(xxx);
+        if (localStorage.getItem("check")) {
+
+            localStorage.clear();
+            var seconds = 60 * parseInt($('#countdown').attr('time'));
+
+        }
+=======
+>>>>>>> d2cb4eebe108ea0806af8c3d9399f556b32f363e
         if (localStorage.getItem("seconds")) {
             var seconds = localStorage.getItem("seconds");
         } else {
@@ -191,9 +270,9 @@
                 var exam_id = $(this).attr('exam-id');
                 var subject_id = $('.finish-exam').attr('subject-id');
                 // allanswers = [];
-                $('.sub_answer:checked').each(function() {
-                    xxx.push($(this).attr('answer-id'));
-                });
+                // $('.sub_answer:checked').each(function() {
+                //     xxx.push($(this).attr('answer-id'));
+                // });
 
                 var all = xxx.join(",");
                 $.ajax({
@@ -247,55 +326,7 @@
         // localStorage.clear();
 
 
-        $('.finish-exam').click(function(event) {
-            // window.location.reload();
-            var exam_id = $(this).attr('exam-id');
-            var subject_id = $(this).attr('subject-id');
-            // allanswers = [];
-            $('.sub_answer:checked').each(function() {
-                xxx.push($(this).attr('answer-id'));
-            });
-            Swal.fire({
-                title: "Are you sure submit exam?",
-                text: "You won't be able to return this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, submit exam!",
-            }).then((result) => {
-                if (result.isConfirmed) {
 
-                    // delete localStorage.seconds;
-                    // window.localStorage.removeItem('seconds');
-                    // localStorage.removeItem('seconds');
-                    sessionStorage.removeItem('questions_answers');
-                    var all = xxx.join(",");
-                    $.ajax({
-                        url: '/check-result-answer',
-                        type: 'POST',
-                        data: {
-                            answer_ids: all,
-                            exam_id: exam_id,
-                            subject_id: subject_id
-                        },
-                        success: function(resp) {
-                            if (resp['status'] == true) {
-                                window.location.href = "/result/exam/" + exam_id+'/subject/'+subject_id;
-                                // localStorage.clear();
-
-                            }
-                        },
-                        error: function(err) {
-                            alert('ERROR');
-                        }
-                    })
-                    localStorage.clear();
-                    localStorage.setItem('check', 1);
-                }
-            });
-
-        });
         // window.onbeforeunload = function() {
         //     localStorage.clear();
         //     return '';
