@@ -30,7 +30,7 @@
                 <form action="{{url('/admin')}}" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Email">
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name='password' class="form-control" placeholder="Password">
+                        <input type="password" name='password' class="form-control" placeholder="Password" required>
                         {{-- <span class="fas fa-eye toggle-password"></span> --}}
                         <div class="input-group-append">
                             <div class="input-group-text">

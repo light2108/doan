@@ -45,6 +45,24 @@ $(document).ready(function(){
     });
     $('.visit-exam').click(function(){
         localStorage.clear();
+        // var exam_id=$(this).attr('data-exam');
+        // var subject_id=$(this).attr('data-subject');
+        // var grade_id=$(this).attr('data-grade');
+        // var questions_answers=$(this).attr('questions-answers');
+        // // alert(questions_answers);
+        // $.ajax({
+        //     url:'/exam/'+exam_id+'/subject/'+subject_id+'/grade/'+grade_id,
+        //     type:'POST',
+        //     data:{
+        //         exam_id
+        //     },
+        //     success: function(resp){
+        //         window.location.href="/exam/"+exam_id+'/subject/'+subject_id+'/grade/'+grade_id;
+        //         // $('#change-appearance').html(resp['view']);
+        //     },error:function(err){
+        //         alert('Error');
+        //     }
+        // })
     })
     $("#current_password").keyup(function () {
         var current_password = $(this).val();
@@ -90,7 +108,9 @@ $(document).ready(function(){
         })
     });
 
-
+    $('.view-inv-btn').click(function(){
+        localStorage.clear();
+    })
 
 });
 var loadfile = function (event) {

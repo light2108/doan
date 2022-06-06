@@ -121,7 +121,8 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::get('/result/exam/class', 'ResultController@Index');
         Route::get('/result/student/exam/{exam_id}/class/{class_id}', 'ResultController@ResultStudentExam');
         Route::get('/result/exam/class/{class_id}', 'ResultController@ResultExamClass');
-        Route::get('/export-file-result', 'ResultController@ExportFileResult');
+        Route::get('/export-file-result-briefly', 'ResultController@ExportFileResultBriefly');
+        Route::get('/export-file-result-full', 'ResultController@ExportFileResultFull');
     });
 });
 Route::namespace('Frontend')->group(function(){
@@ -140,7 +141,8 @@ Route::namespace('Frontend')->group(function(){
         Route::post('/check-result-answer', 'QuestionController@CheckResultAnswer');
         Route::match(['get', 'post'], '/result/exam/{exam_id}/subject/{subject_id}', 'QuestionController@ResultExam');
         Route::post('/visit-to-question', 'QuestionController@VisitToQuestion');
-        // Route::get('/exam-list-question/{exam_id}/subject/{subject_id}/grade/{grade_id}', 'QuestionController@ExamListQuestion');
+        // Route::post('/visit-to-exam', 'QuestionController@VisitExam');
+        Route::get('/exam-list-question/{exam_id}/subject/{subject_id}/grade/{grade_id}', 'QuestionController@ExamListQuestion');
         // Route::get('/result/exam/{exam_id}', 'ResultController@Index');
     });
 });

@@ -3,6 +3,8 @@
     <?php
     use Carbon\Carbon;
     use App\Models\Result;
+    use App\Models\Question;
+    use Illuminate\Support\Facades\Session;
     ?>
     <div class="breadcrumb-bar">
         <div class="container-fluid">
@@ -41,7 +43,7 @@
                                         </thead>
                                         <tbody>
                                             <input type="hidden" value="{{ $k = 1 }}">
-                                            @foreach (explode(",",$result['score']) as $key=>$score)
+                                            @foreach ($results as $key=>$result)
 
                                                 <tr>
                                                     <td>{{ $k++ }}</td>
@@ -55,8 +57,8 @@
                                                             @endif
                                                         @endforeach
                                                     </td>
-                                                    <td>{{ date('Y-m-d', strtotime(explode("|",$result['time'])[$key])) }}</td>
-                                                    <td>{{ $score }}</td>
+                                                    <td>{{ date('Y-m-d', strtotime($result['time'])) }}</td>
+                                                    <td>{{ $result['score'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -69,18 +71,22 @@
                         <div class="card success-card">
                             <div class="card-body">
                                 <div class="success-cont">
-                                    <h4>Highest Result of Exam: {{max(explode(",",$result['score']))}}</h4>
+                                    <h4>Highest Result of Exam: {{max($maxscore)}}</h4>
                                     @if($exam['multiple']==0)
                                         @if (date('Y-m-d', strtotime($exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now())))
                                             <a href="{{url('/dashboard')}}" class="btn btn-primary view-inv-btn">Back Dashboard</a>
                                         @else
-                                            <a href="{{url('/exam/'.$exam['id'].'/subject/'.$exam['subject_id'].'/grade/'.$exam['grade_id'])}}" class="btn btn-primary view-inv-btn">Continue Exam</a>
+                                            <a href="{{url('/exam/'.$exam['id'].'/subject/'.$exam['subject_id'].'/grade/'.$exam['grade_id'])}}" class="btn btn-primary view-inv-btn" {{Session::put('questions_answers', Question::with(['answer'=>function($q){
+                                                $q->inRandomOrder();
+                                            }])->where('status',1)->inRandomOrder()->get())}}>Continue Exam</a>
                                         @endif
                                     @elseif (date('Y-m-d', strtotime($exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now()))||$exam['multiple']<=count(explode(",",$result['score'])))
                                         <a href="{{url('/dashboard')}}" class="btn btn-primary view-inv-btn">Back Dashboard</a>
 
                                     @else
-                                    <a href="{{url('/exam/'.$exam['id'].'/subject/'.$exam['subject_id'].'/grade/'.$exam['grade_id'])}}" class="btn btn-primary view-inv-btn">Continue Exam</a>
+                                    <a href="{{url('/exam/'.$exam['id'].'/subject/'.$exam['subject_id'].'/grade/'.$exam['grade_id'])}}" class="btn btn-primary view-inv-btn" {{Session::put('questions_answers', Question::with(['answer'=>function($q){
+                                        $q->inRandomOrder();
+                                    }])->where('status',1)->inRandomOrder()->get())}}>Continue Exam</a>
                                     @endif
                                 </div>
                             </div>

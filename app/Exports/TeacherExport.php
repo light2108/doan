@@ -29,3 +29,5 @@ class TeacherExport implements FromCollection, WithHeadings
         return collect(Admin::getTeacher());
     }
 }
+// id name   email
+// 1   long  long@com

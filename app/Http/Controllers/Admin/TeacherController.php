@@ -69,6 +69,7 @@ class TeacherController extends Controller
             $data['name']=normalize($data['name']);
             $data['password'] = Hash::make($data['password']);
             $data['class_id'] = implode(',', $data['class_id']);
+            // explode(",", $data['class_id']);
             // $data['grade_id']=implode(',', $data['grade_id']);
             if ($request->hasFile('image')) {
                 $image = $request->file('image');

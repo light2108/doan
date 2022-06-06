@@ -18,7 +18,7 @@ class AdminController extends Controller
             $data=$request->all();
             if(Auth::guard('admin')->attempt(['email'=>$data['email'], 'password'=>$data['password']])){
                 // Admin::where('id', Auth::guard('admin')->user()->id)->update(['status'=>1]);
-                return redirect('/admin/dashboard')->with('message', 'Welcome back admin');
+                return redirect('/admin/dashboard')->with('success_message', 'Welcome back admin');
 
             }else{
                 return redirect()->back()->with('error_message', 'Your email or password incorrect');
@@ -63,6 +63,7 @@ class AdminController extends Controller
     public function changePassword(Request $request){
         Session::put('page', 'admin_password');
         $admindetails=Admin::where('id', Auth::guard('admin')->user()->id)->where('status', 1)->first();
+        // dd($admindetails[0]);
         if($request->isMethod('post')){
             $data=$request->all();
             if(Hash::check($data['current_password'], Auth::guard('admin')->user()->password)){
@@ -79,6 +80,7 @@ class AdminController extends Controller
     public function checkUpdatePassword(Request $request){
         if($request->ajax()){
             $data=$request->all();
+            // dd($data);
             if(Hash::check($data['current_password'], Auth::guard('admin')->user()->password)){
                 return response()->json(['status'=>true]);
             }else return response()->json(['status'=>false]);
