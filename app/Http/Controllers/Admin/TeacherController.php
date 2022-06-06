@@ -45,9 +45,9 @@ class TeacherController extends Controller
         // dd($records);
         Session::put('page', 'teacher');
         if(Auth::guard('admin')->user()->role==1){
-            $teachers = Admin::where('role', 0)->orWhere('role', -1)->where('status', 1)->get()->toArray();
+            $teachers = Admin::where('role', 0)->orWhere('role', -1)->get()->toArray();
         }else{
-            $teachers = Admin::where('subject_id', Auth::guard('admin')->user()->subject_id)->where('role', 0)->orWhere('role', -1)->where('status', 1)->get()->toArray();
+            $teachers = Admin::where('subject_id', Auth::guard('admin')->user()->subject_id)->where('role', 0)->orWhere('role', -1)->get()->toArray();
         }
         $classes = Classes::where('status', 1)->get()->toArray();
         $subjects = Subject::where('status', 1)->get()->toArray();
@@ -69,6 +69,7 @@ class TeacherController extends Controller
             $data['name']=normalize($data['name']);
             $data['password'] = Hash::make($data['password']);
             $data['class_id'] = implode(',', $data['class_id']);
+            // explode(",", $data['class_id']);
             // $data['grade_id']=implode(',', $data['grade_id']);
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
