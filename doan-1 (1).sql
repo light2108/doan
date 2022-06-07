@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 27, 2022 lúc 05:32 PM
+-- Thời gian đã tạo: Th6 06, 2022 lúc 06:33 PM
 -- Phiên bản máy phục vụ: 10.4.24-MariaDB
 -- Phiên bản PHP: 7.4.29
 
@@ -50,10 +50,10 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `mobile`, `image`, `subject_id`, `class_id`, `status`, `role`, `birth_day`, `address`, `sex`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@com', '$2y$10$utTrCE1UMMGF2edpdttDROOhhYtKirukyuyfkAaWeieXww5CrBvW.', '0989068867', 'imgs/1645024422.jpg', NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '2022-02-17 15:32:16'),
-(10, 'tam', 'tam@com', '$2y$10$/tlB7bxd5OqNOmxUVesDaO3PE27M8U4HRjMAClLJVjUxHGnmWrGIW', '123', 'imgs/1652410748.jpg', 10, '5,6', 1, -1, NULL, NULL, NULL, '2022-03-03 15:56:59', '2022-05-13 02:59:08'),
+(1, 'admin', 'admin@com', '$2y$10$kwiQqqSuheRRuqXIhGZsd.FIjF8u.6yhzAKkZiqr5SpM/Ts4Vis9G', '0989068867', 'imgs/1645024422.jpg', NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, '2022-06-06 08:57:13'),
+(10, 'tam', 'tam@com', '$2y$10$/tlB7bxd5OqNOmxUVesDaO3PE27M8U4HRjMAClLJVjUxHGnmWrGIW', '123', 'imgs/1652410748.jpg', 10, '5,6', 1, -1, NULL, NULL, NULL, '2022-03-03 15:56:59', '2022-06-06 09:24:41'),
 (11, 'long', 'long@com', '$2y$10$1XBjpjWqphAJnwm7zgsYRuAUMfalTuu0R5q/U9VX5gblhle.nbqqC', '234', 'imgs/1652410799.jpg', 11, '6,7', 1, 0, NULL, NULL, NULL, '2022-03-03 15:58:01', '2022-05-13 02:59:59'),
-(12, 'minh', 'minh@com', '$2y$10$/YIohxt1a8lksl0pcLC56uezTWemMExxKoIDHIhao0iFpHhF.LPoW', '345', NULL, 10, '7,8', 1, 0, NULL, NULL, NULL, '2022-05-07 16:26:10', '2022-05-07 16:26:10'),
+(12, 'minh', 'minh@com', '$2y$10$/YIohxt1a8lksl0pcLC56uezTWemMExxKoIDHIhao0iFpHhF.LPoW', '345', NULL, 10, '7,8', 1, 0, NULL, NULL, NULL, '2022-05-07 16:26:10', '2022-06-06 09:19:00'),
 (13, 'thanh', 'thanh@com', '$2y$10$OqnnB5Ny/OSWQ4CuARrXcOwNWULj1SDsBTcBpmRs6T2Lb1nzQzclG', '123', 'imgs/1652410831.jpg', 12, '6,9', 1, 0, NULL, NULL, NULL, '2022-05-10 15:41:40', '2022-05-13 03:00:31'),
 (17, 'Huy', 'huy@com', '$2y$10$u3Rj5Gq40vm54QO1ciA3TeO6MsxnNofUt25vyV3JmRiq7pcgPJozu', '43423', 'imgs/1653126214.280971460_577751616924692_4174660045656840212_n.jpg', 12, '7', 1, 0, '1986-02-03 00:00:00', 'adasdasda', 1, '2022-05-21 09:43:35', '2022-05-21 09:43:35');
 
@@ -216,11 +216,11 @@ INSERT INTO `exams` (`id`, `name`, `subject_id`, `grade_id`, `class_id`, `teache
 (6, 'giua ki', 10, '1', '5,6', 10, NULL, '2022-03-16 22:43:00', '2022-06-18 17:00:00', '75', 0, 1, NULL, '2022-03-19 15:43:16', '2022-05-25 16:27:14'),
 (7, 'tu cach', 11, '1', '6', 11, '123', '2022-05-10 15:57:00', '2022-05-11 15:57:00', NULL, 0, 1, 'video/1652174462.mp4', '2022-05-10 08:57:47', '2022-05-10 09:21:02'),
 (8, 'cuoi ki', 11, '1', '6,7', 11, '123', '2022-05-18 15:59:00', '2022-05-20 15:59:00', NULL, 0, 1, NULL, '2022-05-10 08:59:57', '2022-05-10 08:59:57'),
-(9, 'cuoi ki', 10, '1', '6', 10, NULL, '2022-05-11 22:38:00', '2022-05-18 22:38:00', NULL, 0, 1, NULL, '2022-05-10 15:38:55', '2022-05-24 03:06:58'),
+(9, 'cuoi ki', 10, '1', '6', 10, NULL, '2022-05-11 22:38:00', '2022-06-02 22:38:00', '20', 0, 1, NULL, '2022-05-10 15:38:55', '2022-05-31 03:33:30'),
 (10, 'giua ki', 11, '1', '6', 11, NULL, '2022-05-11 22:40:00', '2022-05-13 22:40:00', NULL, 0, 1, NULL, '2022-05-10 15:40:21', '2022-05-10 15:40:21'),
 (11, 'tu cach', 12, '1', '6', 13, NULL, '2022-05-12 22:42:00', '2022-05-14 22:42:00', NULL, 0, 1, NULL, '2022-05-10 15:42:36', '2022-05-10 15:42:36'),
 (12, 'giua ki', 12, '1', '6', 13, NULL, '2022-05-21 23:05:00', '2022-05-29 23:05:00', NULL, 0, 1, NULL, '2022-05-10 16:05:40', '2022-05-10 16:05:40'),
-(14, 'bo sung', 10, '1', '5,6', 10, NULL, '2022-05-27 11:15:00', '2022-05-28 11:15:00', '60', 1, 1, NULL, '2022-05-27 04:15:43', '2022-05-27 04:15:43');
+(14, 'bo sung', 10, '1', '5,6', 10, NULL, '2022-05-27 11:15:00', '2022-05-31 11:15:00', '60', 1, 1, NULL, '2022-05-27 04:15:43', '2022-05-31 02:47:28');
 
 -- --------------------------------------------------------
 
@@ -292,7 +292,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (12, '2022_03_03_215532_create_grades_table', 7),
 (13, '2022_04_25_091904_create_answer_table', 8),
 (14, '2022_05_02_101205_create_results_table', 8),
-(15, '2022_05_23_103917_create_units_table', 9);
+(15, '2022_05_23_103917_create_units_table', 9),
+(16, '2022_06_04_234330_create_result_answer_exam_table', 10);
 
 -- --------------------------------------------------------
 
@@ -391,8 +392,9 @@ CREATE TABLE `results` (
   `student_id` int(11) NOT NULL,
   `class_id` int(11) NOT NULL,
   `subject_id` int(11) NOT NULL,
-  `score` double NOT NULL DEFAULT 0,
+  `score` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
+  `time` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -400,9 +402,95 @@ CREATE TABLE `results` (
 -- Đang đổ dữ liệu cho bảng `results`
 --
 
-INSERT INTO `results` (`id`, `exam_id`, `student_id`, `class_id`, `subject_id`, `score`, `created_at`, `updated_at`) VALUES
-(8, 6, 20, 6, 10, 7.14, '2022-05-18 17:10:36', '2022-05-27 10:29:56'),
-(9, 14, 20, 6, 10, 0, '2022-05-27 04:16:53', '2022-05-27 04:16:53');
+INSERT INTO `results` (`id`, `exam_id`, `student_id`, `class_id`, `subject_id`, `score`, `created_at`, `time`, `updated_at`) VALUES
+(25, 6, 20, 6, 10, '4.29', '2022-06-05 09:11:58', '2022-06-05 16:11:58', '2022-06-05 09:11:58'),
+(26, 6, 20, 6, 10, '5.71', '2022-06-05 15:48:58', '2022-06-05 22:48:58', '2022-06-05 15:48:58'),
+(27, 6, 20, 6, 10, '1.43', '2022-06-06 10:06:09', '2022-06-06 17:06:09', '2022-06-06 10:06:09'),
+(28, 6, 20, 6, 10, '1.43', '2022-06-06 10:06:18', '2022-06-06 17:06:18', '2022-06-06 10:06:18'),
+(29, 6, 20, 6, 10, '0.71', '2022-06-06 10:08:59', '2022-06-06 17:08:59', '2022-06-06 10:08:59'),
+(30, 6, 20, 6, 10, '0.71', '2022-06-06 10:10:43', '2022-06-06 17:10:43', '2022-06-06 10:10:43'),
+(31, 6, 20, 6, 10, '1.43', '2022-06-06 10:17:18', '2022-06-06 17:17:18', '2022-06-06 10:17:18'),
+(32, 6, 20, 6, 10, '1.43', '2022-06-06 10:19:26', '2022-06-06 17:19:26', '2022-06-06 10:19:26'),
+(33, 6, 20, 6, 10, '1.43', '2022-06-06 10:20:32', '2022-06-06 17:20:32', '2022-06-06 10:20:32'),
+(34, 6, 20, 6, 10, '1.43', '2022-06-06 10:21:54', '2022-06-06 17:21:54', '2022-06-06 10:21:54'),
+(35, 6, 20, 6, 10, '1.43', '2022-06-06 10:36:00', '2022-06-06 17:36:00', '2022-06-06 10:36:00');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `result_answer_exam`
+--
+
+CREATE TABLE `result_answer_exam` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `result_id` int(11) DEFAULT NULL,
+  `score_answer` double DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `result_answer_exam`
+--
+
+INSERT INTO `result_answer_exam` (`id`, `result_id`, `score_answer`, `created_at`, `updated_at`) VALUES
+(1, 25, 0.71, '2022-06-05 09:11:58', '2022-06-05 09:11:58'),
+(2, 25, 0, '2022-06-05 09:11:58', '2022-06-05 09:11:58'),
+(3, 25, 0.71, '2022-06-05 09:11:58', '2022-06-05 09:11:58'),
+(4, 25, 0, '2022-06-05 09:11:59', '2022-06-05 09:11:59'),
+(5, 25, 0, '2022-06-05 09:11:59', '2022-06-05 09:11:59'),
+(6, 25, 0, '2022-06-05 09:12:00', '2022-06-05 09:12:00'),
+(7, 25, 0.71, '2022-06-05 09:12:01', '2022-06-05 09:12:01'),
+(8, 25, 0.71, '2022-06-05 09:12:01', '2022-06-05 09:12:01'),
+(9, 25, 0, '2022-06-05 09:12:01', '2022-06-05 09:12:01'),
+(10, 25, 0, '2022-06-05 09:12:02', '2022-06-05 09:12:02'),
+(11, 25, 0.71, '2022-06-05 09:12:02', '2022-06-05 09:12:02'),
+(12, 25, 0, '2022-06-05 09:12:02', '2022-06-05 09:12:02'),
+(13, 25, 0.71, '2022-06-05 09:12:03', '2022-06-05 09:12:03'),
+(14, 25, 0, '2022-06-05 09:12:03', '2022-06-05 09:12:03'),
+(15, 26, 0, '2022-06-05 15:48:59', '2022-06-05 15:48:59'),
+(16, 26, 0.71, '2022-06-05 15:48:59', '2022-06-05 15:48:59'),
+(17, 26, 0.71, '2022-06-05 15:48:59', '2022-06-05 15:48:59'),
+(18, 26, 0.71, '2022-06-05 15:48:59', '2022-06-05 15:48:59'),
+(19, 26, 0, '2022-06-05 15:49:00', '2022-06-05 15:49:00'),
+(20, 26, 0, '2022-06-05 15:49:00', '2022-06-05 15:49:00'),
+(21, 26, 0.71, '2022-06-05 15:49:00', '2022-06-05 15:49:00'),
+(22, 26, 0.71, '2022-06-05 15:49:00', '2022-06-05 15:49:00'),
+(23, 26, 0, '2022-06-05 15:49:00', '2022-06-05 15:49:00'),
+(24, 26, 0, '2022-06-05 15:49:00', '2022-06-05 15:49:00'),
+(25, 26, 0.71, '2022-06-05 15:49:00', '2022-06-05 15:49:00'),
+(26, 26, 0, '2022-06-05 15:49:01', '2022-06-05 15:49:01'),
+(27, 26, 0.71, '2022-06-05 15:49:01', '2022-06-05 15:49:01'),
+(28, 26, 0.71, '2022-06-05 15:49:01', '2022-06-05 15:49:01'),
+(29, 27, 0.71, '2022-06-06 10:06:09', '2022-06-06 10:06:09'),
+(30, 27, 0, '2022-06-06 10:06:09', '2022-06-06 10:06:09'),
+(31, 27, 0, '2022-06-06 10:06:09', '2022-06-06 10:06:09'),
+(32, 27, 0.71, '2022-06-06 10:06:09', '2022-06-06 10:06:09'),
+(33, 28, 0.71, '2022-06-06 10:06:18', '2022-06-06 10:06:18'),
+(34, 28, 0, '2022-06-06 10:06:18', '2022-06-06 10:06:18'),
+(35, 28, 0, '2022-06-06 10:06:18', '2022-06-06 10:06:18'),
+(36, 28, 0.71, '2022-06-06 10:06:18', '2022-06-06 10:06:18'),
+(37, 29, 0, '2022-06-06 10:08:59', '2022-06-06 10:08:59'),
+(38, 29, 0, '2022-06-06 10:08:59', '2022-06-06 10:08:59'),
+(39, 29, 0, '2022-06-06 10:08:59', '2022-06-06 10:08:59'),
+(40, 29, 0.71, '2022-06-06 10:08:59', '2022-06-06 10:08:59'),
+(41, 31, 0.71, '2022-06-06 10:17:18', '2022-06-06 10:17:18'),
+(42, 31, 0, '2022-06-06 10:17:18', '2022-06-06 10:17:18'),
+(43, 31, 0.71, '2022-06-06 10:17:18', '2022-06-06 10:17:18'),
+(44, 31, 0, '2022-06-06 10:17:18', '2022-06-06 10:17:18'),
+(45, 31, 0, '2022-06-06 10:17:18', '2022-06-06 10:17:18'),
+(46, 32, 0.71, '2022-06-06 10:19:26', '2022-06-06 10:19:26'),
+(47, 32, 0, '2022-06-06 10:19:26', '2022-06-06 10:19:26'),
+(48, 32, 0.71, '2022-06-06 10:19:26', '2022-06-06 10:19:26'),
+(49, 32, 0, '2022-06-06 10:19:26', '2022-06-06 10:19:26'),
+(50, 34, 0.71, '2022-06-06 10:21:55', '2022-06-06 10:21:55'),
+(51, 34, 0, '2022-06-06 10:21:55', '2022-06-06 10:21:55'),
+(52, 34, 0.71, '2022-06-06 10:21:55', '2022-06-06 10:21:55'),
+(53, 34, 0, '2022-06-06 10:21:55', '2022-06-06 10:21:55'),
+(54, 35, 0.71, '2022-06-06 10:36:01', '2022-06-06 10:36:01'),
+(55, 35, 0, '2022-06-06 10:36:02', '2022-06-06 10:36:02'),
+(56, 35, 0.71, '2022-06-06 10:36:04', '2022-06-06 10:36:04'),
+(57, 35, 0, '2022-06-06 10:36:04', '2022-06-06 10:36:04');
 
 -- --------------------------------------------------------
 
@@ -413,7 +501,7 @@ INSERT INTO `results` (`id`, `exam_id`, `student_id`, `class_id`, `subject_id`, 
 CREATE TABLE `students` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `student_code` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `student_code` bigint(20) DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `grade_id` int(11) DEFAULT NULL,
   `mobile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -434,10 +522,11 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `name`, `student_code`, `password`, `grade_id`, `mobile`, `image`, `class_id`, `year_admission`, `year`, `birth_day`, `address`, `sex`, `status`, `created_at`, `updated_at`) VALUES
-(18, 'Nguyễn Đức Long', '2022001', '$2y$10$JrN6AI/JeftYwBmBEBBbr.3t8cwtsKe0MEbu8DK1Heu2YLsc4BbLa', 1, '12345', NULL, 5, '2022-05-12 00:00:00', '2022', NULL, NULL, NULL, 1, '2022-05-12 15:11:59', '2022-05-12 15:16:07'),
-(19, 'Nguyễn Đức Minh', '2022002', '$2y$10$I.CDZMw8y5udDaTDWROgCOsSNRH.UGuXWbXqKmaMtZpKqSE7vCOnO', 1, '234', NULL, 5, '2022-05-12 00:00:00', '2022', NULL, NULL, NULL, 1, '2022-05-12 15:12:31', '2022-05-12 15:12:31'),
-(20, 'Nguyễn Tất Tám', '2022003', '$2y$10$m2Anh0qwIQd7S.64o.jY5uJA3pnpnxwkEZqQIdg1B.knOtD/UPHym', 1, '345', 'imgstudent/1652410921.jpg', 6, '2022-05-12 00:00:00', '2022', NULL, NULL, NULL, 1, '2022-05-12 15:13:08', '2022-05-13 03:02:01'),
-(40, 'Hoàng Quí Thành', '2022004', '$2y$10$y6J/a2o4YBqMJ2A9ITatZuzPl2vMQhyYDP9Aadq1bStohJ0SpN8Bi', 1, '987', 'imgstudent/1653039266.258555895_386970326517721_2180826541852369119_n.jpg', 6, '2022-03-02 00:00:00', '2022', '2000-07-06 00:00:00', 'fdfadfafadf', 1, 1, '2022-05-20 09:34:26', '2022-05-21 03:33:30');
+(18, 'Nguyễn Đức Long', 2022001, '$2y$10$JrN6AI/JeftYwBmBEBBbr.3t8cwtsKe0MEbu8DK1Heu2YLsc4BbLa', 1, '12345', 'imgstudent/1654015419.jpg', 5, '2022-05-12 00:00:00', '2022', NULL, NULL, NULL, 1, '2022-05-12 15:11:59', '2022-05-31 16:43:39'),
+(20, 'Nguyễn Tất Tám', 2022003, '$2y$10$m2Anh0qwIQd7S.64o.jY5uJA3pnpnxwkEZqQIdg1B.knOtD/UPHym', 1, '345', 'imgstudent/1652410921.jpg', 6, '2022-05-12 00:00:00', '2022', NULL, NULL, NULL, 1, '2022-05-12 15:13:08', '2022-05-13 03:02:01'),
+(40, 'Hoàng Quí Thành', 2022004, '$2y$10$y6J/a2o4YBqMJ2A9ITatZuzPl2vMQhyYDP9Aadq1bStohJ0SpN8Bi', 1, '987', 'imgstudent/1653039266.258555895_386970326517721_2180826541852369119_n.jpg', 6, '2022-03-02 00:00:00', '2022', '2000-07-06 00:00:00', 'fdfadfafadf', 1, 1, '2022-05-20 09:34:26', '2022-05-21 03:33:30'),
+(51, 'Fasfasf', 2023001, '$2y$10$FPdHrkr61yfEdkEGkcBDceLHEc2GpecfLV385SBkG88EZsGjO4iAm', 1, NULL, NULL, 5, '2023-06-06 00:00:00', '2023', '2022-06-06 00:00:00', 'fsafa', 1, 1, '2022-06-06 16:15:02', '2022-06-06 16:15:03'),
+(53, 'Hoàng Quí Thành', 2022005, '$2y$10$r8vErdkWKaI36..Fl.967eL6rJJoF9rtdZ34WbqRhq5.ak083n662', 1, '987', 'imgstudent/1654532974.258555895_386970326517721_2180826541852369119_n.jpg', 6, '2022-03-02 00:00:00', '2022', '2022-06-07 00:00:00', 'afasfasfa', 1, 1, '2022-06-06 16:29:34', '2022-06-06 16:29:34');
 
 -- --------------------------------------------------------
 
@@ -578,6 +667,12 @@ ALTER TABLE `results`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `result_answer_exam`
+--
+ALTER TABLE `result_answer_exam`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `students`
 --
 ALTER TABLE `students`
@@ -610,7 +705,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `answer`
@@ -646,7 +741,7 @@ ALTER TABLE `grades`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`
@@ -664,13 +759,19 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT cho bảng `results`
 --
 ALTER TABLE `results`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT cho bảng `result_answer_exam`
+--
+ALTER TABLE `result_answer_exam`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT cho bảng `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT cho bảng `subjects`

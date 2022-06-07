@@ -164,8 +164,8 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Sex<span style="color:red">*</span></label>
-                                            <input type="radio" name="status" checked value="1">Male
-                                            <input type="radio" name="status" value="0">Female
+                                            <input type="radio" name="sex" checked value="1">Male
+                                            <input type="radio" name="sex" value="0">Female
                                         </div>
                                     </div>
                                 </div>
