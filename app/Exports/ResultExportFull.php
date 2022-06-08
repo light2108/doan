@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Exports;
+
+use App\Models\Result;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Concerns\WithMapping;
+class ResultExportFull implements FromCollection, WithHeadings
+{
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function headings():array{
+        $arr=array();
+        for($i=1; $i<=14; ++$i){
+            array_push($arr,'Question '.$i);
+        }
+
+        $data=implode(",", $arr);
+        return [
+            'Student Code',
+            'Student Name',
+            'Class',
+            'Exam Name',
+            'Score',
+            $data
+        ];
+    }
+    public function collection()
+    {
+        // return Result::all();
+        return collect(Result::getResultFull(Session::get('exam_id'), Session::get('class_id')));
+    }
+}
