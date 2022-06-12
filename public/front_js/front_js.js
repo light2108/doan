@@ -30,7 +30,7 @@ $(document).ready(function(){
                     },
                     success:function(resp){
                         if(resp['status']==true){
-                            window.location.href="/exam/"+exam_id+'/subject/'+subject_id+'/grade/'+grade_id;
+                            window.location.href="/exam/"+exam_id+'/subject/'+subject_id+'/grade/'+grade_id+'/'+resp['code'];
                         }else{
                             alert('WRONG PASSWORD');
                         }

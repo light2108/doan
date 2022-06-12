@@ -136,13 +136,14 @@ Route::namespace('Frontend')->group(function(){
         Route::match(['get', 'post'], 'exam/subject/{subject_id}/grade/{grade_id}',['as'=>'exam.subject.grade', 'uses'=>'SubjectController@Index']);
         Route::post('/check-password-exam', 'SubjectController@checkPasswordExam');
         //Question
-        Route::match(['get', 'post'],'exam/{exam_id}/subject/{subject_id}/grade/{grade_id}', ['as'=>'pratice-exam.subject.grade', 'uses'=>'QuestionController@Index']);
-        // Route::post('/check/exam/{exam_id}', 'QuestionController@CheckExam');
-        Route::post('/check-result-answer', 'QuestionController@CheckResultAnswer');
-        Route::match(['get', 'post'], '/result/exam/{exam_id}/subject/{subject_id}', 'QuestionController@ResultExam');
-        Route::post('/visit-to-question', 'QuestionController@VisitToQuestion');
-        // Route::post('/visit-to-exam', 'QuestionController@VisitExam');
-        Route::get('/exam-list-question/{exam_id}/subject/{subject_id}/grade/{grade_id}', 'QuestionController@ExamListQuestion');
+            Route::match(['get', 'post'],'exam/{exam_id}/subject/{subject_id}/grade/{grade_id}/{code}', ['as'=>'pratice-exam.subject.grade', 'uses'=>'QuestionController@Index']);
+            // Route::post('/check/exam/{exam_id}', 'QuestionController@CheckExam');
+            Route::post('/check-result-answer', 'QuestionController@CheckResultAnswer');
+            Route::match(['get', 'post'], '/result/exam/{exam_id}/subject/{subject_id}', 'QuestionController@ResultExam');
+            Route::post('/visit-to-question', 'QuestionController@VisitToQuestion');
+            // Route::post('/visit-to-exam', 'QuestionController@VisitExam');
+            Route::get('/exam-list-question/{exam_id}/subject/{subject_id}/grade/{grade_id}/{code}', 'QuestionController@ExamListQuestion');
+
         // Route::get('/result/exam/{exam_id}', 'ResultController@Index');
     });
 });

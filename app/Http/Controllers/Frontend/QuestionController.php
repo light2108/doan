@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\Result_Answer_Exam;
 use App\Models\Result_Merger;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 class QuestionController extends Controller
 {
     public function pagination($items, $perPage = 4, $page = null, $options = [])
@@ -27,7 +28,7 @@ class QuestionController extends Controller
         $items = $items instanceof Collection ? $items : Collection::make($items);
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
-    public function Index(Request $request, $exam_id, $subject_id, $grade_id)
+    public function Index(Request $request, $exam_id, $subject_id, $grade_id, $code)
     {
         Session::put('key', 'question');
         // if(!empty(Session::get('questions_answers'))){
@@ -40,19 +41,21 @@ class QuestionController extends Controller
                 $xxx[] = ($question_answer);
             }
         }
+        $code=Str::random(32);
         // $ppp=Question::with('answer')->get()->paginate(4);
         // $questions_answers=Question::where('exam_id', $exam_id)->with('answer')->get()->toArray();
         $data = $this->pagination($xxx);
         // // dd($data);
-        $data->withPath('/exam/' . $exam_id . '/subject/' . $subject_id . '/grade/' . $grade_id);
+        $data->withPath('/exam/' . $exam_id . '/subject/' . $subject_id . '/grade/' . $grade_id.'/'.$code);
         $exam = Exam::find($exam_id);
-        return View('frontend.question.index', compact('questions_answers', 'exam_id', 'subject_id', 'grade_id', 'exam', 'data'));
-        
+        return View('frontend.question.index', compact('questions_answers', 'exam_id', 'subject_id', 'grade_id', 'exam', 'data', 'code'));
+
     }
-    public function ExamListQuestion(Request $request, $exam_id, $subject_id, $grade_id)
+    public function ExamListQuestion(Request $request, $exam_id, $subject_id, $grade_id, $code)
     {
         $questions_answers = Session::get('questions_answers');
         $data = array();
+        $code=Str::random(32);
         foreach ($questions_answers as $question_answer) {
             if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id']) {
                 $data[] = ($question_answer);
@@ -60,7 +63,7 @@ class QuestionController extends Controller
         }
         $exam = Exam::find($exam_id);
         // dd($data);
-        return View('frontend.question.list', compact('data', 'questions_answers', 'exam_id', 'subject_id', 'grade_id', 'exam'));
+        return View('frontend.question.list', compact('data', 'questions_answers', 'exam_id', 'subject_id', 'grade_id', 'exam', 'code'));
     }
     public function CheckExam(Request $request, $exam_id)
     {
@@ -216,7 +219,7 @@ class QuestionController extends Controller
     public function ResultExam(Request $request, $exam_id, $subject_id)
     {
         // if(Result::where('exam_id', $exam_id)->count()==1){
-
+        $code=Str::random(32);
         if (date('Y-m-d', strtotime(Exam::find($exam_id)->end_time))<date('Y-m-d', strtotime(Carbon::now()))&&Result::where('exam_id', $exam_id)->where('student_id', Auth::guard('student')->user()->id)->count()==0) {
             Result::create(['exam_id' => $exam_id, 'student_id' => Auth::guard('student')->user()->id, 'class_id' => Auth::guard('student')->user()->class_id, 'subject_id' => $subject_id, 'score' => 0, 'time' => date('Y-m-d', strtotime(Exam::find($exam_id)->end_time))]);
             $results = Result::where('exam_id', $exam_id)->where('subject_id', $subject_id)->where('student_id', Auth::guard('student')->user()->id)->get()->toArray();
@@ -231,7 +234,7 @@ class QuestionController extends Controller
             //     $result=Result::where('exam_id', $exam_id)->get()->toArray();
             // }
 
-            return View('frontend.result.index', compact('results', 'exam', 'subjects', 'maxscore'));
+            return View('frontend.result.index', compact('results', 'exam', 'subjects', 'maxscore', 'code'));
         }else{
             $results = Result::where('exam_id', $exam_id)->where('subject_id', $subject_id)->where('student_id', Auth::guard('student')->user()->id)->get()->toArray();
         // $exam=Exam::find($exam_id);
@@ -245,7 +248,7 @@ class QuestionController extends Controller
             //     $result=Result::where('exam_id', $exam_id)->get()->toArray();
             // }
 
-            return View('frontend.result.index', compact('results', 'exam', 'subjects', 'maxscore'));
+            return View('frontend.result.index', compact('results', 'exam', 'subjects', 'maxscore', 'code'));
         }
 
     }
