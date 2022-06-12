@@ -154,7 +154,6 @@
                 $('#answer-' + element).prop('checked', true);
             })
         }
-<<<<<<< HEAD
         var all_answers=[];
         var all_questions=[];
         var all_keys=[];
@@ -237,8 +236,6 @@
             var seconds = 60 * parseInt($('#countdown').attr('time'));
 
         }
-=======
->>>>>>> d2cb4eebe108ea0806af8c3d9399f556b32f363e
         if (localStorage.getItem("seconds")) {
             var seconds = localStorage.getItem("seconds");
         } else {
