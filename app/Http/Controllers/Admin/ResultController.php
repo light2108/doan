@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ResultExport;
 use App\Exports\ResultExportFull;
-
+use App\Models\Result_Merger;
+use App\Models\Question;
 class ResultController extends Controller
 {
     public function Index(){
@@ -28,7 +29,7 @@ class ResultController extends Controller
         return View('admin.result.index_class', compact('classes', 'grades'));
     }
     public function ResultStudentExam(Request $request, $exam_id, $class_id){
-        $results=Result::where('exam_id', $exam_id)->where('class_id', $class_id)->orderBy('score', 'Desc')->get()->toArray();
+        $results=Result_Merger::where('exam_id', $exam_id)->where('class_id', $class_id)->orderBy('score', 'Desc')->get()->toArray();
         $students=Student::where('class_id', $class_id)->where('status', 1)->get()->toArray();
         // dd($students);
 
@@ -36,7 +37,13 @@ class ResultController extends Controller
         // $result_student
         Session::put('exam_id', $exam_id);
         Session::put('class_id', $class_id);
-
+        $count_questions=0;
+        foreach (Question::where('status', 1)->get()->toArray() as $question) {
+            if ($question['exam_id'] == $exam_id || in_array($exam_id, explode(",", $question['select_id']))) {
+                $count_questions += 1;//14
+            }
+        }
+        Session::put('count_questions', $count_questions);
         return View('admin.result.index_result', compact('results', 'students', 'classes'));
     }
 

@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\TeacherImport;
 use App\Exports\TeacherExport;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 function normalize($string){
     $string=preg_replace('!\s+!', ' ', $string);;
     $string=mb_convert_case($string, MB_CASE_TITLE, "UTF-8");
@@ -66,22 +67,30 @@ class TeacherController extends Controller
         // dd($grades);
         if ($request->isMethod('post')) {
             $data = $request->all();
+            $request->validate([
+                'image'=>'mimes:jpg, png, jpeg'
+            ]);
             $data['name']=normalize($data['name']);
             $data['password'] = Hash::make($data['password']);
             $data['class_id'] = implode(',', $data['class_id']);
+            if((int)date('Y', strtotime(Carbon::now()))-(int)date('Y', strtotime($data['birth_day']))>=22){
+
             // explode(",", $data['class_id']);
             // $data['grade_id']=implode(',', $data['grade_id']);
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $reimage = 'imgs/' . time() . '.' . $image->getClientOriginalExtension();
-                $dest = public_path('/imgs');
-                $image->move($dest, $reimage);
-                $data['image'] = $reimage;
-                Admin::create($data);
-                return redirect('/admin/teachers')->with('success_message', 'Created Teacher Successfully');
+                if ($request->hasFile('image')) {
+                    $image = $request->file('image');
+                    $reimage = 'imgs/' . time() . '.' . $image->getClientOriginalExtension();
+                    $dest = public_path('/imgs');
+                    $image->move($dest, $reimage);
+                    $data['image'] = $reimage;
+                    Admin::create($data);
+                    return redirect('/admin/teachers')->with('success_message', 'Created Teacher Successfully');
+                }else{
+                    Admin::create($data);
+                    return redirect('/admin/teachers')->with('success_message', 'Created Teacher Successfully');
+                }
             }else{
-                Admin::create($data);
-                return redirect('/admin/teachers')->with('success_message', 'Created Teacher Successfully');
+                return redirect()->back()->with('error_message', 'Age of Teacher not more than 22');
             }
         }
         return View('admin.teachers.add', compact('subjects', 'classes'));
@@ -97,21 +106,28 @@ class TeacherController extends Controller
         // dd($class_id);
         if ($request->isMethod('post')) {
             $data = $request->all();
+            $request->validate([
+                'image'=>'mimes:jpg, png, jpeg'
+            ]);
             $data['name']=normalize($data['name']);
             $data['password'] = $teacher['password'];
             $data['class_id'] = implode(',', $data['class_id']);
             // $data['grade_id']=implode(',', $data['grade_id']);
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $reimage = 'imgs/' . time() . '.' . $image->getClientOriginalExtension();
-                $dest = public_path('/imgs');
-                $image->move($dest, $reimage);
-                $data['image'] = $reimage;
-                $teacher->update($data);
-                return redirect('/admin/teachers')->with('success_message', 'Updated Teacher Successfully');
-            } else {
-                $teacher->update($data);
-                return redirect('/admin/teachers')->with('success_message', 'Updated Teacher Successfully');
+            if((int)date('Y', strtotime(Carbon::now()))-(int)date('Y', strtotime($data['birth_day']))>=22){
+                if ($request->hasFile('image')) {
+                    $image = $request->file('image');
+                    $reimage = 'imgs/' . time() . '.' . $image->getClientOriginalExtension();
+                    $dest = public_path('/imgs');
+                    $image->move($dest, $reimage);
+                    $data['image'] = $reimage;
+                    $teacher->update($data);
+                    return redirect('/admin/teachers')->with('success_message', 'Updated Teacher Successfully');
+                } else {
+                    $teacher->update($data);
+                    return redirect('/admin/teachers')->with('success_message', 'Updated Teacher Successfully');
+                }
+            }else{
+                return redirect()->back()->with('error_message', 'Age of Teacher not more than 22');
             }
         }
         return View('admin.teachers.edit', compact('subjects', 'teacher', 'classes', 'class_id'));
@@ -151,12 +167,10 @@ class TeacherController extends Controller
     }
     public function ImportFileTeacher(Request $request){
         if($request->isMethod('post')){
-            // $request->validate(
-            //     [
-            //         'file'=>'required|mimes:xls, xlsx',
-            //     ]
-            // );
 
+            $request->validate([
+                'file'=>'required|mimes:xlsx, xls'
+            ]);
             Excel::import(new TeacherImport,request()->file('file'));
             return redirect('/admin/teachers')->with('success_message', 'Created Teachers Successfully');
         }

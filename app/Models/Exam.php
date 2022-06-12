@@ -24,12 +24,12 @@ class Exam extends Model
         'multiple'
     ];
     public function question(){
-        return $this->hasMany('App\Models\Question', 'exam_id', 'id');
+        return $this->hasMany('App\Models\Question', 'exam_id', 'id')->where('status',1);
     }
     public function teacher(){
-        return $this->belongsTo('App\Models\Admin', 'teacher_id', 'id');
+        return $this->belongsTo('App\Models\Admin', 'teacher_id', 'id')->where('status',1);
     }
     public function subject(){
-        return $this->belongsTo('App\Models\Subject', 'subject_id', 'id');
+        return $this->belongsTo('App\Models\Subject', 'subject_id', 'id')->where('status',1);
     }
 }

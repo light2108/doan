@@ -12,7 +12,7 @@ class GradeController extends Controller
     public function Index()
     {
         Session::put('page', 'grade');
-        $grades = Grade::where('status', 1)->get()->toArray();
+        $grades = Grade::get()->toArray();
         return View('admin.grades.index', compact('grades'));
     }
     public function AddGrade(Request $request)

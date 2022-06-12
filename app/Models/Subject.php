@@ -16,14 +16,14 @@ class Subject extends Model
         // 'teacher_id'
     ];
     public function exam(){
-        return $this->hasMany('App\Models\Exam', 'subject_id', 'id');
+        return $this->hasMany('App\Models\Exam', 'subject_id', 'id')->where('status',1);
     }
 
     public static function subject(){
-        $subjects=Subject::get()->toArray();
+        $subjects=Subject::where('status',1)->get()->toArray();
         return $subjects;
     }
     public function teacher(){
-        return $this->hasMany('App\Models\Admin', 'subject_id', 'id');
+        return $this->hasMany('App\Models\Admin', 'subject_id', 'id')->where('status',1);
     }
 }

@@ -11,31 +11,49 @@ use App\Models\Classes;
 use App\Models\Exam;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 class StudentController extends Controller
 {
+    public function pagination($items, $perPage = 6, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
     public function Index(Request $request){
         Session::put('key', 'student');
-        $subjects=Subject::with('teacher')->get()->toArray();
-        if($request->has('search')){
-            $exams=Exam::with('teacher')->with('subject')->where('name', 'like', '%'.$request->search.'%')->get()->toArray();
-            // dd($exams);
-        }else{
-            $exams=Exam::with('teacher')->with('subject')->get()->toArray();
-        }
-        $count=0;
-        foreach($exams as $exam){
-            if(!in_array(Auth::guard('student')->user()->class_id, explode(",", $exam['class_id']))){
-                $count++;
+        $subjects=Subject::with('teacher')->where('status', 1)->get()->toArray();
+        $xxx = array();
+        // if($request->has('search')){
+        //     $exams=Exam::with('teacher')->with('subject')->where('name', 'like', '%'.$request->search.'%')->where('status', 1)->get()->toArray();
+        //     // dd($exams);
+        // }else{
+        //     $exams=Exam::with('teacher')->with('subject')->where('status', 1)->get()->toArray();
+        // }
+        // dd($exams);
+        $exams=Exam::with('teacher')->with('subject')->where('status', 1)->get()->toArray();
+        foreach ($exams as $exam){
+            if (in_array(Auth::guard('student')->user()->class_id, explode(',', $exam['class_id']))&&!empty($exam['teacher'])){
+                $xxx[]=$exam;
             }
         }
+        // dd($xxx);
+        // $data = $this->pagination($xxx);
         if($request->has('search')){
-            $exams=Exam::with('teacher')->with('subject')->where('name', 'like', '%'.$request->search.'%')->paginate(6+$count);
+            $data=$this->where('name', 'like', '%'.$request->search.'%')->pagination($xxx);
             // dd($exams);
         }else{
-            $exams=Exam::with('teacher')->with('subject')->paginate(6+$count);
+            $data=$this->pagination($xxx);
         }
+
+        $data->withPath('/dashboard');
+
+
+
         // $exams=Exam::with('teacher')->with('subject')->paginate(6+$count);
-        return View('frontend.index', compact('subjects', 'exams'));
+        return View('frontend.index', compact('subjects', 'data'));
     }
 
     public function Login(Request $request){
@@ -55,7 +73,7 @@ class StudentController extends Controller
     }
     public function ChangeDetail(Request $request){
         $student=Student::find(Auth::guard('student')->user()->id);
-        $classes=Classes::get()->toArray();
+        $classes=Classes::where('status', 1)->get()->toArray();
         if($request->isMethod('POST')){
             $data=$request->all();
             if ($request->hasFile('image')) {

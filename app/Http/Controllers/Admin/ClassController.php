@@ -16,7 +16,7 @@ class ClassController extends Controller
         Session::put('page', 'class');
         $grades = Grade::where('status', 1)->get()->toArray();
         $teachers = Admin::where('role', 0)->orWhere('role', -1)->where('status', 1)->get()->toArray();
-        $classes = Classes::where('status', 1)->get()->toArray();
+        $classes = Classes::get()->toArray();
         // dd($classes);
         // dd($teachers);
 

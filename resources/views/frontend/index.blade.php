@@ -22,35 +22,35 @@
             <div class="row">
                 <div class="col-lg-8 col-md-12">
                     <div class="row blog-grid-row">
-                        @foreach ($exams as $exam)
-                            @if (in_array(Auth::guard('student')->user()->class_id, explode(',', $exam['class_id'])))
-                                <div class="col-md-6 col-sm-12">
+                        @foreach ($data as $exam)
+                            @if(!empty($exam['teacher']))
+                            <div class="col-md-6 col-sm-12">
 
-                                    <div class="blog grid-blog">
-                                        <div class="blog-image">
-                                            <iframe width="400px" src="{{ $exam['video'] }}">
-                                            </iframe>
-                                        </div>
-                                        <div class="blog-content">
-                                            <ul class="entry-meta meta-item">
-                                                <li>
-                                                    <div class="post-author">
-                                                        <a href="profile"><img src="{{ $exam['teacher']['image'] }}"
-                                                                style="width:50px;height:50px" alt="Post Author">
-                                                            <span>{{ $exam['teacher']['name'] }}</span></a>
-                                                    </div>
-                                                </li>
-                                                <li><i
-                                                        class="far fa-clock"></i>{{ date('Y-m-d', strtotime($exam['created_at'])) }}
-                                                </li>
-                                            </ul>
-                                            <h3 class="blog-title"><a href="blog-details">{{ $exam['name'] }} mon
-                                                    {{ $exam['subject']['name'] }}</a></h3>
-                                            <p class="mb-0">Video supported for exam {{ $exam['name'] }}.</p>
-                                        </div>
+                                <div class="blog grid-blog">
+                                    <div class="blog-image">
+                                        <iframe width="400px" src="{{ $exam['video'] }}">
+                                        </iframe>
                                     </div>
-
+                                    <div class="blog-content">
+                                        <ul class="entry-meta meta-item">
+                                            <li>
+                                                <div class="post-author">
+                                                    <a href="profile"><img src="{{ $exam['teacher']['image'] }}"
+                                                            style="width:50px;height:50px" alt="Post Author">
+                                                        <span>{{ $exam['teacher']['name'] }}</span></a>
+                                                </div>
+                                            </li>
+                                            <li><i
+                                                    class="far fa-clock"></i>{{ date('Y-m-d', strtotime($exam['created_at'])) }}
+                                            </li>
+                                        </ul>
+                                        <h3 class="blog-title"><a href="blog-details">{{ $exam['name'] }} mon
+                                                {{ $exam['subject']['name'] }}</a></h3>
+                                        <p class="mb-0">Video supported for exam {{ $exam['name'] }}.</p>
+                                    </div>
                                 </div>
+
+                            </div>
                             @endif
                         @endforeach
                     </div>
@@ -62,7 +62,7 @@
                                     <ul class="pagination justify-content-center">
 
 
-                                        {{ $exams->links('pagination::simple-tailwind') }}
+                                        {{ $data->links('pagination::simple-tailwind') }}
                                     </ul>
                                 </nav>
                             </div>
@@ -75,7 +75,7 @@
 
                     <div class="card search-widget">
                         <div class="card-body">
-                            <form action="{{url('/dashboard')}}" method="GET" class="search-form">
+                            <form action="{{ url('/dashboard') }}" method="GET" class="search-form">
                                 @csrf
                                 <div class="input-group">
 

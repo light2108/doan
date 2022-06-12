@@ -14,10 +14,10 @@ class Grade extends Model
         'status'
     ];
     public function class(){
-        return $this->hasMany('App\Models\Classes', 'grade_id', 'id');
+        return $this->hasMany('App\Models\Classes', 'grade_id', 'id')->where('status',1);
     }
     public static function grade(){
-        $grades=Grade::get()->toArray();
+        $grades=Grade::where('status',1)->get()->toArray();
         return $grades;
     }
 }

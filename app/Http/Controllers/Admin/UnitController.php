@@ -12,7 +12,7 @@ class UnitController extends Controller
     public function UnitSubjectGrade(Request $request, $subject_id, $grade_id)
     {
         Session::put('page', $grade_id);
-        $units=Unit::where('subject_id', $subject_id)->where('grade_id', $grade_id)->where('status', 1)->get()->toArray();
+        $units=Unit::where('subject_id', $subject_id)->where('grade_id', $grade_id)->get()->toArray();
         $subjects = Subject::where('status', 1)->get()->toArray();
         return View('admin.questions.index_unit', compact('units','subject_id', 'grade_id', 'subjects'));
     }

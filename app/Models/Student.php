@@ -53,11 +53,11 @@ class Student extends Authenticatable
      * @var array<string, string>
      */
     public function student(){
-        $students=Student::get()->toArray();
+        $students=Student::where('status',1)->get()->toArray();
         return $students;
     }
     public function class(){
-        return $this->belongsTo('App\Models\Classes', 'class_id', 'id');
+        return $this->belongsTo('App\Models\Classes', 'class_id', 'id')->where('status',1);
     }
     public static function getStudent(){
         if(Auth::guard('admin')->user()->role==-1){
