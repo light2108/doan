@@ -16,9 +16,7 @@ class QuestionExport implements FromCollection, WithHeadings
             'Question',
             'Answer',
             'Correct Answer',
-            'Unit',
-            'Grade',
-            'Subject'
+            'Score'
         ];
     }
     public function collection()

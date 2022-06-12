@@ -8,7 +8,7 @@ use App\Models\Answer;
 class AnswerController extends Controller
 {
     public function viewAnswer(Request $request, $question_id){
-        $answers=Answer::where('question_id', $question_id)->where('status', 1)->get();
+        $answers=Answer::where('question_id', $question_id)->get();
         // dd($answers);
         return View('admin.questions.index_answer', compact('question_id', 'answers'));
     }

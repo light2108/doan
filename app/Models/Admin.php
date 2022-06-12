@@ -52,11 +52,11 @@ class Admin extends Authenticatable
      */
     public function subject()
     {
-        return $this->belongsTo('App\Models\Subject', 'subject_id', 'id');
+        return $this->belongsTo('App\Models\Subject', 'subject_id', 'id')->where('status',1);
     }
     public function exam()
     {
-        return $this->hasMany('App\Models\Exam', 'teacher_id', 'id');
+        return $this->hasMany('App\Models\Exam', 'teacher_id', 'id')->where('status',1);
     }
     public static function teacher()
     {

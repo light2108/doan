@@ -22,7 +22,7 @@ class ExamController extends Controller
         // $teacher=Admin::find(Auth::guard('admin')->user()->id)->with('subject');
         // dd($teacher);
         Session::put('page', 'exam');
-        $exams = Exam::where('teacher_id', Auth::guard('admin')->user()->id)->where('status', 1)->get()->toArray();
+        $exams = Exam::where('teacher_id', Auth::guard('admin')->user()->id)->get()->toArray();
         $subjects = Subject::where('status', 1)->get()->toArray();
         $classes = Classes::where('status', 1)->get()->toArray();
         $grades=Grade::where('status', 1)->get()->toArray();

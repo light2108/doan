@@ -64,34 +64,40 @@ use Illuminate\Support\Facades\Session;
                                                         <td><span class="pending">{{ $subject_exam['end_time'] }}</span>
                                                         </td>
                                                         <td>
-                                                        @if (!empty($subject_exam['password']))
-                                                                <a href="javascript:void(0)"
-                                                                    data-exam={{ $subject_exam['id'] }}
+                                                        @if(date('Y-m-d', strtotime($subject_exam['start_time']))<=date('Y-m-d', strtotime(Carbon::now())))
+                                                            @if (!empty($subject_exam['password']))
+                                                                    <a href="javascript:void(0)"
+                                                                        data-exam={{ $subject_exam['id'] }}
+                                                                        data-subject={{ $subject_exam['subject_id'] }}
+                                                                        data-grade={{ $subject_exam['grade_id'] }}
+                                                                        {{Session::put('questions_answers', Question::with(['answer'=>function($q){
+                                                                            $q->inRandomOrder();
+                                                                        }])->where('status',1)->inRandomOrder()->get())}}
+                                                                        class="btn btn-sm bg-info-light visit-exam-password"><i
+                                                                            class="far fa-eye"></i>
+                                                                        Enter Exam</a>
+
+                                                            @else
+                                                                <a @if(date('Y-m-d H:i:s', strtotime($subject_exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now()))||Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)->count()>0) href="{{url('/result/exam/'.$subject_exam['id'].'/subject/'.$subject_exam['subject_id'])}}" @endif
+                                                                    @if(!empty(Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)->first()->score))
+                                                                        @if($subject_exam['multiple']!=0&&$subject_exam['multiple']<count(explode(",",Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)->first()->score))) href="{{url('/result/exam/'.$subject_exam['id'].'/subject/'.$subject_exam['subject_id'])}}"
+                                                                        @else  href="{{ url('/exam/' . $subject_exam['id'] . '/subject/' . $subject_exam['subject_id'] . '/grade/' . $subject_exam['grade_id']) }}"
+                                                                        @endif
+
+                                                                    @else href="{{ url('/exam/' . $subject_exam['id'] . '/subject/' . $subject_exam['subject_id'] . '/grade/' . $subject_exam['grade_id']) }}"
+                                                                    @endif data-exam={{ $subject_exam['id'] }}
                                                                     data-subject={{ $subject_exam['subject_id'] }}
                                                                     data-grade={{ $subject_exam['grade_id'] }}
                                                                     {{Session::put('questions_answers', Question::with(['answer'=>function($q){
                                                                         $q->inRandomOrder();
                                                                     }])->where('status',1)->inRandomOrder()->get())}}
-                                                                    class="btn btn-sm bg-info-light visit-exam-password"><i
-                                                                        class="far fa-eye"></i>
+                                                                    class="btn btn-sm bg-info-light visit-exam"><i class="far fa-eye"></i>
                                                                     Enter Exam</a>
-
+                                                            @endif
                                                         @else
-                                                            <a @if(date('Y-m-d H:i:s', strtotime($subject_exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now()))) href="{{url('/result/exam/'.$subject_exam['id'].'/subject/'.$subject_exam['subject_id'])}}" @endif
-                                                                @if(!empty(Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)->first()->score))
-                                                                    @if($subject_exam['multiple']!=0&&$subject_exam['multiple']<count(explode(",",Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)->first()->score))) href="{{url('/result/exam/'.$subject_exam['id'].'/subject/'.$subject_exam['subject_id'])}}"
-                                                                    @else  href="{{ url('/exam/' . $subject_exam['id'] . '/subject/' . $subject_exam['subject_id'] . '/grade/' . $subject_exam['grade_id']) }}"
-                                                                    @endif
-
-                                                                @else href="{{ url('/exam/' . $subject_exam['id'] . '/subject/' . $subject_exam['subject_id'] . '/grade/' . $subject_exam['grade_id']) }}"
-                                                                @endif data-exam={{ $subject_exam['id'] }}
-                                                                data-subject={{ $subject_exam['subject_id'] }}
-                                                                data-grade={{ $subject_exam['grade_id'] }}
-                                                                {{Session::put('questions_answers', Question::with(['answer'=>function($q){
-                                                                    $q->inRandomOrder();
-                                                                }])->where('status',1)->inRandomOrder()->get())}}
-                                                                class="btn btn-sm bg-info-light visit-exam"><i class="far fa-eye"></i>
-                                                                Enter Exam</a>
+                                                            <a class="btn btn-sm bg-info-light" href="{{url('/exam/subject/'.$subject_exam['subject_id'].'/grade/'.$subject_exam['grade_id'])}}"><i
+                                                                class="far fa-eye"></i>
+                                                            Enter Exam</a>
                                                         @endif
                                                         </td>
                                                 </tr>

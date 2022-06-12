@@ -29,9 +29,9 @@ class StudentController extends Controller
         Session::put('page', 'student');
 
         if(Auth::guard('admin')->user()->role==1){
-            $students = Student::where('status', 1)->get()->toArray();
+            $students = Student::get()->toArray();
         }else{
-            $students=Student::whereIn('class_id', explode(",",Auth::guard('admin')->user()->class_id))->where('status', 1)->get()->toArray();
+            $students=Student::whereIn('class_id', explode(",",Auth::guard('admin')->user()->class_id))->get()->toArray();
         }
         $classes = Classes::get()->toArray();
         $grades = Grade::get()->toArray();
@@ -54,47 +54,53 @@ class StudentController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->all();
             // $data['role'] = 0;
+            $request->validate([
+                'image'=>'mimes:jpg, png, jpeg'
+            ]);
             $data['name']=normalize($data['name']);
             $data['password'] = Hash::make($data['password']);
             $data['year']=date('Y', strtotime($data['year_admission']));
+            if((int)($data['year'])-(int)(date('Y', strtotime($data['birth_day'])))>=15){
+                if ($request->hasFile('image')) {
+                    $image = $request->file('image');
+                    // dd($image);
+                    $reimage = 'imgstudent/' . time() . '.' . $image->getClientOriginalExtension();
+                    $dest = public_path('/imgstudent');
+                    $image->move($dest, $reimage);
+                    $data['image'] = $reimage;
+                    Student::create($data);
+                    $student=Student::orderBy('id', 'desc')->first();
+                    // dd($student['year']);
 
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                // dd($image);
-                $reimage = 'imgstudent/' . time() . '.' . $image->getClientOriginalExtension();
-                $dest = public_path('/imgstudent');
-                $image->move($dest, $reimage);
-                $data['image'] = $reimage;
-                Student::create($data);
-                $student=Student::orderBy('id', 'desc')->first();
-                // dd($student['year']);
+                    // dd($student_last);
+                    if(empty(Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code)){
+                        $student->update(['student_code'=>$student['year'].'001']);
+                    }
+                    else{
+                        $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code;
+                        $student->update(['student_code'=>($student_last+1)]);
+                    }
 
-                // dd($student_last);
-                if(empty(Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code)){
-                    $student->update(['student_code'=>$student['year'].'001']);
+                    return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
+                }else{
+
+                    Student::create($data);
+                    $student=Student::orderBy('id', 'desc')->first();
+                    // dd($student['year']);
+
+                    // dd($student_last);
+                    if(empty(Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code)){
+                        $student->update(['student_code'=>$student['year'].'001']);
+                    }
+                    else{
+                        $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code;
+                        $student->update(['student_code'=>($student_last+1)]);
+                    }
+                    // Student::find()
+                    return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
                 }
-                else{
-                    $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code;
-                    $student->update(['student_code'=>($student_last+1)]);
-                }
-
-                return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
             }else{
-
-                Student::create($data);
-                $student=Student::orderBy('id', 'desc')->first();
-                // dd($student['year']);
-
-                // dd($student_last);
-                if(empty(Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code)){
-                    $student->update(['student_code'=>$student['year'].'001']);
-                }
-                else{
-                    $student_last=Student::where('year', $student['year'])->orderBy('id', 'desc')->skip(1)->first()->student_code;
-                    $student->update(['student_code'=>($student_last+1)]);
-                }
-                // Student::find()
-                return redirect('/admin/students')->with('success_message', 'Created Student Successfully');
+                return redirect()->back()->with('error_message', 'Age of Student not more than 15');
             }
         }
         return View('admin.students.add', compact('classes', 'grades'));
@@ -119,6 +125,9 @@ class StudentController extends Controller
         if ($request->isMethod('POST')) {
             $data = $request->all();
             // $data['role']=0;
+            $request->validate([
+                'image'=>'mimes:jpg, png, jpeg'
+            ]);
             $data['name']=normalize($data['name']);
             $data['password'] = Hash::make($data['password']);
             $data['year']=date('Y', strtotime($data['year_admission']));
@@ -132,19 +141,25 @@ class StudentController extends Controller
                     $student['student_code']=$student_last+1;
                 }
             }
+            // dd(($data['year'])-(date('Y', strtotime($data['birth_day']))));
+            // dd($data['year']-1);
             // $data['email'] = date('Y', strtotime($data['year_admission'])) . $id . '@com';
             // $data['password'] = $student['password'];
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $reimage = 'imgstudent/' . time() . '.' . $image->getClientOriginalExtension();
-                $dest = public_path('/imgstudent');
-                $image->move($dest, $reimage);
-                $data['image'] = $reimage;
-                $student->update($data);
-                return redirect('/admin/students')->with('success_message', 'Updated Student Successfully');
-            } else {
-                $student->update($data);
-                return redirect('/admin/students')->with('success_message', 'Updated Student Successfully');
+            if(($data['year'])-(date('Y', strtotime($data['birth_day'])))>=15){
+                if ($request->hasFile('image')) {
+                    $image = $request->file('image');
+                    $reimage = 'imgstudent/' . time() . '.' . $image->getClientOriginalExtension();
+                    $dest = public_path('/imgstudent');
+                    $image->move($dest, $reimage);
+                    $data['image'] = $reimage;
+                    $student->update($data);
+                    return redirect('/admin/students')->with('success_message', 'Updated Student Successfully');
+                } else {
+                    $student->update($data);
+                    return redirect('/admin/students')->with('success_message', 'Updated Student Successfully');
+                }
+            }else{
+                return redirect()->back()->with('error_message', 'Age of Student not more than 15');
             }
         }
         return View('admin.students.edit', compact('student', 'classes', 'grades'));
@@ -195,12 +210,9 @@ class StudentController extends Controller
     }
     public function ImportFileStudent(Request $request){
         if($request->isMethod('post')){
-            // $request->validate(
-            //     [
-            //         'file'=>'required|mimes:xls, xlsx',
-            //     ]
-            // );
-
+            $request->validate([
+                'file'=>'required|mimes:xlsx, xls'
+            ]);
             Excel::import(new StudentImport,request()->file('file'));
             return redirect('/admin/students')->with('success_message', 'Created Students Successfully');
         }

@@ -101,7 +101,7 @@ class AdminController extends Controller
     public function forgotPassword(Request $request){
         if($request->isMethod('post')){
             $data=$request->all();
-            $user=Admin::where('role', 0)->orWhere('role', -1)->where('email', $data['email'])->where('status', 1)->first();
+            $user=Admin::where('role', 0)->orWhere('role', -1)->orWhere('role', 1)->where('email', $data['email'])->where('status', 1)->first();
             if(empty($user)){
                 return redirect()->back()->with('error_message', 'Email not exists');
             }else{
@@ -115,7 +115,7 @@ class AdminController extends Controller
         if($request->isMethod('post')){
             $data=$request->all();
             if($data['email']==$email&&$data['password']==$data['confirm_password']){
-                Admin::where('role', 0)->orWhere('role', -1)->where('email', $email)->first()->update(['password'=>Hash::make($data['password'])]);
+                Admin::where('role', 0)->orWhere('role', -1)->orWhere('role', 1)->where('email', $email)->first()->update(['password'=>Hash::make($data['password'])]);
                 return redirect('/admin')->with('success_message', 'Change password successfully');
             }
         }

@@ -18,14 +18,6 @@ class QuestionImport implements ToModel, WithHeadingRow
    */
   public function model(array $row)
   {
-    $grade_id = Grade::where('name', $row['grade'])->first()->id;
-    $unit_id = Unit::where('name', $row['unit'])->where('grade_id', $grade_id)->first()->id;
-    return new Question([
-      'question' => $row['question'],
-      'grade_id' => $grade_id,
-      'unit_id' => $unit_id,
-      'subject_id' => Auth::guard('admin')->user()->subject_id,
-      'teacher_id' => Auth::guard('admin')->user()->id,
-    ]);
+    return new Question([]);
   }
 }

@@ -8,6 +8,7 @@ use App\Models\Exam;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 class SubjectController extends Controller
 {
     public function Index(Request $request, $subject_id, $grade_id){

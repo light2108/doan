@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Concerns\WithMapping;
+
 class ResultExportFull implements FromCollection, WithHeadings
 {
     /**
@@ -14,19 +15,16 @@ class ResultExportFull implements FromCollection, WithHeadings
     */
     public function headings():array{
         $arr=array();
-        for($i=1; $i<=14; ++$i){
+        array_push($arr,'Student Code',
+        'Student Name',
+        'Class',
+        'Exam Name',
+        'Score');
+        for($i=1; $i<=Session::get('count_questions'); ++$i){
             array_push($arr,'Question '.$i);
         }
 
-        $data=implode(",", $arr);
-        return [
-            'Student Code',
-            'Student Name',
-            'Class',
-            'Exam Name',
-            'Score',
-            $data
-        ];
+        return $arr;
     }
     public function collection()
     {

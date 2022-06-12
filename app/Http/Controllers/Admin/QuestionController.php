@@ -21,18 +21,15 @@ use App\Exports\QuestionExport;
 function removeptag($string){
     $string=str_replace("<p>","",$string);
     $string=str_replace("</p>","",$string);
-    
+
     return $string;
 }
 class QuestionController extends Controller
 {
     public function Index($subject_id, $grade_id, $unit_id)
     {
-        // $records=DB::table('questions')->join('answer', 'questions.id', '=', 'answer.question_id')->join('subjects', 'questions.subject_id', '=', 'subjects.id')->join('grades', 'questions.grade_id', '=', 'grades.id')->join('units', 'questions.unit_id', '=', 'units.id')->select(
-        //     'questions.question','answer.answer as answer', 'answer.correct_answer as correct_answer', 'units.name as unit','grades.grade as grade','subjects.name as subject'
-        // )->where('questions.subject_id', $subject_id)->where('questions.grade_id', $grade_id)->where('questions.unit_id', $unit_id)->get()->toArray();
-        // dd($records);
-        $questions = Question::with('subject')->where('subject_id', $subject_id)->where('grade_id', $grade_id)->where('unit_id', $unit_id)->where('status', 1)->get()->toArray();
+
+        $questions = Question::with('subject')->where('subject_id', $subject_id)->where('grade_id', $grade_id)->where('unit_id', $unit_id)->get()->toArray();
         // dd($questions);
         $classes = Classes::where('status', 1)->get()->toArray();
         // dd($classes);
@@ -50,7 +47,10 @@ class QuestionController extends Controller
         // dd(Session::get('grade_id'));
         if ($request->isMethod('post')) {
             $data = $request->all();
-
+            $request->validate([
+                'image'=>'mimes:jpeg, png, jpg',
+                'file_listen'=>'mimes:mp3'
+            ]);
             // $data['exam_id']=0;
             $data['question']=removeptag($data['question']);
             $data['grade_id'] = $grade_id;
@@ -91,12 +91,15 @@ class QuestionController extends Controller
         if ($request->isMethod('post')) {
 
             $data = $request->all();
-
+            $request->validate([
+                'image'=>'mimes:jpeg, png, jpg',
+                'file_listen'=>'mimes:mp3'
+            ]);
             // $data['exam_id']=0;
             $data['question']=removeptag($data['question']);
             $data['teacher_id'] = Auth::guard('admin')->user()->id;
             $data['subject_id'] = Auth::guard('admin')->user()->subject_id;
-            dd($data);
+            // dd($data);
             // Question::create($data);
             if ($request->hasFile('image') || $request->hasFile('file_listen')) {
                 if ($request->hasFile('image')) {
@@ -127,6 +130,9 @@ class QuestionController extends Controller
     }
     public function ImportFileQuestion(Request $request, $subject_id, $grade_id, $unit_id){
         if($request->isMethod('post')){
+            $request->validate([
+                'file'=>'required|mimes:xlsx, xls'
+            ]);
             $results=Excel::toArray(new QuestionImport,request()->file('file'));
             // dd($results[0][0]['question']);
             // $count=0;
@@ -135,7 +141,7 @@ class QuestionController extends Controller
                 // foreach($result as $row){
                     if(!empty($result['question'])){
                         Question::create(['teacher_id'=>Auth::guard('admin')->user()->id, 'subject_id'=>Auth::guard('admin')->user()->subject_id, 'question'=>$result['question'],
-                        'grade_id'=>$grade_id, 'unit_id'=>$unit_id]);
+                        'grade_id'=>$grade_id, 'unit_id'=>$unit_id, 'score'=>$result['score']]);
                     }
                     Answer::create(['question_id'=>Question::where('teacher_id', Auth::guard('admin')->user()->id)->orderBy('id', 'Desc')->first()->id, 'answer'=>$result['answer'], 'correct_answer'=>$result['correct_answer']]);
                 // }

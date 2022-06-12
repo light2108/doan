@@ -1,7 +1,7 @@
 <?php
 use App\Models\Classes;
 use App\Models\Subject;
-$subjects = Subject::with('teacher')
+$subjects = Subject::with('teacher')->where('status',1)
 ->get()
 ->toArray();
 $classes = Classes::classes();

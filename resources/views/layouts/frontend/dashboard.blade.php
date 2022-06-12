@@ -37,7 +37,6 @@
     @include('layouts.frontend.footer')
     {{-- @endif --}}
 </div>
-
 <script data-cfasync="false" src="frontend/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="frontend/assets/js/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>

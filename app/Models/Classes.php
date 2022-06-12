@@ -16,13 +16,13 @@ class Classes extends Model
         'status'
     ];
     public function teacher(){
-        return $this->hasMany('App\Models\Admin', 'class_id', 'id');
+        return $this->hasMany('App\Models\Admin', 'class_id', 'id')->where('status',1);
     }
     public function exam(){
-        return $this->hasMany('App\Models\Exam', 'class_id', 'id');
+        return $this->hasMany('App\Models\Exam', 'class_id', 'id')->where('status',1);
     }
     public static function classes(){
-        $classes=Classes::get()->toArray();
+        $classes=Classes::where('status',1)->get()->toArray();
         return $classes;
     }
 
