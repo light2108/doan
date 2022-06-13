@@ -89,7 +89,7 @@
                                         </tbody>
                                     </table><br>
                                     <div class="pagination justify-content-center">
-                                        <a href="{{ url('/exam/' . $exam_id . '/subject/' . $subject_id . '/grade/' . $grade_id) }}"
+                                        <a href="{{ url('/exam/' . $exam_id . '/subject/' . $subject_id . '/grade/' . $grade_id.'/'.$code) }}"
                                             class="btn btn-primary">Return Exam</a>
                                         {{-- <button type="submit" class="btn btn-primary finish-exam"
                                         subject-id={{ $subject_id }} exam-id={{ $exam_id }}>Submit</button> --}}
