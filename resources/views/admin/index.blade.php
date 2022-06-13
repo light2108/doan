@@ -10,10 +10,12 @@ use App\Models\Question;
 use App\Models\Result;
 $students=Student::student();
 $teachers=Admin::teacher();
+$teacher_teacher=Admin::teacher_teacher();
+$teacher_student=Student::teacher_student();
 $classes=Classes::classes();
 $subjects=Subject::subject();
-$exams=Exam::where('teacher_id', Auth::guard('admin')->user()->id)->get()->toArray();
-$questions=Question::get()->toArray();
+$exams=Exam::where('teacher_id', Auth::guard('admin')->user()->id)->where('status', 1)->get()->toArray();
+$questions=Question::where('status', 1)->get()->toArray();
 $results=Result::get()->toArray();
 ?>
     <div class="content-wrapper">
@@ -52,7 +54,7 @@ $results=Result::get()->toArray();
                             <div class="icon">
                                 <i class="fas fa-chalkboard-teacher"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{url('/admin/teachers')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -67,7 +69,7 @@ $results=Result::get()->toArray();
                             <div class="icon">
                                 <i class="fa fa-user-graduate"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{url('/admin/students')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -82,7 +84,7 @@ $results=Result::get()->toArray();
                             <div class="icon">
                                 <i class="fas fa-school"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{url('/admin/classes')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -97,7 +99,7 @@ $results=Result::get()->toArray();
                             <div class="icon">
                                 <i class="fas fa-book-reader"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{url('/admin/subjects')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -106,7 +108,7 @@ $results=Result::get()->toArray();
                 <div class="row">
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-info">
+                        <div class="small-box bg-danger">
                             <div class="inner">
                                 <h3>{{count($exams)}}</h3>
 
@@ -115,24 +117,11 @@ $results=Result::get()->toArray();
                             <div class="icon">
                                 <i class="fa fa-clipboard-list"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{url('/admin/exams')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3>{{count($questions)}}</h3>
 
-                                <p>Questions</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fas fa-question"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
                     <!-- ./col -->
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
@@ -146,6 +135,35 @@ $results=Result::get()->toArray();
                                 <i class="fa fa-clipboard-check"></i>
                             </div>
                             <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>{{count($teacher_teacher)}}</h3>
+
+                                <p>Teachers</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <a href="{{url('/admin/teachers')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>{{count($teacher_student)}}</h3>
+
+                                <p>Students</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-user-graduate"></i>
+                            </div>
+                            <a href="{{url('/admin/students')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->

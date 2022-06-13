@@ -52,8 +52,12 @@ class Student extends Authenticatable
      *
      * @var array<string, string>
      */
-    public function student(){
+    public static function student(){
         $students=Student::where('status',1)->get()->toArray();
+        return $students;
+    }
+    public static function teacher_student(){
+        $students=Student::whereIn('class_id', explode(",", Auth::guard('admin')->user()->class_id))->where('status',1)->get()->toArray();
         return $students;
     }
     public function class(){

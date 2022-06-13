@@ -50,9 +50,9 @@
                                     <span class="fas fa-eye toggle-password"></span>
                                 </div>
                             </div>
-                            <div class="text-end">
+                            {{-- <div class="text-end">
                                 <a class="forgot-link" href="{{url('/admin/forgot-password')}}">Forgot Password ?</a>
-                            </div>
+                            </div> --}}
                             <button class="btn btn-primary login-btn" type="submit">Login</button>
 
                         </form>
