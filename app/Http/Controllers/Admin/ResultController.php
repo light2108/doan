@@ -17,6 +17,9 @@ use App\Exports\ResultExport;
 use App\Exports\ResultExportFull;
 use App\Models\Result_Merger;
 use App\Models\Question;
+use App\Models\Result_Answer_Exam;
+use Carbon\Carbon;
+use App\Models\Admin;
 class ResultController extends Controller
 {
     public function Index(){
@@ -37,12 +40,26 @@ class ResultController extends Controller
         // $result_student
         Session::put('exam_id', $exam_id);
         Session::put('class_id', $class_id);
-        $count_questions=0;
-        foreach (Question::where('status', 1)->get()->toArray() as $question) {
-            if ($question['exam_id'] == $exam_id || in_array($exam_id, explode(",", $question['select_id']))) {
-                $count_questions += 1;//14
+        if (date('Y-m-d', strtotime(Exam::find($exam_id)->end_time))<date('Y-m-d', strtotime(Carbon::now()))&&Result::where('exam_id', $exam_id)->where('student_id', Auth::guard('student')->user()->id)->count()==0) {
+            Result::create(['exam_id' => $exam_id, 'student_id' => Auth::guard('student')->user()->id, 'class_id' => Auth::guard('student')->user()->class_id, 'subject_id' => Admin::guard('admin')->user()->subject_id, 'score' => 0, 'time' => date('Y-m-d', strtotime(Exam::find($exam_id)->end_time))]);
+            Result_Merger::create(['exam_id' => $exam_id, 'student_id' => Auth::guard('student')->user()->id, 'class_id' => Auth::guard('student')->user()->class_id, 'subject_id' => Admin::guard('admin')->user()->subject_id, 'score'=>0]);
+            $count_questions=0;
+            foreach (Question::get()->toArray() as $question_answer) {
+                if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id']) {
+                    $count_questions+=1;
+                }
+            }
+            $result_id = Result::where('exam_id', $exam_id)->where('student_id', Auth::guard('student')->user()->id)->orderBy('id', 'desc')->first()->id;
+            for($i=1; $i<=$count_questions; ++$i){
+                Result_Answer_Exam::create(['result_id'=>$result_id, 'score_answer'=>0]);
             }
         }
+        $count_questions=0;
+            foreach (Question::get()->toArray() as $question_answer) {
+                if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id']) {
+                    $count_questions+=1;
+                }
+            }
         Session::put('count_questions', $count_questions);
         return View('admin.result.index_result', compact('results', 'students', 'classes'));
     }

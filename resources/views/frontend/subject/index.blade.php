@@ -74,14 +74,17 @@ use Illuminate\Support\Facades\Session;
                                                                         {{Session::put('questions_answers', Question::with(['answer'=>function($q){
                                                                             $q->inRandomOrder();
                                                                         }])->where('status',1)->inRandomOrder()->get())}}
-                                                                        class="btn btn-sm bg-info-light visit-exam-password"><i
-                                                                            class="far fa-eye"></i>
+                                                                        class="btn btn-sm bg-info-light visit-exam-password">
+                                                                        <i class="far fa-eye"></i>
                                                                         Enter Exam</a>
                                                                 @elseif(date('Y-m-d', strtotime($subject_exam['end_time']))>=date('Y-m-d', strtotime(Carbon::now()))&&!empty(Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)))
                                                                 <a class="btn btn-sm bg-info-light" href="{{url('/result/exam/'.$subject_exam['id'].'/subject/'.$subject_exam['subject_id'])}}"><i
                                                                     class="far fa-eye"></i>
                                                                 Enter Exam</a>
-
+                                                                @else
+                                                                <a class="btn btn-sm bg-info-light" href="{{url('/result/exam/'.$subject_exam['id'].'/subject/'.$subject_exam['subject_id'])}}"><i
+                                                                    class="far fa-eye"></i>
+                                                                Enter Exam</a>
                                                                 @endif
 
                                                             @else
