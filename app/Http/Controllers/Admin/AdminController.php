@@ -16,12 +16,12 @@ class AdminController extends Controller
         // dd(Hash::make(1));
         if($request->isMethod('post')){
             $data=$request->all();
-            if(Auth::guard('admin')->attempt(['email'=>$data['email'], 'password'=>$data['password']])){
+            if(Auth::guard('admin')->attempt(['email'=>$data['email'], 'password'=>$data['password'], 'status'=>1])){
                 // Admin::where('id', Auth::guard('admin')->user()->id)->update(['status'=>1]);
                 return redirect('/admin/dashboard')->with('success_message', 'Welcome back admin');
 
             }else{
-                return redirect()->back()->with('error_message', 'Your email or password incorrect');
+                return redirect()->back()->with('error_message', 'Your email or password incorrect or user not active');
             }
         }
         return View('admin.login');

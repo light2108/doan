@@ -59,7 +59,7 @@ class StudentController extends Controller
     public function Login(Request $request){
         if($request->isMethod('POST')){
             $data=$request->all();
-            if(Auth::guard('student')->attempt(['student_code'=>$data['student_code'],'password'=>$data['password']])){
+            if(Auth::guard('student')->attempt(['student_code'=>$data['student_code'],'password'=>$data['password'], 'status'=>1])){
                 return redirect('/dashboard');
             }else{
                 return redirect()->back()->with('error_message', 'Your email or password is incorrect');

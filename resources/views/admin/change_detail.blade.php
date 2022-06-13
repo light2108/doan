@@ -90,7 +90,7 @@
 
                                     </div>
 
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="exampleInputPassword1">Status</label>
                                         @if($admindetails->status==1)
                                         <input type="radio"
@@ -103,7 +103,7 @@
                                         <input type="radio"
                                              name="status" value="1" class="active">Active
                                         @endif
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                                 <!-- /.card-body -->
