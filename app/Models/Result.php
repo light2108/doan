@@ -31,6 +31,7 @@ class Result extends Model
         }
         return $count;
     }
+
     public static function getResult($exam_id, $class_id){
         /*'Student Code',
             'Student Name',

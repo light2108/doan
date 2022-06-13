@@ -23,11 +23,19 @@
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <a class="h1"><b>Admin</b>LTM</a>
+                @if (Session::has('error_message'))
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>{{ Session::get('error_message') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form action="{{url('/admin')}}" method="post">
+                <form action="{{ url('/admin') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Email" required>
@@ -49,7 +57,7 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <a href="{{url('/admin/forgot-password')}}">I forgot my password</a>
+                                <a href="{{ url('/admin/forgot-password') }}">I forgot my password</a>
                             </div>
                         </div>
                         <!-- /.col -->

@@ -222,6 +222,17 @@ class QuestionController extends Controller
         $code=Str::random(32);
         if (date('Y-m-d', strtotime(Exam::find($exam_id)->end_time))<date('Y-m-d', strtotime(Carbon::now()))&&Result::where('exam_id', $exam_id)->where('student_id', Auth::guard('student')->user()->id)->count()==0) {
             Result::create(['exam_id' => $exam_id, 'student_id' => Auth::guard('student')->user()->id, 'class_id' => Auth::guard('student')->user()->class_id, 'subject_id' => $subject_id, 'score' => 0, 'time' => date('Y-m-d', strtotime(Exam::find($exam_id)->end_time))]);
+            Result_Merger::create(['exam_id' => $exam_id, 'student_id' => Auth::guard('student')->user()->id, 'class_id' => Auth::guard('student')->user()->class_id, 'subject_id' => $subject_id, 'score'=>0]);
+            $count_questions=0;
+            foreach (Question::get()->toArray() as $question_answer) {
+                if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id']) {
+                    $count_questions+=1;
+                }
+            }
+            $result_id = Result::where('exam_id', $exam_id)->where('student_id', Auth::guard('student')->user()->id)->orderBy('id', 'desc')->first()->id;
+            for($i=1; $i<=$count_questions; ++$i){
+                Result_Answer_Exam::create(['result_id'=>$result_id, 'score_answer'=>0]);
+            }
             $results = Result::where('exam_id', $exam_id)->where('subject_id', $subject_id)->where('student_id', Auth::guard('student')->user()->id)->get()->toArray();
         // $exam=Exam::find($exam_id);
             $exam = Exam::find($exam_id);
