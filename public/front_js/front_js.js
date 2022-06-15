@@ -45,6 +45,7 @@ $(document).ready(function(){
     });
     $('.visit-exam').click(function(){
         localStorage.clear();
+        localStorage.removeItem('seconds');
         // var exam_id=$(this).attr('data-exam');
         // var subject_id=$(this).attr('data-subject');
         // var grade_id=$(this).attr('data-grade');

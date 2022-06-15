@@ -122,6 +122,7 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::get('/result/exam/class', 'ResultController@Index');
         Route::get('/result/student/exam/{exam_id}/class/{class_id}', 'ResultController@ResultStudentExam');
         Route::get('/result/exam/class/{class_id}', 'ResultController@ResultExamClass');
+        Route::get('/see/student/exam/{exam_id}/class/{class_id}', 'ResultController@SeeStudentExam');
         Route::get('/export-file-result-briefly', 'ResultController@ExportFileResultBriefly');
         Route::get('/export-file-result-full', 'ResultController@ExportFileResultFull');
     });

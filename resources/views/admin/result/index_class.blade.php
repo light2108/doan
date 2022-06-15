@@ -49,7 +49,6 @@ use App\Models\Grade;
                                             <th>ID</th>
                                             <th>Class Name</th>
                                             <th>Grade</th>
-                                            <th>Status</th>
                                             <th style="width:100px">Action</th>
                                         </tr>
                                     </thead>
@@ -75,9 +74,7 @@ use App\Models\Grade;
                                                         @endif
                                                     @endforeach
                                                 </td>
-                                                <td>
-                                                    <span style="color:green">New</span>
-                                                </td>
+
                                                 <td style="font-size: 20px">
 
                                                     <a title="View Exams of Class" href="{{url('/admin/result/exam/class', $class_id)}}"><i

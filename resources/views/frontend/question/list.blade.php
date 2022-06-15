@@ -230,7 +230,7 @@
             var seconds = 60 * parseInt($('#countdown').attr('time'));
             // localStorage.clear();
         }
-        var exam_id = $('#countdown').attr('exam-id');
+        // var exam_id = $('#countdown').attr('exam-id');
         // var seconds = initialTime;
 
         function timer() {
@@ -251,8 +251,8 @@
             if (seconds == 0) {
                 // clearInterval(countdownTimer);
                 // localStorage.clear();
-                var exam_id = $(this).attr('exam-id');
-                var subject_id = $('.finish-exam').attr('subject-id');
+                var exam_id = localStorage.getItem('exam_id');
+                var subject_id = localStorage.getItem('subject_id');
                 // allanswers = [];
                 // $('.sub_answer:checked').each(function() {
                 //     xxx.push($(this).attr('answer-id'));

@@ -28,11 +28,28 @@ class ResultController extends Controller
     {
         Session::put('page', 'result');
         // $exams=Exam::where('teacher_id', Auth::guard('admin')->user()->id)->get()->toArray();
-
+        // dd(empty(Result::where('exam_id', 15)->get()->toArray()));
         $classes = Classes::where('status', 1)->get()->toArray();
         $grades = Grade::where('status', 1)->get()->toArray();
         // dd($exams);
+
         return View('admin.result.index_class', compact('classes', 'grades'));
+    }
+    public function SeeStudentExam(Request $request, $exam_id, $class_id){
+        $exam = Exam::find($exam_id);
+        $students = Student::where('class_id', $class_id)->where('status', 1)->get()->toArray();
+        // dd($students);
+
+        $classes = Classes::find($class_id);
+        if(empty(Check_Login_Exam::where('exam_id', $exam_id)->get()->toArray())){
+            foreach($students as $student){
+                Check_Login_Exam::create(['exam_id'=>$exam_id, 'student_id'=>$student['id'], 'status'=>0]);
+            }
+            $students_login=Check_Login_Exam::where('exam_id', $exam_id)->get()->toArray();
+        }else{
+            $students_login=Check_Login_Exam::where('exam_id', $exam_id)->get()->toArray();
+        }
+        return View('admin.result.index_status', compact('students_login', 'students', 'classes'));
     }
     public function ResultStudentExam(Request $request, $exam_id, $class_id)
     {

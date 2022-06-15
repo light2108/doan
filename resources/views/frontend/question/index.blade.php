@@ -35,7 +35,7 @@
                         <div class="card-footer">
                             <div class="pagination row">
                                 <div class="col-6 checktime">
-                                    <p id="countdown" class="timer" exam-id="{{ $exam_id }}"
+                                    <p id="countdown" class="timer" exam-id="{{ $exam_id }}" subject-id="{{$subject_id}}"
                                         time="{{ (!empty($exam['time'])?$exam['time']:(date('Y-m-d H:i:s', strtotime($exam['end_time']))-date('Y-m-d H:i:s', strtotime($exam['start_time'])))) }}"></p>
                                 </div>
                                 <div class="col-6">
@@ -117,7 +117,8 @@
         var last_page = $('#example').attr('last-page');
         // alert(last_page);
         localStorage.setItem('last_page', last_page);
-
+        localStorage.setItem('exam_id', $('#countdown').attr('exam-id'));
+        localStorage.setItem('subject_id', $('#countdown').attr('subject-id'));
         // alert(data);
         // alert(stt_page);
         $(".sub_answer").click(function() {
@@ -263,7 +264,7 @@
             var seconds = 60 * parseInt($('#countdown').attr('time'));
             // localStorage.clear();
         }
-        var exam_id = $('#countdown').attr('exam-id');
+        // var exam_id = $('#countdown').attr('exam-id');
         // var seconds = initialTime;
 
         function timer() {
@@ -284,8 +285,8 @@
             if (seconds == 0) {
                 // clearInterval(countdownTimer);
                 // localStorage.clear();
-                var exam_id = $(this).attr('exam-id');
-                var subject_id = $('.finish-exam').attr('subject-id');
+                var exam_id = $('#countdown').attr('exam-id');
+                var subject_id = $('#countdown').attr('subject-id');
                 // allanswers = [];
                 // $('.sub_answer:checked').each(function() {
                 //     xxx.push($(this).attr('answer-id'));
