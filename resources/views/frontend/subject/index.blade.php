@@ -58,7 +58,7 @@ use Illuminate\Support\Facades\Session;
                                                             </h2>
                                                         </td>
                                                         <td>{{ $subject_exam['name'] }}</td>
-                                                        <td>{{(!empty($subject_exam['time'])?$subject_$exam['time']:(date('Y-m-d H:i:s', strtotime($subject_exam['end_time']))-date('Y-m-d H:i:s', strtotime($subject_exam['start_time']))))}}</td>
+                                                        <td>{{(!empty($subject_exam['time'])?$subject_exam['time']:(date('Y-m-d H:i:s', strtotime($subject_exam['end_time']))-date('Y-m-d H:i:s', strtotime($subject_exam['start_time']))))}}</td>
                                                         <td><span class="pending">{{ $subject_exam['start_time'] }}</span>
                                                         </td>
                                                         <td><span class="pending">{{ $subject_exam['end_time'] }}</span>
