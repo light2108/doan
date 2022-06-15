@@ -22,19 +22,21 @@
                                                 key-id="{{ $i }}" class="check-selected-question">
                                                 <a role="button" class="btn btn-success visit-to-question"
                                                     style="width:50px" question-id="{{ $question_answer['id'] }}"
+
                                                     href="javascript:void(0)">{{ $i++ }}</a>
                                             </div>
                                         </div>
                                         @if ($i % 4 == 0)<br><br>@endif
                                     @endif
                                 @endforeach
+                                {{-- {{$each_data->links('pagination::bootstrap-4')}} --}}
                             </div>
                         </div>
                         <div class="card-footer">
                             <div class="pagination row">
                                 <div class="col-6 checktime">
                                     <p id="countdown" class="timer" exam-id="{{ $exam_id }}"
-                                        time="{{ $exam['time'] }}"></p>
+                                        time="{{ (!empty($exam['time'])?$exam['time']:(date('Y-m-d H:i:s', strtotime($exam['end_time']))-date('Y-m-d H:i:s', strtotime($exam['start_time'])))) }}"></p>
                                 </div>
                                 <div class="col-6">
                                     {{-- <button type="submit" class="btn btn-primary finish-exam"

@@ -31,7 +31,7 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::get('/delete-exam/{id}', 'ExamController@deleteExam');
         Route::post('/status/exam', 'ExamController@StatusExam');
         Route::get('/delete-all/exams', 'ExamController@DeleteAll');
-        // Route::match(['get', 'post'], '/append/class/exam', 'ExamController@appendClassExam');
+        Route::match(['get', 'post'], '/append/class/exam', 'ExamController@appendClassExam');
         //Questions Exam
         Route::get('questions/grade/{grade_id}/exam/{id}', ['as'=>'admin.question.grade.exam', 'uses'=>'QuestionExamController@Index']);
         Route::get('/delete-all/questions-exam', 'QuestionExamController@DeleteAll');
@@ -140,7 +140,7 @@ Route::namespace('Frontend')->group(function(){
             // Route::post('/check/exam/{exam_id}', 'QuestionController@CheckExam');
             Route::post('/check-result-answer', 'QuestionController@CheckResultAnswer');
             Route::match(['get', 'post'], '/result/exam/{exam_id}/subject/{subject_id}', 'QuestionController@ResultExam');
-            Route::post('/visit-to-question', 'QuestionController@VisitToQuestion');
+            // Route::get('/visit-to-question', 'QuestionController@VisitToQuestion');
             // Route::post('/visit-to-exam', 'QuestionController@VisitExam');
             Route::get('/exam-list-question/{exam_id}/subject/{subject_id}/grade/{grade_id}/{code}', 'QuestionController@ExamListQuestion');
 

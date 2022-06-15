@@ -85,10 +85,14 @@ class StudentController extends Controller
                 $student->update($data);
                 return redirect()->back()->with('success_message', 'Updated Profile Successfully');
             }
-            if(Hash::check($data['old_password'], $student['password'])){
-                $data['password']=Hash::make($data['new_password']);
-                $student->update($data);
-                return redirect()->back()->with('success_message', 'Updated Profile Successfully');
+            if(Hash::check($data['current_password'], $student['password'])){
+                if($data['new_password']==$data['confirm_password']){
+                    $data['password']=Hash::make($data['new_password']);
+                    $student->update($data);
+                    return redirect()->back()->with('success_message', 'Updated Profile Successfully');
+                }else{
+                    return redirect()->back()->with('error_message', 'Updated Profile Successfully');
+                }
             }else{
                 return redirect()->back()->with('error_message', 'Somethings Wrong');
             }

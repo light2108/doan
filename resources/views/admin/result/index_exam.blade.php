@@ -47,6 +47,7 @@
                                             <th>Exam</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
+                                            <th>Status</th>
                                             <th style="width:100px">Action</th>
                                         </tr>
                                     </thead>
@@ -67,10 +68,14 @@
                                                 <td>
                                                     {{date('Y-m-d H:i:s', strtotime($exam['end_time']))}}
                                                 </td>
+                                                <td>
+                                                    <span style="color:green">New</span>
+                                                </td>
                                                 <td style="font-size: 20px">
 
-                                                    <a title="View Result of Student" href="{{url('/admin/result/student/exam/'.$exam['id'].'/class/'.$class_id)}}"><i
-                                                            class="fas fa-eye"></i></a>
+                                                        <a title="View Result of Student" href="{{url('/admin/result/student/exam/'.$exam['id'].'/class/'.$class_id)}}"><i
+                                                                class="fas fa-eye"></i></a>
+
                                                 </td>
                                             </tr>
                                         @endif

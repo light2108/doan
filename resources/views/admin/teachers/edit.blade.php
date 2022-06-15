@@ -92,8 +92,8 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Birth day</label>
-                                            <input type="date" placeholder="" name="birth_day" class="form-control"
-                                                required value="{{date('Y-m-d', strtotime($teacher['birth_day']))}}">
+                                            <input type="date" placeholder="" name="birth_day" class="form-control" required
+                                                value="{{ date('Y-m-d', strtotime($teacher['birth_day'])) }}">
 
                                         </div>
                                     </div>
@@ -104,8 +104,8 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Address</label>
-                                            <input type="text" placeholder="Enter Address" name="address" class="form-control"
-                                                required value="{{$teacher['address']}}">
+                                            <input type="text" placeholder="Enter Address" name="address"
+                                                class="form-control" required value="{{ $teacher['address'] }}">
 
                                         </div>
                                     </div>
@@ -123,6 +123,7 @@
                                     </div>
 
                                 </div>
+                                {{-- @if (Auth::guard('admin')->user()->role == 1) --}}
                                 <div class="col-md-6">
 
                                     <div class="form-group">
@@ -134,6 +135,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- @endif --}}
                                 <!-- /.col -->
                                 <div class="col-md-6">
 
@@ -167,7 +169,8 @@
                                                             <option value="{{ $subject['id'] }}" selected>
                                                                 {{ $subject['name'] }}</option>
                                                         @else
-                                                            <option value="{{ $subject['id'] }}">{{ $subject['name'] }}
+                                                            <option value="{{ $subject['id'] }}">
+                                                                {{ $subject['name'] }}
                                                             </option>
                                                         @endif
                                                     @endforeach
@@ -195,19 +198,18 @@
                                                 name="class_id[]">
                                                 @foreach ($classes as $class)
                                                     @if (in_array($class['id'], $class_id))
-                                                        <option value="{{ $class['id'] }}" selected>{{ $class['name'] }}
+                                                        <option value="{{ $class['id'] }}" selected>
+                                                            {{ $class['name'] }}
                                                         </option>
                                                     @else
-                                                        <option value="{{ $class['id'] }}">{{ $class['name'] }}</option>
+                                                        <option value="{{ $class['id'] }}">{{ $class['name'] }}
+                                                        </option>
                                                     @endif
                                                 @endforeach
                                             </select>
 
                                         </div>
                                     </div>
-
-
-
                                     @if (Auth::guard('admin')->user()->role == 1)
                                         <div class="form-group">
                                             <div class="form-group">

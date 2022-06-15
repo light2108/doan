@@ -55,13 +55,13 @@ class ExamController extends Controller
                 $dest = public_path('/video');
                 $image->move($dest, $reimage);
                 $data['video']=$reimage;
-                if(date('Y-m-d', strtotime($data['start_time']))<=date('Y-m-d', strtotime($data['end_time']))){
+                if(date('Y-m-d H:i:s', strtotime($data['start_time']))<=date('Y-m-d H:i:s', strtotime($data['end_time']))){
                     Exam::create($data);
                 }else{
                     return redirect()->back()->with('error_message', 'Set time exam not true');
                 }
             }else{
-                if(date('Y-m-d', strtotime($data['start_time']))<=date('Y-m-d', strtotime($data['end_time']))){
+                if(date('Y-m-d H:i:s', strtotime($data['start_time']))<=date('Y-m-d H:i:s', strtotime($data['end_time']))){
                     Exam::create($data);
                 }else{
                     return redirect()->back()->with('error_message', 'Set time exam not true');
@@ -94,13 +94,13 @@ class ExamController extends Controller
                 $dest = public_path('/video');
                 $image->move($dest, $reimage);
                 $data['video']=$reimage;
-                if(date('Y-m-d', strtotime($data['start_time']))<=date('Y-m-d', strtotime($data['end_time']))){
+                if(date('Y-m-d H:i:s', strtotime($data['start_time']))<=date('Y-m-d H:i:s', strtotime($data['end_time']))){
                     $exam->update($data);
                 }else{
                     return redirect()->back()->with('error_message', 'Set time exam not true');
                 }
             }else{
-                if(date('Y-m-d', strtotime($data['start_time']))<=date('Y-m-d', strtotime($data['end_time']))){
+                if(date('Y-m-d H:i:s', strtotime($data['start_time']))<=date('Y-m-d H:i:s', strtotime($data['end_time']))){
                     $exam->update($data);
                 }else{
                     return redirect()->back()->with('error_message', 'Set time exam not true');
@@ -140,16 +140,16 @@ class ExamController extends Controller
         }
         return redirect()->back()->with('success_message', 'Deleted Exams Successfully');
     }
-    // public function appendClassExam(Request $request){
-    //     if($request->ajax()){
-    //         $data = $request->all();
-    //         $teacher=Admin::find(Auth::guard('admin')->user()->id);
-    //         // print_r(explode(",",$teacher['class_id']));
-    //         $getclasses=Classes::where('grade_id', $data['grade_id'])->whereIn('id', explode(",",$teacher['class_id']))->get();
-    //         // dd($getclasses);
-    //         // $view=View('admin.exams.append_classes_exam', ['getclasses'=>$getclasses])->render();
-    //         // return response()->json(['view'=>$view]);
-    //     }
-    //     return View('admin.exams.append_classes_exam', compact('getclasses'));
-    // }
+    public function appendClassExam(Request $request){
+        if($request->ajax()){
+            $data = $request->all();
+            $teacher=Admin::find(Auth::guard('admin')->user()->id);
+            // print_r(explode(",",$teacher['class_id']));
+            $getclasses=Classes::where('grade_id', $data['grade_id'])->whereIn('id', explode(",",$teacher['class_id']))->get()->toArray();
+            // dd($getclasses);
+            // $view=View('admin.exams.append_classes_exam', ['getclasses'=>$getclasses])->render();
+            // return response()->json(['view'=>$view]);
+            return View('admin.exams.append_classes_exam', compact('getclasses'));
+        }
+    }
 }

@@ -139,7 +139,20 @@ $(document).ready(function () {
             });
         }
     });
-
+    $('#append_grade_exam').change(function(){
+        var grade_id=$(this).val();
+        $.ajax({
+            url:'/admin/append/class/exam',
+            type:'POST',
+            data:{
+                grade_id:grade_id
+            },success:function(resp){
+                $('#appendclass').html(resp);
+            },error:function(){
+                alert('ERROR');
+            }
+        })
+    })
     $("#appendgradeid").change(function () {
         var grade_id = $(this).val();
         // alert(grade_id);

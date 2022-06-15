@@ -91,22 +91,26 @@ $(document).ready(function(){
         });
     });
 
-    $('.visit-to-question').click(function(){
-        var question_id=$(this).attr('question-id');
-        // alert(question_id);
-        $.ajax({
-            url:'/visit-to-question',
-            type: 'POST',
-            data:{
-                question_id:question_id
-            },success:function(resp){
-                if(resp['status']==true){
-                }
-            },error:function(err){
-                alert('ERROR');
-            }
-        })
-    });
+    // $('.visit-to-question').click(function(){
+    //     var question_id=$(this).attr('question-id');
+    //     // alert(question_id);
+    //     var exam_id=$(this).attr('exam_id');
+    //     var subject_id=$(this).attr('subject_id');
+    //     var grade_id=$(this).attr('grade_id');
+    //     var code=$(this).attr('code');
+    //     $.ajax({
+    //         url:'/visit-to-question',
+    //         type: 'POST',
+    //         data:{
+    //             question_id:question_id
+    //         },success:function(resp){
+    //             if(resp['status']==true){
+    //             }
+    //         },error:function(err){
+    //             alert('ERROR');
+    //         }
+    //     })
+    // });
 
     $('.view-inv-btn').click(function(){
         localStorage.clear();
