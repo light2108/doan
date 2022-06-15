@@ -12,7 +12,6 @@ class Classes extends Model
     protected $fillable=[
         'name',
         'grade_id',
-        'number_of_students',
         'status'
     ];
     public function teacher(){

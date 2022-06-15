@@ -15,7 +15,10 @@ class Check_Login_Exam extends Model
         'status'
     ];
     public static function Check_Login_Exam($exam_id, $student_id){
+
         $status=Check_Login_Exam::where('exam_id', $exam_id)->where('student_id', $student_id)->first();
-        $status->update(['status'=>1]);
+        if(!empty($status)){
+            $status->update(['status'=>1]);
+        }
     }
 }

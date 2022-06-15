@@ -1,6 +1,8 @@
 @extends('layouts.admin.admin_dashboard')
 @section('content')
-
+<?php
+use App\Models\Student;
+?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -80,12 +82,12 @@
                                                     </select>
                                                 </div> --}}
 
-                                                <div class="form-group">
+                                                {{-- <div class="form-group">
                                                     <label for="message-text" class="col-form-label">Number of
                                                         Students:</label>
                                                     <input class="form-control" type="number" name='number_of_students'
                                                         required>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group">
                                                     <label for="message-text" class="col-form-label">Status:</label>
                                                     <input type="radio" name="status" value="1" checked>Active
@@ -136,7 +138,7 @@
                                                     @endforeach
                                                 </td>
 
-                                                <td>{{ $class['number_of_students'] }}</td>
+                                                <td>{{count(Student::where('class_id', $class['id'])->where('status',1)->get())}}</td>
                                                 <td>
                                                     @if ($class['status'] == 1)
                                                         <a class="status-class" href="javascript:void(0)" style="color:green" data-id="{{$class['id']}}" id="class-{{ $class['id'] }}">Active</a>
@@ -190,7 +192,7 @@
                                                                             </select>
                                                                         </div>
 
-                                                                        <div class="form-group">
+                                                                        {{-- <div class="form-group">
                                                                             <label for="recipient-name"
                                                                                 class="col-form-label">Number of
                                                                                 Students:</label>
@@ -198,7 +200,7 @@
                                                                                 name="number_of_students" required
                                                                                 placeholder="Enter Number of Students"
                                                                                 value="{{ $class['number_of_students'] }}">
-                                                                        </div>
+                                                                        </div> --}}
                                                                         <div class="form-group">
                                                                             <label for="recipient-name"
                                                                                 class="col-form-label">Status:</label>

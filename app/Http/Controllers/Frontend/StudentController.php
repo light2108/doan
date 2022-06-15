@@ -62,7 +62,7 @@ class StudentController extends Controller
             if(Auth::guard('student')->attempt(['student_code'=>$data['student_code'],'password'=>$data['password'], 'status'=>1])){
                 return redirect('/dashboard');
             }else{
-                return redirect()->back()->with('error_message', 'Your email or password is incorrect');
+                return redirect()->back()->with('error_message', 'Your student code or password is incorrect');
             }
         }
         return View('frontend.login');

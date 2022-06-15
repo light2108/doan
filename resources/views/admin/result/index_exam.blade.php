@@ -1,6 +1,8 @@
 @extends('layouts.admin.admin_dashboard')
 @section('content')
-
+<?php
+use Carbon\Carbon;
+?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -69,7 +71,11 @@
                                                     {{date('Y-m-d H:i:s', strtotime($exam['end_time']))}}
                                                 </td>
                                                 <td>
-                                                    <span style="color:green">New</span>
+                                                    @if(date('Y-m-d H:i:s', strtotime($exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now())))
+                                                        <span style="color:green">New</span>
+                                                    @else
+                                                        <span style="color:red">Old</span>
+                                                    @endif
                                                 </td>
                                                 <td style="font-size: 20px">
 
