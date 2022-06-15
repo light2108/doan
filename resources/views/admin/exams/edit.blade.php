@@ -81,17 +81,17 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Class</label>
-                                            <select class="form-control classes" name="class_id[]" required multiple="multiple" width="100%">
+                                            <select class="form-control classes" id="appendclass" name="class_id[]" required multiple="multiple" width="100%">
                                                 @foreach ($classes as $class)
                                                     @if (in_array($class['id'], explode(",", $exam['class_id'])))
                                                         <option value="{{$class['id']}}" selected>{{$class['name']}}</option>
                                                     @endif
                                                 @endforeach
-                                                @foreach ($classes as $class)
+                                                {{-- @foreach ($classes as $class)
                                                     @if (in_array($class['id'], $teacher_classes)&&!in_array($class['id'], explode(",", $exam['class_id'])))
                                                         <option value="{{$class['id']}}">{{$class['name']}}</option>
                                                     @endif
-                                                @endforeach
+                                                @endforeach --}}
                                                 {{-- {{$view}} --}}
                                             </select>
                                         </div>
@@ -134,7 +134,7 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Time Exam</label>
-                                            <input type="number" placeholder="Enter minutes of exam" value="{{$exam['time']}}" required class="form-control" name="time">
+                                            <input type="number" placeholder="Enter minutes of exam" value="{{$exam['time']}}" class="form-control" name="time">
                                         </div>
                                     </div>
                                 </div>

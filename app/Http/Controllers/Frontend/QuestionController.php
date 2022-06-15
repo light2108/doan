@@ -20,6 +20,7 @@ use App\Models\Result_Answer_Exam;
 use App\Models\Result_Merger;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Check_Login_Exam;
 class QuestionController extends Controller
 {
     public function pagination($items, $perPage = 4, $page = null, $options = [])
@@ -28,6 +29,12 @@ class QuestionController extends Controller
         $items = $items instanceof Collection ? $items : Collection::make($items);
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
+    // public function each_pagination($items, $perPage = 1, $page = null, $options = [])
+    // {
+    //     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+    //     $items = $items instanceof Collection ? $items : Collection::make($items);
+    //     return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    // }
     public function Index(Request $request, $exam_id, $subject_id, $grade_id, $code)
     {
         Session::put('key', 'question');
@@ -48,6 +55,7 @@ class QuestionController extends Controller
         // // dd($data);
         $data->withPath('/exam/' . $exam_id . '/subject/' . $subject_id . '/grade/' . $grade_id.'/'.$code);
         $exam = Exam::find($exam_id);
+        Check_Login_Exam::check_login_exam($exam_id, Auth::guard('student')->user()->id);
         return View('frontend.question.index', compact('questions_answers', 'exam_id', 'subject_id', 'grade_id', 'exam', 'data', 'code'));
 
     }
@@ -207,14 +215,9 @@ class QuestionController extends Controller
             return response()->json(['status'=>true]);
         }
     }
-    public function VisitToQuestion(Request $request)
+    public function VisitToQuestion(Request $request, $exam_id, $subject_id, $grade_id, $question_id, $code)
     {
-        if ($request->ajax()) {
-            $data = $request->all();
-            $question = Question::find($data['question_id'])->with('answer');
-            return response()->json(['status' => true]);
-            // dd($question);
-        }
+
     }
     public function ResultExam(Request $request, $exam_id, $subject_id)
     {

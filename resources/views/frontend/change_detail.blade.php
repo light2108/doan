@@ -12,13 +12,20 @@
                     </nav>
                     <h2 class="breadcrumb-title">Profile Settings</h2>
                     @if (Session::has('success_message'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>{{ Session::get('success_message') }}</strong>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        @endif
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('success_message') }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @elseif(Session::has('error_message'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{ Session::get('error_message') }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -91,7 +98,7 @@
                                         <div class="form-group">
                                             <label>Mobile</label>
                                             <input type="number" value="{{ $student['mobile'] }}" class="form-control"
-                                                name="mobile">
+                                                name="mobile" required>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-6">
@@ -109,15 +116,22 @@
 
                                     <div class="col-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Old password</label>
-                                            <input type="password" class="form-control" id="current_password" name="old_password">
+                                            <label>Current password</label>
+                                            <input type="password" class="form-control" id="current_password"
+                                                name="current_password" required>
                                             <span id="chkpwd"></span>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-6">
                                         <div class="form-group">
                                             <label>New password</label>
-                                            <input type="password" class="form-control" name="new_password">
+                                            <input type="password" class="form-control" name="new_password" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Confirm password</label>
+                                            <input type="password" class="form-control" name="confirm_password" required>
                                         </div>
                                     </div>
                                 </div>

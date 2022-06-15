@@ -73,14 +73,14 @@
                                 <div class="success-cont">
                                     <h4>Highest Result of Exam: {{max($maxscore)}}</h4>
                                     @if($exam['multiple']==0)
-                                        @if (date('Y-m-d', strtotime($exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now())))
+                                        @if (date('Y-m-d H:i:s', strtotime($exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now())))
                                             <a href="{{url('/dashboard')}}" class="btn btn-primary view-inv-btn">Back Dashboard</a>
                                         @else
                                             <a href="{{url('/exam/'.$exam['id'].'/subject/'.$exam['subject_id'].'/grade/'.$exam['grade_id'].'/'.$code)}}" class="btn btn-primary view-inv-btn" {{Session::put('questions_answers', Question::with(['answer'=>function($q){
                                                 $q->inRandomOrder();
                                             }])->where('status',1)->inRandomOrder()->get())}}>Continue Exam</a>
                                         @endif
-                                    @elseif (date('Y-m-d', strtotime($exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now()))||$exam['multiple']<=count(explode(",",$result['score'])))
+                                    @elseif (date('Y-m-d H:i:s', strtotime($exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now()))||$exam['multiple']<=count(explode(",",$result['score'])))
                                         <a href="{{url('/dashboard')}}" class="btn btn-primary view-inv-btn">Back Dashboard</a>
 
                                     @else

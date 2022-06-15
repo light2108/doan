@@ -77,14 +77,11 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Class</label>
-                                            <select class="form-control classes" name="class_id[]" required multiple="multiple" width="100%">
-                                                @foreach ($classes as $class)
-                                                    @if (in_array($class['id'], $teacher_classes))
-                                                        <option value="{{$class['id']}}">{{$class['name']}}</option>
-                                                    @endif
-                                                @endforeach
-                                                {{-- {{$view}} --}}
-                                            </select>
+                                            {{-- <select id="appendclass" required multiple="multiple" width="100%"> --}}
+                                                <select class="form-control classes" id="appendclass" name="class_id[]" required multiple="multiple" width="100%">
+
+                                                </select>
+                                            {{-- </select> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +122,7 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Time Exam</label>
-                                            <input type="number" placeholder="Enter minutes of exam" required class="form-control" name="time">
+                                            <input type="number" placeholder="Enter minutes of exam" class="form-control" name="time">
                                         </div>
                                     </div>
                                 </div>

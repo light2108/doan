@@ -111,15 +111,37 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {{-- @if(Auth::guard('admin')->user()->role==1) --}}
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Password</label>
-                                            <input type="text" placeholder="Enter Password" name="password"
-                                                class="form-control" value="1" readonly="" required>
+                                            <label for="exampleInputEmail1">Status</label><br>
+                                            @if($student['status']==1)
+                                            <input type="radio" name="status" checked value="1">Active
+                                            <input type="radio" name="status" value="0">Inactive
+                                            @else
+                                            <input type="radio" name="status" value="1">Active
+                                            <input type="radio" name="status" checked value="0">Inactive
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Sex</label><br>
+                                            @if($student['sex']==1)
+                                            <input type="radio" name="sex" checked value="1">Male
+                                            <input type="radio" name="sex" value="0">Female
+                                            @else
+                                            <input type="radio" name="sex" value="1">Male
+                                            <input type="radio" name="sex" checked value="0">Female
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- @endif --}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Image</label>
@@ -177,34 +199,17 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                @if(Auth::guard('admin')->user()->role==1)
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Status</label>
-                                            @if($student['status']==1)
-                                            <input type="radio" name="status" checked value="1">Active
-                                            <input type="radio" name="status" value="0">Inactive
-                                            @else
-                                            <input type="radio" name="status" value="1">Active
-                                            <input type="radio" name="status" checked value="0">Inactive
-                                            @endif
+                                            <label for="exampleInputEmail1">Password</label>
+                                            <input type="text" placeholder="Enter Password" name="password"
+                                                class="form-control" value="1" readonly="" required>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Sex</label>
-                                            @if($student['sex']==1)
-                                            <input type="radio" name="sex" checked value="1">Male
-                                            <input type="radio" name="sex" value="0">Female
-                                            @else
-                                            <input type="radio" name="sex" value="1">Male
-                                            <input type="radio" name="sex" checked value="0">Female
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
 

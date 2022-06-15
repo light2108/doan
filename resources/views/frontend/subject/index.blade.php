@@ -58,15 +58,15 @@ use Illuminate\Support\Facades\Session;
                                                             </h2>
                                                         </td>
                                                         <td>{{ $subject_exam['name'] }}</td>
-                                                        <td>{{$subject_exam['time']}}</td>
+                                                        <td>{{(!empty($subject_exam['time'])?$subject_$exam['time']:(date('Y-m-d H:i:s', strtotime($subject_exam['end_time']))-date('Y-m-d H:i:s', strtotime($subject_exam['start_time']))))}}</td>
                                                         <td><span class="pending">{{ $subject_exam['start_time'] }}</span>
                                                         </td>
                                                         <td><span class="pending">{{ $subject_exam['end_time'] }}</span>
                                                         </td>
                                                         <td>
-                                                        @if(date('Y-m-d', strtotime($subject_exam['start_time']))<=date('Y-m-d', strtotime(Carbon::now())))
+                                                        @if(date('Y-m-d H:i:s', strtotime($subject_exam['start_time']))<=date('Y-m-d H:i:s', strtotime(Carbon::now())))
                                                             @if (!empty($subject_exam['password']))
-                                                                @if(date('Y-m-d', strtotime($subject_exam['end_time']))>=date('Y-m-d', strtotime(Carbon::now()))&&empty(Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)))
+                                                                @if(date('Y-m-d H:i:s', strtotime($subject_exam['end_time']))>=date('Y-m-d H:i:s', strtotime(Carbon::now()))&&empty(Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)))
                                                                     <a href="javascript:void(0)"
                                                                         data-exam={{ $subject_exam['id'] }}
                                                                         data-subject={{ $subject_exam['subject_id'] }}
@@ -77,7 +77,7 @@ use Illuminate\Support\Facades\Session;
                                                                         class="btn btn-sm bg-info-light visit-exam-password">
                                                                         <i class="far fa-eye"></i>
                                                                         Enter Exam</a>
-                                                                @elseif(date('Y-m-d', strtotime($subject_exam['end_time']))>=date('Y-m-d', strtotime(Carbon::now()))&&!empty(Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)))
+                                                                @elseif(date('Y-m-d H:i:s', strtotime($subject_exam['end_time']))>=date('Y-m-d H:i:s', strtotime(Carbon::now()))&&!empty(Result::where('exam_id', $subject_exam['id'])->where('student_id', Auth::guard('student')->user()->id)))
                                                                 <a class="btn btn-sm bg-info-light" href="{{url('/result/exam/'.$subject_exam['id'].'/subject/'.$subject_exam['subject_id'])}}"><i
                                                                     class="far fa-eye"></i>
                                                                 Enter Exam</a>
