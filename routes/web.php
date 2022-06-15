@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //backend
+
 Route::prefix('admin')->namespace('Admin')->group(function(){
     Route::match(['get', 'post'], '/', 'AdminController@Login');
     Route::match(['get', 'post'], '/forgot-password', 'AdminController@forgotPassword');

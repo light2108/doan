@@ -17,13 +17,13 @@ $classes = Classes::classes();
                         <span></span>
                     </span>
                 </a>
-                <a href="index" class="navbar-brand logo">
+                <a href="{{url('/dashboard')}}" class="navbar-brand logo">
                     <img src="frontend/assets/img/logo.png" class="img-fluid" alt="Logo">
                 </a>
             </div>
             <div class="main-menu-wrapper">
                 <div class="menu-header">
-                    <a href="index" class="menu-logo">
+                    <a href="{{url('/dashboard')}}" class="menu-logo">
                         <img src="frontend/assets/img/logo.png" class="img-fluid" alt="Logo">
                     </a>
                     <a id="menu_close" class="menu-close" href="javascript:void(0);">

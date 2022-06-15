@@ -141,7 +141,7 @@ class QuestionController extends Controller
                 // foreach($result as $row){
                     if(!empty($result['question'])){
                         Question::create(['teacher_id'=>Auth::guard('admin')->user()->id, 'subject_id'=>Auth::guard('admin')->user()->subject_id, 'question'=>$result['question'],
-                        'grade_id'=>$grade_id, 'unit_id'=>$unit_id, 'score'=>$result['score']]);
+                        'grade_id'=>$grade_id, 'unit_id'=>$unit_id, 'score'=>(isset($result['score'])?$result['score']:0)]);
                     }
                     Answer::create(['question_id'=>Question::where('teacher_id', Auth::guard('admin')->user()->id)->orderBy('id', 'Desc')->first()->id, 'answer'=>$result['answer'], 'correct_answer'=>$result['correct_answer']]);
                 // }

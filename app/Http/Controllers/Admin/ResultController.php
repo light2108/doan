@@ -24,79 +24,76 @@ use App\Models\Check_Login_Exam;
 
 class ResultController extends Controller
 {
-    public function Index(){
+    public function Index()
+    {
         Session::put('page', 'result');
         // $exams=Exam::where('teacher_id', Auth::guard('admin')->user()->id)->get()->toArray();
 
-        $classes=Classes::where('status', 1)->get()->toArray();
-        $grades=Grade::where('status', 1)->get()->toArray();
+        $classes = Classes::where('status', 1)->get()->toArray();
+        $grades = Grade::where('status', 1)->get()->toArray();
         // dd($exams);
         return View('admin.result.index_class', compact('classes', 'grades'));
     }
-    public function ResultStudentExam(Request $request, $exam_id, $class_id){
-        $exam=Exam::find($exam_id);
-        $students=Student::where('class_id', $class_id)->where('status', 1)->get()->toArray();
-            // dd($students);
+    public function ResultStudentExam(Request $request, $exam_id, $class_id)
+    {
+        $exam = Exam::find($exam_id);
+        $students = Student::where('class_id', $class_id)->where('status', 1)->get()->toArray();
+        // dd($students);
 
-        $classes=Classes::find($class_id);
-        if(date('Y-m-d H:i:s', strtotime($exam['start_time']))<=date('Y-m-d H:i:s', strtotime(Carbon::now()))){
-            foreach($students as $student){
-                Check_Login_Exam::create(['exam_id'=>$exam_id, 'student_id'=>$student['id'], 'status'=>0]);
-            }
-            if(date('Y-m-d H:i:s', strtotime($exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now()))){
-                return View('admin.result.index_result', compact('students', 'classes', 'exam'));
-            }else{
-                $results=Result_Merger::where('exam_id', $exam_id)->where('class_id', $class_id)->orderBy('score', 'Desc')->get()->toArray();
+        $classes = Classes::find($class_id);
 
-                // $result_student
-                Session::put('exam_id', $exam_id);
-                Session::put('class_id', $class_id);
+        $results = Result_Merger::where('exam_id', $exam_id)->where('class_id', $class_id)->orderBy('score', 'Desc')->get()->toArray();
 
-                $count_questions=0;
-                foreach (Question::get()->toArray() as $question_answer) {
-                    if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id']) {
-                        $count_questions+=1;
-                    }
-                }
-                $student_id_has_result=array();
-                foreach($results as $result){
-                    $student_id_has_result[]=$result['student_id'];
-                }
-                // dd($student_id_has_result);
-                $student_id_not_result=array();
-                foreach($students as $student){
-                    $student_id_not_result[]=$student['id'];
-                }
-                // dd($student_id_not_result);
-                $diff=array_diff($student_id_not_result,$student_id_has_result);
-                // dd($diff);
-                if(count($diff)>0){
-                    if(date('Y-m-d H:i:s', strtotime($exam['end_time']))<date('Y-m-d H:i:s', strtotime(Carbon::now()))){
-                        foreach($diff as $di){
-                            Result::create(['exam_id' => $exam_id, 'student_id' =>$di, 'class_id'=>$class_id, 'subject_id' => Auth::guard('admin')->user()->subject_id, 'score' => 0, 'time' => date('Y-m-d', strtotime($exam['end_time']))]);
-                            Result_Merger::create(['exam_id' => $exam_id, 'student_id' => $di, 'class_id' => $class_id, 'subject_id' => Auth::guard('admin')->user()->subject_id, 'score'=>0]);
+        // $result_student
+        Session::put('exam_id', $exam_id);
+        Session::put('class_id', $class_id);
 
-                            $result_id = Result::where('exam_id', $exam_id)->where('student_id', $di)->orderBy('id', 'desc')->first()->id;
-                            for($i=1; $i<=$count_questions; ++$i){
-                                Result_Answer_Exam::create(['result_id'=>$result_id, 'score_answer'=>0]);
-                            }
-                        }
-                    }
-                }
-                Session::put('count_questions', $count_questions);
-                return View('admin.result.index_result', compact('results', 'students', 'classes'));
+        $count_questions = 0;
+        foreach (Question::get()->toArray() as $question_answer) {
+            if (in_array($exam_id, explode(',', $question_answer['select_id'])) || $exam_id == $question_answer['exam_id']) {
+                $count_questions += 1;
             }
         }
+        $student_id_has_result = array();
+        foreach ($results as $result) {
+            $student_id_has_result[] = $result['student_id'];
+        }
+        // dd($student_id_has_result);
+        $student_id_not_result = array();
+        foreach ($students as $student) {
+            $student_id_not_result[] = $student['id'];
+        }
+        // dd($student_id_not_result);
+        $diff = array_diff($student_id_not_result, $student_id_has_result);
+        // dd($diff);
+        if (count($diff) > 0) {
+            if (date('Y-m-d H:i:s', strtotime($exam['end_time'])) < date('Y-m-d H:i:s', strtotime(Carbon::now()))) {
+                foreach ($diff as $di) {
+                    Result::create(['exam_id' => $exam_id, 'student_id' => $di, 'class_id' => $class_id, 'subject_id' => Auth::guard('admin')->user()->subject_id, 'score' => 0, 'time' => date('Y-m-d', strtotime($exam['end_time']))]);
+                    Result_Merger::create(['exam_id' => $exam_id, 'student_id' => $di, 'class_id' => $class_id, 'subject_id' => Auth::guard('admin')->user()->subject_id, 'score' => 0]);
+
+                    $result_id = Result::where('exam_id', $exam_id)->where('student_id', $di)->orderBy('id', 'desc')->first()->id;
+                    for ($i = 1; $i <= $count_questions; ++$i) {
+                        Result_Answer_Exam::create(['result_id' => $result_id, 'score_answer' => 0]);
+                    }
+                }
+            }
+        }
+        Session::put('count_questions', $count_questions);
+        return View('admin.result.index_result', compact('results', 'students', 'classes', 'exam'));
     }
 
-    public function ResultExamClass(Request $request, $class_id){
-        $exams=Exam::where('teacher_id', Auth::guard('admin')->user()->id)->where('status', 1)->get()->toArray();
+    public function ResultExamClass(Request $request, $class_id)
+    {
+        $exams = Exam::where('teacher_id', Auth::guard('admin')->user()->id)->where('status', 1)->get()->toArray();
         return View('admin.result.index_exam', compact('exams', 'class_id'));
     }
-    public function ExportFileResultBriefly(Request $request){
+    public function ExportFileResultBriefly(Request $request)
+    {
         return Excel::download(new ResultExport, 'briefly_results.xlsx');
     }
-    public function ExportFileResultFull(Request $request){
+    public function ExportFileResultFull(Request $request)
+    {
         return Excel::download(new ResultExportFull, 'full_results.xlsx');
     }
 }
