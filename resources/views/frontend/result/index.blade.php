@@ -155,16 +155,17 @@
     if (localStorage.getItem("check")) {
 
         localStorage.clear();
-        var seconds = 60 * parseInt($('#countdown').attr('time'));
+        // var seconds = 60 * parseInt($('#countdown').attr('time'));
 
     }
     if (localStorage.getItem("seconds")) {
         var seconds = localStorage.getItem("seconds");
-    } else {
-
-        var seconds = 60 * parseInt($('#countdown').attr('time'));
-        // localStorage.clear();
     }
+    // } else {
+
+    //     var seconds = 60 * parseInt($('#countdown').attr('time'));
+    //     // localStorage.clear();
+    // }
     // var seconds = initialTime;
 
     function timer() {

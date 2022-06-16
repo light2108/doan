@@ -30,6 +30,7 @@ $(document).ready(function(){
                     },
                     success:function(resp){
                         if(resp['status']==true){
+                            localStorage.setItem('check', 1);
                             window.location.href="/exam/"+exam_id+'/subject/'+subject_id+'/grade/'+grade_id+'/'+resp['code'];
                         }else{
                             alert('WRONG PASSWORD');
@@ -45,7 +46,8 @@ $(document).ready(function(){
     });
     $('.visit-exam').click(function(){
         localStorage.clear();
-        localStorage.removeItem('seconds');
+        localStorage.setItem('check', 1);
+        // localStorage.removeItem('seconds');
         // var exam_id=$(this).attr('data-exam');
         // var subject_id=$(this).attr('data-subject');
         // var grade_id=$(this).attr('data-grade');

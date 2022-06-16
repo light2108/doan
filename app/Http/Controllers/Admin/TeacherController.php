@@ -73,6 +73,7 @@ class TeacherController extends Controller
             $data['name']=normalize($data['name']);
             $data['password'] = Hash::make($data['password']);
             $data['class_id'] = implode(',', $data['class_id']);
+            // $data['subject_id']=Auth::guard('admin')->user()->subject_id;
             if((int)date('Y', strtotime(Carbon::now()))-(int)date('Y', strtotime($data['birth_day']))>=22){
 
             // explode(",", $data['class_id']);
@@ -112,7 +113,7 @@ class TeacherController extends Controller
             $data['name']=normalize($data['name']);
             $data['password'] = $teacher['password'];
             $data['class_id'] = implode(',', $data['class_id']);
-            $data['subject_id']=Auth::guard('admin')->user()->subject_id;
+            // $data['subject_id']=Auth::guard('admin')->user()->subject_id;
             // $data['grade_id']=implode(',', $data['grade_id']);
             if((int)date('Y', strtotime(Carbon::now()))-(int)date('Y', strtotime($data['birth_day']))>=22){
                 if ($request->hasFile('image')) {

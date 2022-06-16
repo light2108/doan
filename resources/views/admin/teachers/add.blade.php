@@ -163,7 +163,8 @@
                                             @if(Auth::guard('admin')->user()->role!=1)
                                                 @foreach ($subjects as $subject)
                                                     @if($subject['id']==Auth::guard('admin')->user()->subject_id)
-                                                        <input type="text" class="form-control" name="subject_id" value="{{$subject['name']}}" readonly="">
+                                                        <input type="hidden" class="form-control" name="subject_id" value="{{$subject['id']}}">
+                                                        <input type="text" class="form-control" value="{{$subject['name']}}" readonly="">
                                                     @endif
                                                 @endforeach
                                             @else
