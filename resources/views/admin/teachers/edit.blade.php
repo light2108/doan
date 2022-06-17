@@ -183,7 +183,8 @@
                                                 <label for="exampleInputEmail1">Subject Name</label>
                                                 @foreach ($subjects as $subject)
                                                     @if ($subject['id'] == Auth::guard('admin')->user()->subject_id)
-                                                        <input type="text" class="form-control" name="subject_id"
+                                                    <input type="hidden" class="form-control" name="subject_id" value="{{$subject['id']}}">
+                                                        <input type="text" class="form-control"
                                                             value="{{ $subject['name'] }}" readonly="">
                                                     @endif
                                                 @endforeach
